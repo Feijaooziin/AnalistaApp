@@ -14,9 +14,13 @@ export async function getItem<T>(key: string): Promise<T | null> {
 
   if (!value) return null;
 
-  return JSON.parse(value);
+  return JSON.parse(value) as T;
 }
 
 export async function removeItem(key: string) {
   await AsyncStorage.removeItem(key);
+}
+
+export async function clearStorage() {
+  await AsyncStorage.clear();
 }
