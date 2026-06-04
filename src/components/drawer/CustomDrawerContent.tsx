@@ -43,7 +43,7 @@ export default function CustomDrawerContent() {
             marginTop: 4,
           }}
         >
-          Workspace
+          Emergent Cold LATAM
         </Text>
       </View>
 
