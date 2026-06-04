@@ -1,8 +1,7 @@
 import React from "react";
 
 import { Ionicons } from "@expo/vector-icons";
-import { DrawerActions } from "@react-navigation/native";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
@@ -37,8 +36,6 @@ export default function Header({
 
   rightComponent,
 }: HeaderProps) {
-  const navigation = useNavigation();
-
   const { colors } = useTheme();
 
   function renderLeftIcon() {
@@ -69,8 +66,7 @@ export default function Header({
   function handlePress() {
     switch (variant) {
       case "menu":
-        navigation.dispatch(DrawerActions.openDrawer());
-        break;
+        return null;
 
       case "back":
         router.back();
