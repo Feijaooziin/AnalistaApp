@@ -139,7 +139,7 @@ export default function Header({
 
           {!rightComponent && showLogo && (
             <Image
-              source={require("@/assets/images/header-icon.png")}
+              source={require("@/assets/images/ECLA/ECLA-Icon-Color.png")}
               style={{
                 width: 40,
                 height: 40,

@@ -1,30 +1,33 @@
 import { Ionicons } from "@expo/vector-icons";
+import { ComponentProps } from "react";
 
-export type DrawerMenuItem = {
+type IconName = ComponentProps<typeof Ionicons>["name"];
+
+export type MenuItem = {
   label: string;
   route: string;
-  icon: keyof typeof Ionicons.glyphMap;
+  icon: IconName;
 };
 
-export const drawerMenu = [
+export const drawerMenu: MenuItem[] = [
   {
     label: "Home",
-    route: "/home",
+    route: "home",
     icon: "home-outline",
   },
   {
     label: "ECLA",
-    route: "/ecla",
+    route: "ecla",
     icon: "business-outline",
   },
   {
     label: "JBS",
-    route: "/jbs",
+    route: "jbs",
     icon: "people-outline",
   },
   {
     label: "Seara",
-    route: "/seara",
+    route: "seara",
     icon: "briefcase-outline",
   },
 ];
