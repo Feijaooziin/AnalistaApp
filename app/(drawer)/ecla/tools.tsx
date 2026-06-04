@@ -4,10 +4,8 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
 export default function Tools() {
   return (
-    <>
-      <ScreenContainer>
-        <Text>TOOLS</Text>
-      </ScreenContainer>
-    </>
+    <ScreenContainer>
+      <Text>TOOLS</Text>
+    </ScreenContainer>
   );
 }
