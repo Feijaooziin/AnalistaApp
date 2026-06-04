@@ -1,37 +1,3 @@
-// import { Ionicons } from "@expo/vector-icons";
-// import { ComponentProps } from "react";
-
-// type IconName = ComponentProps<typeof Ionicons>["name"];
-
-// export type MenuItem = {
-//   label: string;
-//   route: string;
-//   icon?: IconName;
-// };
-
-// export const drawerMenu: MenuItem[] = [
-//   {
-//     label: "Home",
-//     route: "home",
-//     icon: "home-outline",
-//   },
-//   {
-//     label: "ECLA",
-//     route: "ecla",
-//     icon: "business-outline",
-//   },
-//   {
-//     label: "JBS",
-//     route: "jbs",
-//     icon: "cube-outline",
-//   },
-//   {
-//     label: "Seara",
-//     route: "seara",
-//     icon: "restaurant-outline",
-//   },
-// ];
-
 import { Ionicons } from "@expo/vector-icons";
 import { ComponentProps } from "react";
 
@@ -39,6 +5,7 @@ type IconName = ComponentProps<typeof Ionicons>["name"];
 
 export type DrawerItem = {
   label: string;
+  title: string;
   route: string;
   icon: IconName;
 };
@@ -54,6 +21,7 @@ export type DrawerMenuItem = DrawerItem | DrawerGroup;
 export const drawerMenu: DrawerMenuItem[] = [
   {
     label: "Home",
+    title: "Home",
     route: "home",
     icon: "home-outline",
   },
@@ -64,16 +32,19 @@ export const drawerMenu: DrawerMenuItem[] = [
     children: [
       {
         label: "Principal",
+        title: "Emergent Cold LATAM",
         route: "ecla",
         icon: "business-outline",
       },
       {
-        label: "Dash",
+        label: "Dashboard",
+        title: "Dashboard",
         route: "ecla/dashboard",
         icon: "business-outline",
       },
       {
         label: "Ferramentas",
+        title: "Ferramentas",
         route: "ecla/tools",
         icon: "business-outline",
       },
@@ -86,6 +57,7 @@ export const drawerMenu: DrawerMenuItem[] = [
     children: [
       {
         label: "Principal",
+        title: "JBS",
         route: "jbs",
         icon: "cube-outline",
       },
@@ -98,6 +70,7 @@ export const drawerMenu: DrawerMenuItem[] = [
     children: [
       {
         label: "Principal",
+        title: "Seara",
         route: "seara",
         icon: "restaurant-outline",
       },

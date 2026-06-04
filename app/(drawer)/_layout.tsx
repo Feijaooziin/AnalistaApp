@@ -2,17 +2,14 @@ import { usePathname } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 
 import Header from "@/src/components/Header";
-
 import CustomDrawerContent from "@/src/components/drawer/CustomDrawerContent";
 
-import { ROUTE_TITLES } from "@/src/constants/routes";
+import { getRouteTitle } from "@/src/utils/getRouteTitle";
 
 export default function DrawerLayout() {
   const pathname = usePathname();
 
-  const routeKey = pathname.replace("/", "");
-
-  const title = ROUTE_TITLES[routeKey] ?? "Analista App";
+  const title = getRouteTitle(pathname);
 
   return (
     <Drawer
