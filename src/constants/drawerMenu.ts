@@ -1,4 +1,15 @@
-export const drawerMenu = [
+import { Ionicons } from "@expo/vector-icons";
+import { ComponentProps } from "react";
+
+type IconName = ComponentProps<typeof Ionicons>["name"];
+
+export type MenuItem = {
+  label: string;
+  route: string;
+  icon?: IconName;
+};
+
+export const drawerMenu: MenuItem[] = [
   {
     label: "Home",
     route: "home",

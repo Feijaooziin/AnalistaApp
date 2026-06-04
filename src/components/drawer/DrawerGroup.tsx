@@ -13,11 +13,11 @@ export default function DrawerGroup({ label, icon, children }: any) {
 
   const pathname = usePathname();
 
-  const [open, setOpen] = useState(false);
-
   const groupActive = children.some(
     (child: any) => pathname === `/${child.route}`,
   );
+
+  const [open, setOpen] = useState(groupActive);
 
   return (
     <View>

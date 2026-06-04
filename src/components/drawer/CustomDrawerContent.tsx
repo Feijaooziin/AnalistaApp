@@ -3,6 +3,7 @@ import { router, usePathname } from "expo-router";
 
 import { Text, TouchableOpacity, View } from "react-native";
 
+import DrawerGroup from "@/src/components/drawer/DrawerGroup";
 import { drawerMenu } from "@/src/constants/drawerMenu";
 import { useTheme } from "@/src/contexts/ThemeContext";
 
@@ -49,6 +50,17 @@ export default function CustomDrawerContent() {
 
       <View style={{ padding: 12 }}>
         {drawerMenu.map((item) => {
+          if ("children" in item) {
+            return (
+              <DrawerGroup
+                key={item.label}
+                label={item.label}
+                icon={item.icon}
+                children={item.children}
+              />
+            );
+          }
+
           const active = pathname === `/${item.route}`;
 
           return (
