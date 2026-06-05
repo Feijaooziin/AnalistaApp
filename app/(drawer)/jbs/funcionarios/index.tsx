@@ -35,7 +35,7 @@ export default function Funcionarios() {
   function goToDetails(id?: number) {
     if (!id) return;
 
-    router.push(`/jbs/funcionarios/${id}`);
+    router.push(`/jbs/funcionarios/${id}` as any);
   }
 
   return (
