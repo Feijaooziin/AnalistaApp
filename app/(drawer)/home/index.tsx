@@ -1,14 +1,10 @@
-import PageContent from "@/src/components/layout/PageContent";
+import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
-
-import { Text } from "react-native";
 
 export default function Home() {
   return (
     <ScreenContainer>
-      <PageContent>
-        <Text>Home</Text>
-      </PageContent>
+      <PageContext title="Home" />
     </ScreenContainer>
   );
 }

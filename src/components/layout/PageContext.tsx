@@ -22,7 +22,6 @@ export default function PageContext({
     <View
       style={{
         marginBottom: SPACING.lg,
-
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
