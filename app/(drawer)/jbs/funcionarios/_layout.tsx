@@ -7,19 +7,7 @@ export default function FuncionariosLayout() {
   return (
     <Stack
       screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.surface,
-        },
-
-        headerTintColor: colors.text,
-
-        headerTitleStyle: {
-          fontWeight: "600",
-        },
-
-        contentStyle: {
-          backgroundColor: colors.background,
-        },
+        headerShown: false,
       }}
     >
       <Stack.Screen
