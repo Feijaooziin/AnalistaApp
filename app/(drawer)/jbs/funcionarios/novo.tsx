@@ -1,15 +1,15 @@
 import { router } from "expo-router";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
+import AppButton from "@/src/components/ui/AppButton";
+import AppInput from "@/src/components/ui/AppInput";
+
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
-
-// futuramente vamos trocar por AppInput e AppButton
-import { TextInput, TouchableOpacity } from "react-native";
 
 export default function NovoFuncionario() {
   const { colors } = useTheme();
@@ -18,15 +18,23 @@ export default function NovoFuncionario() {
   const [matricula, setMatricula] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleCreate() {
-    if (!nome.trim()) return;
+    if (!nome.trim()) {
+      setError("Nome é obrigatório");
+      return;
+    }
 
     try {
+      setError(null);
       setLoading(true);
 
-      // aqui depois vamos conectar no SQLite
+      // futuro: SQLite insert aqui
       console.log({ nome, matricula });
+
+      setNome("");
+      setMatricula("");
 
       router.back();
     } catch (err) {
@@ -40,46 +48,26 @@ export default function NovoFuncionario() {
     <ScreenContainer>
       <PageContext title="Novo Funcionário" />
 
-      <View style={{ gap: SPACING.md }}>
-        <TextInput
-          placeholder="Nome"
+      <View style={{ gap: SPACING.sm }}>
+        <AppInput
+          label="Nome"
           value={nome}
-          onChangeText={setNome}
-          style={{
-            backgroundColor: colors.surface,
-            padding: 14,
-            borderRadius: 10,
-            color: colors.text,
+          onChangeText={(t) => {
+            setNome(t);
+            if (error) setError(null);
           }}
+          placeholder="Digite o nome"
+          error={error || undefined}
         />
 
-        <TextInput
-          placeholder="Matrícula"
+        <AppInput
+          label="Matrícula"
           value={matricula}
           onChangeText={setMatricula}
-          style={{
-            backgroundColor: colors.surface,
-            padding: 14,
-            borderRadius: 10,
-            color: colors.text,
-          }}
+          placeholder="Opcional"
         />
 
-        <TouchableOpacity
-          onPress={handleCreate}
-          disabled={loading}
-          style={{
-            backgroundColor: colors.primary,
-            padding: 14,
-            borderRadius: 10,
-            alignItems: "center",
-            opacity: loading ? 0.6 : 1,
-          }}
-        >
-          <Text style={{ color: "#fff", fontWeight: "bold" }}>
-            {loading ? "Salvando..." : "Salvar"}
-          </Text>
-        </TouchableOpacity>
+        <AppButton title="Salvar" loading={loading} onPress={handleCreate} />
       </View>
     </ScreenContainer>
   );

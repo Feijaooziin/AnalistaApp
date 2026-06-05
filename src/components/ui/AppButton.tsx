@@ -1,72 +1,55 @@
-import { Ionicons } from "@expo/vector-icons";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
-
 import { FONT_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
 
-interface AppButtonProps {
+interface Props {
   title: string;
-  onPress?: () => void;
+  onPress: () => void | Promise<void>;
+
   loading?: boolean;
   disabled?: boolean;
-
-  icon?: keyof typeof Ionicons.glyphMap;
 }
 
 export default function AppButton({
   title,
   onPress,
-
   loading = false,
   disabled = false,
-
-  icon,
-}: AppButtonProps) {
+}: Props) {
   const { colors } = useTheme();
 
-  const isDisabled = disabled || loading;
+  const isDisabled = loading || disabled;
 
   return (
     <TouchableOpacity
+      onPress={onPress}
       activeOpacity={0.8}
       disabled={isDisabled}
-      onPress={onPress}
       style={{
-        height: 52,
+        backgroundColor: isDisabled ? colors.textMuted : colors.primary,
 
-        borderRadius: RADIUS.md,
+        padding: SPACING.md,
+        borderRadius: RADIUS.sm,
 
-        justifyContent: "center",
         alignItems: "center",
+        justifyContent: "center",
 
-        backgroundColor: isDisabled ? colors.disabled : colors.primary,
+        opacity: isDisabled ? 0.6 : 1,
       }}
     >
       {loading ? (
-        <ActivityIndicator color={colors.textInverse} />
+        <ActivityIndicator color="#fff" />
       ) : (
-        <View
+        <Text
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: SPACING.sm,
+            color: "#fff",
+            fontSize: FONT_SIZE.md,
+            fontWeight: "600",
           }}
         >
-          {icon && (
-            <Ionicons name={icon} size={20} color={colors.textInverse} />
-          )}
-
-          <Text
-            style={{
-              fontSize: FONT_SIZE.md,
-              fontWeight: "600",
-              color: colors.textInverse,
-            }}
-          >
-            {title}
-          </Text>
-        </View>
+          {title}
+        </Text>
       )}
     </TouchableOpacity>
   );
