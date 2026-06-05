@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import { View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
-
 import { RADIUS, SHADOWS, SPACING } from "@/src/theme/layout";
 
 interface Props {
@@ -16,9 +15,7 @@ export default function AppCard({ children }: Props) {
     <View
       style={{
         backgroundColor: colors.card,
-
         borderRadius: RADIUS.lg,
-
         padding: SPACING.lg,
 
         ...SHADOWS.card,

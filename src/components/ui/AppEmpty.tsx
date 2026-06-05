@@ -6,7 +6,7 @@ interface Props {
   message?: string;
 }
 
-export default function AppEmpty({
+export default function EmptyState({
   message = "Nenhum registro encontrado",
 }: Props) {
   const { colors } = useTheme();
