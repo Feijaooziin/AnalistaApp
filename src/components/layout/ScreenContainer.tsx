@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { ScrollView, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
@@ -49,7 +48,7 @@ export default function ScreenContainer({
   );
 
   return (
-    <SafeAreaView
+    <ScrollView
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -66,6 +65,6 @@ export default function ScreenContainer({
       )}
 
       {content}
-    </SafeAreaView>
+    </ScrollView>
   );
 }
