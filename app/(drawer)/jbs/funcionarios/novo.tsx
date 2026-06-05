@@ -65,7 +65,7 @@ export default function NovoFuncionario() {
   }
 
   return (
-    <ScreenContainer>
+    <ScreenContainer header={{ title: "Adicionar", variant: "back" }}>
       <PageContext title="Novo Funcionário" />
 
       <View style={{ gap: SPACING.sm }}>
