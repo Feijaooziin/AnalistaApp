@@ -1,51 +1,27 @@
 import { useState } from "react";
-
-import { KeyboardTypeOptions, Text, TextInput, View } from "react-native";
+import { Text, TextInput, TextInputProps, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
-
 import { FONT_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
 
-interface AppInputProps {
+interface Props extends TextInputProps {
   label?: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
   error?: string;
-  multiline?: boolean;
-  keyboardType?: KeyboardTypeOptions;
-  secureTextEntry?: boolean;
 }
 
-export default function AppInput({
-  label,
-  value,
-  onChangeText,
-  placeholder,
-  error,
-  multiline = false,
-  keyboardType = "default",
-  secureTextEntry = false,
-}: AppInputProps) {
+export default function AppInput({ label, error, ...rest }: Props) {
   const { colors } = useTheme();
-
   const [focused, setFocused] = useState(false);
 
   return (
-    <View
-      style={{
-        marginBottom: SPACING.lg,
-      }}
-    >
+    <View style={{ marginBottom: SPACING.md }}>
       {!!label && (
         <Text
           style={{
-            marginBottom: SPACING.sm,
-
+            marginBottom: 6,
             fontSize: FONT_SIZE.sm,
+            color: colors.textSecondary,
             fontWeight: "600",
-
-            color: colors.text,
           }}
         >
           {label}
@@ -53,36 +29,31 @@ export default function AppInput({
       )}
 
       <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor={colors.placeholder}
-        keyboardType={keyboardType}
-        secureTextEntry={secureTextEntry}
-        multiline={multiline}
+        {...rest}
+        placeholderTextColor={colors.textSecondary}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         style={{
-          minHeight: multiline ? 120 : 52,
+          backgroundColor: colors.surface,
+
+          padding: 14,
+          borderRadius: RADIUS.sm,
+
           borderWidth: 1,
-          borderRadius: RADIUS.md,
-          paddingHorizontal: SPACING.lg,
-          paddingVertical: SPACING.md,
-          backgroundColor: colors.input,
           borderColor: error
             ? colors.danger
             : focused
-              ? colors.inputBorderFocused
-              : colors.inputBorder,
+              ? colors.primary
+              : colors.border,
+
           color: colors.text,
-          textAlignVertical: multiline ? "top" : "center",
         }}
       />
 
       {!!error && (
         <Text
           style={{
-            marginTop: SPACING.xs,
+            marginTop: 4,
             fontSize: FONT_SIZE.xs,
             color: colors.danger,
           }}
