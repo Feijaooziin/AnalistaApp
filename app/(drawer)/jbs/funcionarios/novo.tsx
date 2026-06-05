@@ -8,37 +8,57 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
 
-import { useTheme } from "@/src/contexts/ThemeContext";
+import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
+
 import { SPACING } from "@/src/theme/layout";
 
 export default function NovoFuncionario() {
-  const { colors } = useTheme();
-
-  const [nome, setNome] = useState("");
-  const [matricula, setMatricula] = useState("");
-
   const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState<string | null>(null);
 
+  const [form, setForm] = useState({
+    nome: "",
+    matricula: "",
+    cargo: "",
+    escala: "",
+    endereco: "",
+    email: "",
+    telefone: "",
+  });
+
+  function updateField(field: string, value: string) {
+    setForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+
+    if (error) setError(null);
+  }
+
   async function handleCreate() {
-    if (!nome.trim()) {
+    if (!form.nome.trim()) {
       setError("Nome é obrigatório");
       return;
     }
 
     try {
-      setError(null);
       setLoading(true);
 
-      // futuro: SQLite insert aqui
-      console.log({ nome, matricula });
-
-      setNome("");
-      setMatricula("");
+      await usersJbsRepository.create({
+        nome: form.nome,
+        matricula: form.matricula || null,
+        cargo: form.cargo || null,
+        escala: form.escala || null,
+        endereco: form.endereco || null,
+        email: form.email || null,
+        telefone: form.telefone || null,
+        created_at: new Date().toISOString(),
+      } as any);
 
       router.back();
     } catch (err) {
-      console.log(err);
+      console.log("Erro ao criar usuário:", err);
     } finally {
       setLoading(false);
     }
@@ -51,23 +71,61 @@ export default function NovoFuncionario() {
       <View style={{ gap: SPACING.sm }}>
         <AppInput
           label="Nome"
-          value={nome}
-          onChangeText={(t) => {
-            setNome(t);
-            if (error) setError(null);
-          }}
-          placeholder="Digite o nome"
+          value={form.nome}
+          onChangeText={(v) => updateField("nome", v)}
+          placeholder="Nome completo"
           error={error || undefined}
         />
 
         <AppInput
           label="Matrícula"
-          value={matricula}
-          onChangeText={setMatricula}
+          value={form.matricula}
+          onChangeText={(v) => updateField("matricula", v)}
           placeholder="Opcional"
         />
 
-        <AppButton title="Salvar" loading={loading} onPress={handleCreate} />
+        <AppInput
+          label="Cargo"
+          value={form.cargo}
+          onChangeText={(v) => updateField("cargo", v)}
+          placeholder="Ex: Operador"
+        />
+
+        <AppInput
+          label="Escala"
+          value={form.escala}
+          onChangeText={(v) => updateField("escala", v)}
+          placeholder="Ex: 12x36"
+        />
+
+        <AppInput
+          label="Endereço"
+          value={form.endereco}
+          onChangeText={(v) => updateField("endereco", v)}
+          placeholder="Opcional"
+        />
+
+        <AppInput
+          label="E-mail"
+          value={form.email}
+          onChangeText={(v) => updateField("email", v)}
+          placeholder="Opcional"
+          keyboardType="email-address"
+        />
+
+        <AppInput
+          label="Telefone"
+          value={form.telefone}
+          onChangeText={(v) => updateField("telefone", v)}
+          placeholder="Opcional"
+          keyboardType="phone-pad"
+        />
+
+        <AppButton
+          title="Salvar funcionário"
+          loading={loading}
+          onPress={handleCreate}
+        />
       </View>
     </ScreenContainer>
   );
