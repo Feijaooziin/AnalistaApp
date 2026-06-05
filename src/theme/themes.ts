@@ -28,6 +28,7 @@ export const light = {
 
   input: "#FFFFFF",
   inputBorder: "#DDDDDD",
+  inputBorderFocused: "#4CAF50",
   placeholder: "#999999",
 
   disabled: "#E0E0E0",
@@ -56,4 +57,6 @@ export const dark = {
 
   input: "#252525",
   inputBorder: "#444444",
+  inputBorderFocused: "#4D9FFF",
+  placeholder: "##FFFFFF",
 };
