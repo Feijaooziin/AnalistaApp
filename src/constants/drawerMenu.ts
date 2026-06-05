@@ -61,6 +61,12 @@ export const drawerMenu: DrawerMenuItem[] = [
         route: "jbs",
         icon: "cube-outline",
       },
+      {
+        label: "Funcionários",
+        title: "Funcionários",
+        route: "jbs/funcionarios",
+        icon: "cube-outline",
+      },
     ],
   },
 

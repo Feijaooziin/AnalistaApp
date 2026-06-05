@@ -4,7 +4,7 @@ import { ScrollView } from "react-native";
 import { SPACING } from "@/src/theme/layout";
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export default function PageContent({ children }: Props) {

@@ -9,6 +9,10 @@ import { User } from "@/src/types/user";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
 
+import PageContent from "@/src/components/layout/PageContent";
+import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import Section from "@/src/components/layout/Section";
+
 export default function Funcionarios() {
   const { colors } = useTheme();
 
@@ -28,81 +32,71 @@ export default function Funcionarios() {
     loadUsers();
   }, []);
 
+  function goToDetails(id?: number) {
+    if (!id) return;
+
+    router.push(`/jbs/funcionarios/${id}`);
+  }
+
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.background,
-        padding: SPACING.md,
-      }}
-    >
-      {/* HEADER SIMPLES DA TELA */}
-      <Text
-        style={{
-          fontSize: FONT_SIZE.xl,
-          fontWeight: "bold",
-          color: colors.text,
-          marginBottom: SPACING.md,
-        }}
-      >
-        Funcionários JBS
-      </Text>
+    <ScreenContainer>
+      <PageContent />
 
-      {/* LISTA */}
-      {loading ? (
-        <Text style={{ color: colors.textSecondary }}>Carregando...</Text>
-      ) : (
-        <FlatList
-          data={users}
-          keyExtractor={(item) => String(item.id)}
-          contentContainerStyle={{
-            gap: SPACING.sm,
-            paddingBottom: 100,
-          }}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => router.push(`/jbs/funcionarios/${item.id}`)}
-              style={{
-                backgroundColor: colors.surface,
-                padding: SPACING.md,
-                borderRadius: RADIUS.md,
+      <Section>
+        {loading ? (
+          <Text style={{ color: colors.textSecondary }}>Carregando...</Text>
+        ) : (
+          <FlatList
+            data={users}
+            keyExtractor={(item) => String(item.id)}
+            contentContainerStyle={{
+              gap: SPACING.sm,
+              paddingBottom: 100,
+            }}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => goToDetails(item.id)}
+                style={{
+                  backgroundColor: colors.surface,
+                  padding: SPACING.md,
+                  borderRadius: RADIUS.md,
 
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              {/* INFO */}
-              <View>
-                <Text
-                  style={{
-                    fontSize: FONT_SIZE.md,
-                    fontWeight: "600",
-                    color: colors.text,
-                  }}
-                >
-                  {item.nome}
-                </Text>
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View>
+                  <Text
+                    style={{
+                      fontSize: FONT_SIZE.md,
+                      fontWeight: "600",
+                      color: colors.text,
+                    }}
+                  >
+                    {item.nome}
+                  </Text>
 
-                <Text
-                  style={{
-                    fontSize: FONT_SIZE.sm,
-                    color: colors.textSecondary,
-                  }}
-                >
-                  Matrícula: {item.matricula ?? "-"}
-                </Text>
-              </View>
+                  <Text
+                    style={{
+                      fontSize: FONT_SIZE.sm,
+                      color: colors.textSecondary,
+                    }}
+                  >
+                    Matrícula: {item.matricula ?? "-"}
+                  </Text>
+                </View>
 
-              <Ionicons
-                name="chevron-forward"
-                size={20}
-                color={colors.textSecondary}
-              />
-            </TouchableOpacity>
-          )}
-        />
-      )}
+                <Ionicons
+                  name="chevron-forward"
+                  size={20}
+                  color={colors.textSecondary}
+                />
+              </TouchableOpacity>
+            )}
+          />
+        )}
+      </Section>
 
       {/* FAB */}
       <TouchableOpacity
@@ -123,6 +117,6 @@ export default function Funcionarios() {
       >
         <Ionicons name="add" size={28} color="#fff" />
       </TouchableOpacity>
-    </View>
+    </ScreenContainer>
   );
 }
