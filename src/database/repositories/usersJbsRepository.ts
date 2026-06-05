@@ -52,6 +52,10 @@ export const usersJbsRepository = {
   },
 
   async update(user: User) {
+    if (!user.id) {
+      throw new Error("ID do usuário é obrigatório para update");
+    }
+
     await db.runAsync(
       `
       UPDATE usersJbs
