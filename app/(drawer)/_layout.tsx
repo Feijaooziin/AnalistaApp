@@ -1,7 +1,6 @@
 import { usePathname } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 
-import Header from "@/src/components/Header";
 import CustomDrawerContent from "@/src/components/drawer/CustomDrawerContent";
 
 import { getRouteTitle } from "@/src/utils/getRouteTitle";
@@ -15,7 +14,7 @@ export default function DrawerLayout() {
     <Drawer
       drawerContent={() => <CustomDrawerContent />}
       screenOptions={{
-        header: () => <Header title={title} />,
+        headerShown: false,
       }}
     >
       <Drawer.Screen name="home" />

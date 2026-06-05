@@ -100,7 +100,7 @@ export default function Header({
           justifyContent: "space-between",
 
           paddingHorizontal: SPACING.lg,
-          paddingVertical: SPACING.md,
+          paddingBottom: SPACING.md,
         }}
       >
         <View
@@ -119,10 +119,8 @@ export default function Header({
             style={{
               flex: 1,
               marginLeft: SPACING.lg,
-
               fontSize: FONT_SIZE.xl,
               fontWeight: "bold",
-
               color: colors.text,
             }}
           >
