@@ -9,7 +9,7 @@ import { User } from "@/src/types/user";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
 
-import PageContent from "@/src/components/layout/PageContent";
+import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import Section from "@/src/components/layout/Section";
 
@@ -40,7 +40,7 @@ export default function Funcionarios() {
 
   return (
     <ScreenContainer>
-      <PageContent />
+      <PageContext title="Funcionários JBS" />
 
       <Section>
         {loading ? (
