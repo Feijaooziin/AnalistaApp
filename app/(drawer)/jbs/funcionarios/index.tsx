@@ -94,12 +94,10 @@ export default function Funcionarios() {
           position: "absolute",
           bottom: 30,
           right: 20,
-
           backgroundColor: colors.primary,
           width: 56,
           height: 56,
           borderRadius: 28,
-
           alignItems: "center",
           justifyContent: "center",
         }}

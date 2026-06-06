@@ -9,3 +9,13 @@ export type User = {
   telefone?: string;
   created_at?: string;
 };
+
+export type CreateUserDTO = {
+  nome: string;
+  matricula?: string | null;
+  cargo?: string | null;
+  escala?: string | null;
+  endereco?: string | null;
+  email?: string | null;
+  telefone?: string | null;
+};

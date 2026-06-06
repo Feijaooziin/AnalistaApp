@@ -48,7 +48,7 @@ export default function ScreenContainer({
   );
 
   return (
-    <ScrollView
+    <View
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -65,6 +65,6 @@ export default function ScreenContainer({
       )}
 
       {content}
-    </ScrollView>
+    </View>
   );
 }

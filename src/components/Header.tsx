@@ -100,7 +100,7 @@ export default function Header({
           justifyContent: "space-between",
 
           paddingHorizontal: SPACING.lg,
-          paddingBottom: SPACING.md,
+          paddingVertical: SPACING.md,
         }}
       >
         <View

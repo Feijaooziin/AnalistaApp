@@ -1,4 +1,4 @@
-import { User } from "@/src/types/user";
+import { CreateUserDTO, User } from "@/src/types/user";
 import { db } from "../db";
 
 export const usersJbsRepository = {
@@ -23,7 +23,7 @@ export const usersJbsRepository = {
     );
   },
 
-  async create(user: User) {
+  async create(user: CreateUserDTO) {
     await db.runAsync(
       `
       INSERT INTO usersJbs (

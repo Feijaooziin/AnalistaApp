@@ -53,8 +53,7 @@ export default function NovoFuncionario() {
         endereco: form.endereco || null,
         email: form.email || null,
         telefone: form.telefone || null,
-        created_at: new Date().toISOString(),
-      } as any);
+      });
 
       router.back();
     } catch (err) {
