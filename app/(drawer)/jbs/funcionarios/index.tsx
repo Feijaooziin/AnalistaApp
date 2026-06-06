@@ -1,15 +1,16 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Text, TouchableOpacity } from "react-native";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
 import { User } from "@/src/types/user";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
-import { FONT_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
+import { SPACING } from "@/src/theme/layout";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import AppCard from "@/src/components/ui/AppCard";
 
 export default function Funcionarios() {
   const { colors } = useTheme();
@@ -49,41 +50,15 @@ export default function Funcionarios() {
           gap: SPACING.sm,
         }}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => goToDetails(item.id)}
-            style={{
-              backgroundColor: colors.surface,
-              padding: SPACING.md,
-              borderRadius: RADIUS.md,
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <View>
-              <Text
-                style={{
-                  fontSize: FONT_SIZE.md,
-                  fontWeight: "600",
-                  color: colors.text,
-                }}
-              >
-                {item.nome}
-              </Text>
+          <AppCard onPress={() => goToDetails(item.id)}>
+            <Text style={{ fontWeight: "600", color: colors.text }}>
+              {item.nome}
+            </Text>
 
-              <Text
-                style={{ fontSize: FONT_SIZE.sm, color: colors.textSecondary }}
-              >
-                Matrícula: {item.matricula ?? "-"}
-              </Text>
-            </View>
-
-            <Ionicons
-              name="chevron-forward"
-              size={20}
-              color={colors.textSecondary}
-            />
-          </TouchableOpacity>
+            <Text style={{ color: colors.textSecondary }}>
+              Matrícula: {item.matricula ?? "-"}
+            </Text>
+          </AppCard>
         )}
       />
 
