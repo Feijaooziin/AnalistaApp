@@ -50,16 +50,16 @@ export const drawerMenu: DrawerMenuItem[] = [
     icon: "cube-outline",
     children: [
       {
-        label: "Principal",
-        title: "JBS",
-        route: "jbs",
-        icon: "cube-outline",
-      },
-      {
         label: "Funcionários",
         title: "Funcionários",
         route: "jbs/funcionarios",
         icon: "cube-outline",
+      },
+      {
+        label: "Status Operacional",
+        title: "Advertencias",
+        route: "jbs/statusJBS",
+        icon: "business-outline",
       },
     ],
   },
