@@ -10,7 +10,8 @@ import { COLORS } from "@/src/advertencia/constants/colors";
 import { gerarPDF } from "@/src/advertencia/services/pdfService";
 import { AdvertenciaData } from "@/src/advertencia/types/advertencia";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
-import { showError } from "@/src/utils/toast";
+import { FONT_SIZE } from "@/src/theme/layout";
+import { showError, showInfo } from "@/src/utils/toast";
 
 export default function Advertencia() {
   const scrollRef = useRef<KeyboardAwareScrollView>(null);
@@ -95,7 +96,12 @@ export default function Advertencia() {
         {
           text: "Limpar",
           style: "destructive",
-          onPress: () => setData(initialData),
+          onPress: () => {
+            setData(initialData);
+            setErrors({});
+            showInfo("Limpar", "Todos os campos foram resetados.");
+            scrollRef.current?.scrollToPosition?.(0, 0, true);
+          },
         },
       ],
     );
@@ -113,7 +119,7 @@ export default function Advertencia() {
           <View
             style={{
               flex: 1,
-              backgroundColor: "#F8FAFC",
+              marginTop: 8,
             }}
           >
             <View
@@ -129,7 +135,7 @@ export default function Advertencia() {
             >
               <Text
                 style={{
-                  fontSize: 28,
+                  fontSize: FONT_SIZE.xxl,
                   fontWeight: "700",
                   color: COLORS.primary,
                 }}
@@ -139,7 +145,7 @@ export default function Advertencia() {
 
               <Text
                 style={{
-                  fontSize: 14,
+                  fontSize: FONT_SIZE.md,
                   color: COLORS.textSecondary,
                   marginBottom: 24,
                 }}
@@ -162,7 +168,7 @@ export default function Advertencia() {
                 marginHorizontal: 16,
                 marginTop: 20,
               }}
-              icon={<Ionicons name="trash" size={20} color="#B91C1C" />}
+              icon={<Ionicons name="trash" size={20} color={COLORS.danger} />}
             />
 
             <Button

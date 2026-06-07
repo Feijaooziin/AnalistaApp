@@ -17,7 +17,7 @@ export default function RootLayout() {
     <ThemeProvider>
       <StatusBar style="dark" />
       <Slot />
-      <Toast config={toastConfig} />
+      <Toast config={toastConfig} visibilityTime={2500} topOffset={110} />
     </ThemeProvider>
   );
 }

@@ -37,8 +37,8 @@ export const FONT_SIZE = {
   /** 12px */
   xs: 12,
 
-  /** 15px */
-  sm: 15,
+  /** 14px */
+  sm: 14,
 
   /** 16px */
   md: 16,
