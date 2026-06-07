@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import Toast from "react-native-toast-message";
 
+import { toastConfig } from "@/src/components/ToastConfig";
 import { ThemeProvider } from "@/src/contexts/ThemeContext";
 import { initDB } from "@/src/database/migrations";
 
@@ -16,7 +17,7 @@ export default function RootLayout() {
     <ThemeProvider>
       <StatusBar style="dark" />
       <Slot />
-      <Toast />
+      <Toast config={toastConfig} />
     </ThemeProvider>
   );
 }

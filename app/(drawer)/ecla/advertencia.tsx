@@ -1,15 +1,16 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as Sharing from "expo-sharing";
 import { useRef, useState } from "react";
-import { Alert, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { AdvertenciaForm } from "../../../src/advertencia/components/AdvertenciaForm";
-import { Button } from "../../../src/advertencia/components/Button";
-import Header from "../../../src/advertencia/components/Header";
-import { gerarPDF } from "../../../src/advertencia/services/pdfService";
-import { AdvertenciaData } from "../../../src/advertencia/types/advertencia";
-import { showError } from "../../../src/advertencia/utils/toast";
+import { AdvertenciaForm } from "@/src/advertencia/components/AdvertenciaForm";
+import { Button } from "@/src/advertencia/components/Button";
+import { COLORS } from "@/src/advertencia/constants/colors";
+import { gerarPDF } from "@/src/advertencia/services/pdfService";
+import { AdvertenciaData } from "@/src/advertencia/types/advertencia";
+import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import { showError } from "@/src/utils/toast";
 
 export default function Advertencia() {
   const scrollRef = useRef<KeyboardAwareScrollView>(null);
@@ -102,13 +103,7 @@ export default function Advertencia() {
 
   return (
     <>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#F8FAFC",
-        }}
-      >
-        <Header />
+      <ScreenContainer scrollable={false} header={{ title: "Advertencias" }}>
         <KeyboardAwareScrollView
           ref={scrollRef}
           enableOnAndroid
@@ -117,52 +112,76 @@ export default function Advertencia() {
         >
           <View
             style={{
-              backgroundColor: "#FFFFFF",
-              marginHorizontal: 16,
-              marginTop: 15,
-              borderRadius: 16,
-              padding: 16,
-              shadowColor: "#000",
-              shadowOpacity: 0.08,
-              shadowRadius: 8,
-              elevation: 2,
+              flex: 1,
+              backgroundColor: "#F8FAFC",
             }}
           >
-            <AdvertenciaForm
-              data={data}
-              setData={setData}
-              errors={errors}
-              clearError={clearError}
+            <View
+              style={{
+                backgroundColor: "#FFFFFF",
+                borderRadius: 16,
+                padding: 16,
+                shadowColor: "#000",
+                shadowOpacity: 0.08,
+                shadowRadius: 8,
+                elevation: 2,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 28,
+                  fontWeight: "700",
+                  color: COLORS.primary,
+                }}
+              >
+                Advertências
+              </Text>
+
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: COLORS.textSecondary,
+                  marginBottom: 24,
+                }}
+              >
+                Gere advertências e suspensões em PDF.
+              </Text>
+              <AdvertenciaForm
+                data={data}
+                setData={setData}
+                errors={errors}
+                clearError={clearError}
+              />
+            </View>
+
+            <Button
+              title="Limpar Formulário"
+              variant="danger"
+              onPress={confirmarLimpeza}
+              style={{
+                marginHorizontal: 16,
+                marginTop: 20,
+              }}
+              icon={<Ionicons name="trash" size={20} color="#B91C1C" />}
+            />
+
+            <Button
+              title={
+                data.tipoDocumento === "ADVERTENCIA"
+                  ? "Gerar Advertência"
+                  : "Gerar Suspensão"
+              }
+              onPress={handleGerarDocumento}
+              style={{
+                marginHorizontal: 16,
+                marginTop: 12,
+                marginBottom: 32,
+              }}
+              icon={<Ionicons name="document-text" size={20} color="#FFFFFF" />}
             />
           </View>
-
-          <Button
-            title="Limpar Formulário"
-            variant="danger"
-            onPress={confirmarLimpeza}
-            style={{
-              marginHorizontal: 16,
-              marginTop: 20,
-            }}
-            icon={<Ionicons name="trash" size={20} color="#B91C1C" />}
-          />
-
-          <Button
-            title={
-              data.tipoDocumento === "ADVERTENCIA"
-                ? "Gerar Advertência"
-                : "Gerar Suspensão"
-            }
-            onPress={handleGerarDocumento}
-            style={{
-              marginHorizontal: 16,
-              marginTop: 12,
-              marginBottom: 32,
-            }}
-            icon={<Ionicons name="document-text" size={20} color="#FFFFFF" />}
-          />
         </KeyboardAwareScrollView>
-      </View>
+      </ScreenContainer>
     </>
   );
 }

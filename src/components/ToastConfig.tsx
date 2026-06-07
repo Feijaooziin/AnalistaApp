@@ -1,8 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 import { BaseToastProps } from "react-native-toast-message";
 
-import { COLORS } from "../constants/colors";
+import { COLORS } from "@/src/advertencia/constants/colors";
 
 function ToastContainer({
   icon,

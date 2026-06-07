@@ -7,6 +7,7 @@ import { useState } from "react";
 import { router, usePathname } from "expo-router";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
+import { ICON_SIZE } from "@/src/theme/layout";
 
 export default function DrawerGroup({ label, icon, children }: any) {
   const { colors } = useTheme();
@@ -44,7 +45,7 @@ export default function DrawerGroup({ label, icon, children }: any) {
         >
           <Ionicons
             name={icon}
-            size={22}
+            size={ICON_SIZE.md}
             color={groupActive ? colors.primary : colors.text}
           />
 
@@ -61,7 +62,7 @@ export default function DrawerGroup({ label, icon, children }: any) {
 
         <Ionicons
           name={open ? "chevron-down" : "chevron-forward"}
-          size={18}
+          size={ICON_SIZE.sm}
           color={colors.text}
         />
       </TouchableOpacity>
@@ -82,11 +83,19 @@ export default function DrawerGroup({ label, icon, children }: any) {
                 style={{
                   padding: 12,
                   borderRadius: 10,
+                  flexDirection: "row",
+                  alignItems: "center",
                 }}
               >
+                <Ionicons
+                  name={icon}
+                  size={ICON_SIZE.sm}
+                  color={active ? colors.primary : colors.text}
+                />
                 <Text
                   style={{
                     color: active ? colors.primary : colors.text,
+                    marginLeft: 8,
                   }}
                 >
                   {item.label}
