@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
 
-import { COLORS } from "../constants/colors";
+import { COLORS } from "../../../constants/colors";
 
 interface Props {
   motivos: string[];

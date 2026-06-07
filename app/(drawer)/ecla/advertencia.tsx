@@ -1,13 +1,12 @@
-import { Ionicons } from "@expo/vector-icons";
 import * as Sharing from "expo-sharing";
 import { useRef, useState } from "react";
 import { Alert, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import AppButton from "@/src/components/ui/AppButton";
+import { COLORS } from "@/src/constants/colors";
 import { AdvertenciaForm } from "@/src/modules/advertencia/components/AdvertenciaForm";
-import { Button } from "@/src/modules/advertencia/components/Button";
-import { COLORS } from "@/src/modules/advertencia/constants/colors";
 import { gerarPDF } from "@/src/modules/advertencia/services/pdfService";
 import { AdvertenciaData } from "@/src/modules/advertencia/types/advertencia";
 import { FONT_SIZE } from "@/src/theme/layout";
@@ -160,7 +159,7 @@ export default function Advertencia() {
               />
             </View>
 
-            <Button
+            <AppButton
               title="Limpar Formulário"
               variant="danger"
               onPress={confirmarLimpeza}
@@ -168,10 +167,10 @@ export default function Advertencia() {
                 marginHorizontal: 16,
                 marginTop: 20,
               }}
-              icon={<Ionicons name="trash" size={20} color={COLORS.danger} />}
+              leftIcon="trash-bin-outline"
             />
 
-            <Button
+            <AppButton
               title={
                 data.tipoDocumento === "ADVERTENCIA"
                   ? "Gerar Advertência"
@@ -183,7 +182,7 @@ export default function Advertencia() {
                 marginTop: 12,
                 marginBottom: 32,
               }}
-              icon={<Ionicons name="document-text" size={20} color="#FFFFFF" />}
+              leftIcon="document-text"
             />
           </View>
         </KeyboardAwareScrollView>

@@ -1,55 +1,106 @@
-import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { ComponentProps } from "react";
+import {
+  ActivityIndicator,
+  Text,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from "react-native";
 
-import { useTheme } from "@/src/contexts/ThemeContext";
-import { FONT_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
+import { COLORS } from "@/src/constants/colors";
 
-interface Props {
+type Variant = "primary" | "danger" | "outline";
+
+type IconName = ComponentProps<typeof Ionicons>["name"];
+
+interface ButtonProps extends TouchableOpacityProps {
   title: string;
-  onPress: () => void | Promise<void>;
-
+  leftIcon?: IconName;
+  rightIcon?: IconName;
   loading?: boolean;
   disabled?: boolean;
+  fullWidth?: boolean;
+  variant?: Variant;
+  onPress?: () => void;
 }
 
 export default function AppButton({
   title,
-  onPress,
+  leftIcon,
+  rightIcon,
   loading = false,
   disabled = false,
-}: Props) {
-  const { colors } = useTheme();
+  fullWidth = false,
+  variant = "primary",
+  onPress,
+  ...rest
+}: ButtonProps) {
+  const isDanger = variant === "danger";
+  const isOutline = variant === "outline";
 
-  const isDisabled = loading || disabled;
+  const textColor = isDanger
+    ? COLORS.danger
+    : isOutline
+      ? COLORS.secondary
+      : "#FFFFFF";
+
+  const backgroundColor = isOutline
+    ? "transparent"
+    : isDanger
+      ? "#FFF5F7"
+      : COLORS.secondary;
+
+  const borderColor = isDanger ? COLORS.danger : COLORS.secondary;
 
   return (
     <TouchableOpacity
       onPress={onPress}
+      disabled={disabled || loading}
       activeOpacity={0.8}
-      disabled={isDisabled}
-      style={{
-        backgroundColor: isDisabled ? colors.textMuted : colors.primary,
+      {...rest}
+      style={[
+        {
+          paddingVertical: 14,
+          paddingHorizontal: 16,
+          borderRadius: 12,
 
-        padding: SPACING.md,
-        borderRadius: RADIUS.sm,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
 
-        alignItems: "center",
-        justifyContent: "center",
+          backgroundColor,
+          borderWidth: 1,
+          borderColor,
 
-        opacity: isDisabled ? 0.6 : 1,
-      }}
+          opacity: disabled ? 0.5 : 1,
+
+          width: fullWidth ? "100%" : undefined,
+        },
+        rest.style,
+      ]}
     >
+      {/* LEFT ICON / LOADING */}
       {loading ? (
-        <ActivityIndicator color="#fff" />
+        <ActivityIndicator color={textColor} />
       ) : (
-        <Text
-          style={{
-            color: "#fff",
-            fontSize: FONT_SIZE.md,
-            fontWeight: "600",
-          }}
-        >
-          {title}
-        </Text>
+        leftIcon && <Ionicons name={leftIcon} size={20} color={textColor} />
+      )}
+
+      {/* TITLE */}
+      <Text
+        style={{
+          color: textColor,
+          fontSize: 18,
+          fontWeight: "600",
+        }}
+      >
+        {title}
+      </Text>
+
+      {/* RIGHT ICON */}
+      {!loading && rightIcon && (
+        <Ionicons name={rightIcon} size={20} color={textColor} />
       )}
     </TouchableOpacity>
   );

@@ -1,17 +1,13 @@
-import Feather from "@expo/vector-icons/Ionicons";
 import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { Alert } from "react-native";
 
+import { DatePickerInput } from "@/src/components/DatePickerInput";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
-import DatePicker from "@/src/modules/Status JBS/components/DatePicker";
+import AppButton from "@/src/components/ui/AppButton";
+import AppInput from "@/src/components/ui/AppInput";
 import TimePicker from "@/src/modules/Status JBS/components/TimePicker";
+import { showInfo } from "@/src/utils/toast";
 
 export default function statusJBS() {
   const [data, setData] = useState<Date | null>(null);
@@ -48,8 +44,9 @@ export default function statusJBS() {
 
   const copiar = async () => {
     const msg = gerarMensagem();
-
     Clipboard.setStringAsync(msg);
+
+    showInfo("Copiado!", "Texto copiado para a área de transferência.");
   };
 
   const reset = async () => {
@@ -77,31 +74,29 @@ export default function statusJBS() {
 
   return (
     <ScreenContainer header={{ title: "Status Operacional" }}>
-      <DatePicker label="DATA DA OPERAÇÃO" value={data} onChange={setData} />
+      <DatePickerInput
+        label="Data da operação"
+        value={data as any}
+        onChange={setData}
+      />
 
-      <TextInput
-        style={styles.input}
+      <AppInput
+        label="Quantidade de veículos"
         keyboardType="numeric"
-        placeholder="QUANTIDADE DE VEÍCULOS"
-        placeholderTextColor={"#000"}
         value={carros}
         onChangeText={setCarros}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="PESO BRUTO"
+      <AppInput
+        label="Peso Bruto"
         keyboardType="numeric"
-        placeholderTextColor={"#000"}
         value={pesoBruto}
         onChangeText={(text) => setPesoBruto(formatNumber(text))}
       />
 
-      <TextInput
-        style={styles.input2}
-        placeholder="VOLUMES"
+      <AppInput
+        label="Volumes"
         keyboardType="numeric"
-        placeholderTextColor={"#000"}
         value={volumes}
         onChangeText={(text) => setVolumes(formatNumber(text))}
       />
@@ -122,69 +117,15 @@ export default function statusJBS() {
         onChange={setCarregamento}
       />
 
-      <TouchableOpacity
-        style={[styles.button, { marginTop: 16 }]}
-        onPress={copiar}
-      >
-        <Feather name="copy-outline" size={28} color={"white"} />
-        <Text style={styles.buttonText}>COPIAR</Text>
-      </TouchableOpacity>
+      <AppButton title="Copiar" leftIcon="copy" onPress={copiar} />
 
-      <TouchableOpacity
-        style={[styles.button, { marginBottom: 64, backgroundColor: "red" }]}
+      <AppButton
+        title="Limpar campos"
+        leftIcon="trash-bin-outline"
+        variant="danger"
         onPress={reset}
-      >
-        <Feather name="close" size={28} color={"white"} />
-        <Text style={styles.buttonText}>LIMPAR CAMPOS</Text>
-      </TouchableOpacity>
+        style={{ marginTop: 12 }}
+      />
     </ScreenContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-
-  button: {
-    backgroundColor: "#2c3367",
-    padding: 12,
-    alignItems: "center",
-    borderRadius: 8,
-    marginTop: 24,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 12,
-  },
-
-  buttonText: {
-    color: "white",
-    fontSize: 28,
-    fontWeight: 700,
-    textTransform: "uppercase",
-  },
-
-  input: {
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 16,
-    fontSize: 20,
-    fontWeight: 600,
-    color: "black",
-  },
-
-  input2: {
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 16,
-    marginBottom: 32,
-    fontSize: 20,
-    fontWeight: 600,
-    color: "black",
-  },
-});
