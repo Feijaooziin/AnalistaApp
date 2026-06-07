@@ -78,7 +78,7 @@ export default function DrawerGroup({
         <Ionicons
           name={isOpen ? "chevron-down" : "chevron-forward"}
           size={ICON_SIZE.sm}
-          color={colors.drawerText}
+          color={groupActive ? colors.drawerTextFocused : colors.drawerText}
         />
       </TouchableOpacity>
 

@@ -123,13 +123,17 @@ export default function statusJBS() {
         onChange={setCarregamento}
       />
 
-      <AppButton title="Copiar" leftIcon="copy" onPress={copiar} />
-
       <AppButton
         title="Limpar campos"
         leftIcon="trash-bin-outline"
         variant="danger"
         onPress={reset}
+      />
+
+      <AppButton
+        title="Copiar"
+        leftIcon="copy-outline"
+        onPress={copiar}
         style={{ marginTop: 12 }}
       />
     </ScreenContainer>

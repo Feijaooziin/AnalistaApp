@@ -1,4 +1,5 @@
 import { useTheme } from "@/src/contexts/ThemeContext";
+import { FONT_SIZE, ICON_SIZE } from "@/src/theme/layout";
 import { Ionicons } from "@expo/vector-icons";
 import { ComponentProps } from "react";
 import {
@@ -84,14 +85,16 @@ export default function AppButton({
       {loading ? (
         <ActivityIndicator color={textColor} />
       ) : (
-        leftIcon && <Ionicons name={leftIcon} size={20} color={textColor} />
+        leftIcon && (
+          <Ionicons name={leftIcon} size={ICON_SIZE.md} color={textColor} />
+        )
       )}
 
       {/* TITLE */}
       <Text
         style={{
           color: textColor,
-          fontSize: 18,
+          fontSize: FONT_SIZE.xl,
           fontWeight: "600",
         }}
       >
@@ -100,7 +103,7 @@ export default function AppButton({
 
       {/* RIGHT ICON */}
       {!loading && rightIcon && (
-        <Ionicons name={rightIcon} size={20} color={textColor} />
+        <Ionicons name={rightIcon} size={ICON_SIZE.md} color={textColor} />
       )}
     </TouchableOpacity>
   );

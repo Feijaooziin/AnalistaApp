@@ -30,7 +30,7 @@ const themes: Record<ThemeName, ThemeColors> = {
 };
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeName>("dark");
+  const [theme, setThemeState] = useState<ThemeName>("light");
 
   useEffect(() => {
     loadTheme();
