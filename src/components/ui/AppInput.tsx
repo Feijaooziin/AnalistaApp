@@ -30,7 +30,7 @@ export default function AppInput({ label, error, ...rest }: Props) {
 
       <TextInput
         {...rest}
-        placeholderTextColor={colors.textSecondary}
+        placeholderTextColor={colors.placeholder}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         style={{
@@ -39,11 +39,11 @@ export default function AppInput({ label, error, ...rest }: Props) {
           padding: 14,
           borderRadius: RADIUS.sm,
 
-          borderWidth: 1,
+          borderWidth: 2,
           borderColor: error
             ? colors.danger
             : focused
-              ? colors.primary
+              ? colors.inputBorderFocused
               : colors.border,
 
           color: colors.text,

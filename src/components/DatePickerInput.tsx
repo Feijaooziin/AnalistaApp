@@ -48,7 +48,7 @@ export function DatePickerInput({
         style={{
           fontSize: 14,
           fontWeight: "600",
-          color: colors.primary,
+          color: colors.textSecondary,
           marginBottom: 6,
         }}
       >
@@ -61,13 +61,13 @@ export function DatePickerInput({
           borderWidth: 1,
           borderColor: colors.border,
           borderRadius: 10,
-          backgroundColor: "#FFFFFF",
+          backgroundColor: colors.surface,
           padding: 12,
         }}
       >
         <Text
           style={{
-            color: value ? colors.primary : colors.placeholder,
+            color: value ? colors.text : colors.placeholder,
           }}
         >
           {formattedDate}

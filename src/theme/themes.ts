@@ -29,7 +29,7 @@ export const light = {
 
   input: "#FFFFFF",
   inputBorder: "#CBD5E1",
-  inputBorderFocused: "#1c2543",
+  inputBorderFocused: "#92223e",
 
   placeholder: "#94A3B8",
 

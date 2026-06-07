@@ -81,7 +81,8 @@ export default function statusJBS() {
       />
 
       <AppInput
-        label="Quantidade de veículos"
+        label="Veículos"
+        placeholder="Quantidade de Veículos"
         keyboardType="numeric"
         value={carros}
         onChangeText={setCarros}
@@ -89,6 +90,7 @@ export default function statusJBS() {
 
       <AppInput
         label="Peso Bruto"
+        placeholder="Peso Expedido"
         keyboardType="numeric"
         value={pesoBruto}
         onChangeText={(text) => setPesoBruto(formatNumber(text))}
@@ -96,6 +98,7 @@ export default function statusJBS() {
 
       <AppInput
         label="Volumes"
+        placeholder="Volumes Expedidos"
         keyboardType="numeric"
         value={volumes}
         onChangeText={(text) => setVolumes(formatNumber(text))}
