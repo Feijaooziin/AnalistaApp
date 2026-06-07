@@ -40,7 +40,7 @@ export default function CustomDrawerContent() {
 
         <Text
           style={{
-            color: colors.textSecondary,
+            color: colors.textMuted,
             marginTop: 4,
           }}
         >
@@ -76,21 +76,20 @@ export default function CustomDrawerContent() {
 
                 marginBottom: 6,
 
-                backgroundColor: active ? `${colors.primary}20` : "transparent",
+                backgroundColor: active ? colors.primary : "transparent",
               }}
             >
               <Ionicons
                 name={item.icon}
                 size={22}
-                color={active ? colors.primary : colors.text}
+                color={active ? colors.drawerTextFocused : colors.drawerText}
               />
 
               <Text
                 style={{
                   marginLeft: 12,
                   fontWeight: "600",
-
-                  color: active ? colors.primary : colors.text,
+                  color: active ? colors.drawerTextFocused : colors.drawerText,
                 }}
               >
                 {item.label}
@@ -113,7 +112,7 @@ export default function CustomDrawerContent() {
         <Text
           style={{
             textAlign: "center",
-            color: colors.textSecondary,
+            color: colors.textMuted,
           }}
         >
           Analista App • v1.0.0

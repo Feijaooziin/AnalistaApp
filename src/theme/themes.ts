@@ -36,6 +36,9 @@ export const light = {
   disabled: "#E2E8F0",
   disabledText: "#94A3B8",
 
+  drawerText: "#1c2543",
+  drawerTextFocused: "#FFFFFF",
+
   overlay: "rgba(0,0,0,0.5)",
 };
 
@@ -63,6 +66,9 @@ export const dark = {
   inputBorderFocused: "#223262",
 
   placeholder: "#94A3B8",
+
+  drawerText: "#FFFFFF",
+  drawerTextFocused: "#FFFFFF",
 
   overlay: "rgba(0,0,0,0.6)",
 };

@@ -34,7 +34,7 @@ export default function DrawerGroup({ label, icon, children }: any) {
 
           marginBottom: 4,
 
-          backgroundColor: groupActive ? `${colors.primary}20` : "transparent",
+          backgroundColor: groupActive ? colors.primary : "transparent",
         }}
       >
         <View
@@ -46,14 +46,14 @@ export default function DrawerGroup({ label, icon, children }: any) {
           <Ionicons
             name={icon}
             size={ICON_SIZE.md}
-            color={groupActive ? colors.primary : colors.text}
+            color={groupActive ? colors.drawerTextFocused : colors.drawerText}
           />
 
           <Text
             style={{
               marginLeft: 12,
               fontWeight: "600",
-              color: groupActive ? colors.primary : colors.text,
+              color: groupActive ? colors.drawerTextFocused : colors.drawerText,
             }}
           >
             {label}
@@ -63,7 +63,7 @@ export default function DrawerGroup({ label, icon, children }: any) {
         <Ionicons
           name={open ? "chevron-down" : "chevron-forward"}
           size={ICON_SIZE.sm}
-          color={colors.text}
+          color={colors.drawerText}
         />
       </TouchableOpacity>
 
@@ -85,16 +85,19 @@ export default function DrawerGroup({ label, icon, children }: any) {
                   borderRadius: 10,
                   flexDirection: "row",
                   alignItems: "center",
+                  backgroundColor: active ? colors.primary : "transparent",
                 }}
               >
                 <Ionicons
                   name={icon}
                   size={ICON_SIZE.sm}
-                  color={active ? colors.primary : colors.text}
+                  color={active ? colors.drawerTextFocused : colors.drawerText}
                 />
                 <Text
                   style={{
-                    color: active ? colors.primary : colors.text,
+                    color: active
+                      ? colors.drawerTextFocused
+                      : colors.drawerText,
                     marginLeft: 8,
                   }}
                 >
