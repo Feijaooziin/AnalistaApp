@@ -1,38 +1,40 @@
 export const light = {
-  background: "#F5F7F2",
+  background: "#F5F7FA",
 
   surface: "#FFFFFF",
-  surfaceSecondary: "#F8F8F8",
+  surfaceSecondary: "#F1F5F9",
 
   card: "#FFFFFF",
 
-  primary: "#4CAF50",
-  primaryDark: "#2E7D32",
+  primary: "#1c2543", // azul escuro (base da marca)
+  primaryDark: "#223262",
 
-  secondary: "#FF9800",
+  secondary: "#223262", // azul médio
 
-  success: "#43A047",
-  warning: "#FB8C00",
-  danger: "#E53935",
+  success: "#12964e",
+  warning: "#f59e0b",
+  danger: "#92223e",
+
   info: "#1E88E5",
 
-  text: "#1B5E20",
-  textSecondary: "#666666",
-  textMuted: "#999999",
+  text: "#0F172A",
+  textSecondary: "#475569",
+  textMuted: "#94A3B8",
   textInverse: "#FFFFFF",
 
-  icon: "#555555",
+  icon: "#334155",
 
-  border: "#E0E0E0",
-  divider: "#EEEEEE",
+  border: "#E2E8F0",
+  divider: "#E2E8F0",
 
   input: "#FFFFFF",
-  inputBorder: "#DDDDDD",
-  inputBorderFocused: "#4CAF50",
-  placeholder: "#999999",
+  inputBorder: "#CBD5E1",
+  inputBorderFocused: "#1c2543",
 
-  disabled: "#E0E0E0",
-  disabledText: "#999999",
+  placeholder: "#94A3B8",
+
+  disabled: "#E2E8F0",
+  disabledText: "#94A3B8",
 
   overlay: "rgba(0,0,0,0.5)",
 };
@@ -40,23 +42,27 @@ export const light = {
 export const dark = {
   ...light,
 
-  background: "#121212",
+  background: "#0B1220",
 
-  surface: "#1E1E1E",
-  surfaceSecondary: "#252525",
+  surface: "#111827",
+  surfaceSecondary: "#1F2937",
 
-  card: "#1E1E1E",
+  card: "#111827",
 
-  text: "#FFFFFF",
-  textSecondary: "#CCCCCC",
+  text: "#F9FAFB",
+  textSecondary: "#CBD5E1",
+  textMuted: "#94A3B8",
 
-  icon: "#FFFFFF",
+  icon: "#E5E7EB",
 
-  border: "#333333",
-  divider: "#333333",
+  border: "#1F2937",
+  divider: "#1F2937",
 
-  input: "#252525",
-  inputBorder: "#444444",
-  inputBorderFocused: "#4D9FFF",
-  placeholder: "##FFFFFF",
+  input: "#111827",
+  inputBorder: "#374151",
+  inputBorderFocused: "#223262",
+
+  placeholder: "#94A3B8",
+
+  overlay: "rgba(0,0,0,0.6)",
 };
