@@ -4,12 +4,12 @@ import { useRef, useState } from "react";
 import { Alert, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { AdvertenciaForm } from "../components/AdvertenciaForm";
-import { Button } from "../components/Button";
-import Header from "../components/Header";
-import { gerarPDF } from "../services/pdfService";
-import { AdvertenciaData } from "../types/advertencia";
-import { showError } from "../utils/toast";
+import { AdvertenciaForm } from "../../../src/advertencia/components/AdvertenciaForm";
+import { Button } from "../../../src/advertencia/components/Button";
+import Header from "../../../src/advertencia/components/Header";
+import { gerarPDF } from "../../../src/advertencia/services/pdfService";
+import { AdvertenciaData } from "../../../src/advertencia/types/advertencia";
+import { showError } from "../../../src/advertencia/utils/toast";
 
 export default function Advertencia() {
   const scrollRef = useRef<KeyboardAwareScrollView>(null);
