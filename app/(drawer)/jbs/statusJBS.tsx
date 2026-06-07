@@ -4,9 +4,9 @@ import { Alert } from "react-native";
 
 import { DatePickerInput } from "@/src/components/DatePickerInput";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import TimePickerInput from "@/src/components/TimePickerInput";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
-import TimePicker from "@/src/modules/Status JBS/components/TimePicker";
 import { showInfo } from "@/src/utils/toast";
 
 export default function statusJBS() {
@@ -66,6 +66,7 @@ export default function statusJBS() {
             setCarregamento(null);
             setPesoBruto("");
             setVolumes("");
+            showInfo("Limpar", "Todos os campos foram resetados.");
           },
         },
       ],
@@ -104,17 +105,19 @@ export default function statusJBS() {
         onChangeText={(text) => setVolumes(formatNumber(text))}
       />
 
-      <TimePicker
+      <TimePickerInput
         label="Final da Separação"
         value={separacao}
         onChange={setSeparacao}
       />
-      <TimePicker
+
+      <TimePickerInput
         label="Final da Conferência"
         value={conferencia}
         onChange={setConferencia}
       />
-      <TimePicker
+
+      <TimePickerInput
         label="Final do Carregamento"
         value={carregamento}
         onChange={setCarregamento}
