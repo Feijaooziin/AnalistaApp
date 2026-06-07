@@ -4,12 +4,12 @@ import { useRef, useState } from "react";
 import { Alert, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { AdvertenciaForm } from "@/src/advertencia/components/AdvertenciaForm";
-import { Button } from "@/src/advertencia/components/Button";
-import { COLORS } from "@/src/advertencia/constants/colors";
-import { gerarPDF } from "@/src/advertencia/services/pdfService";
-import { AdvertenciaData } from "@/src/advertencia/types/advertencia";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import { AdvertenciaForm } from "@/src/modules/advertencia/components/AdvertenciaForm";
+import { Button } from "@/src/modules/advertencia/components/Button";
+import { COLORS } from "@/src/modules/advertencia/constants/colors";
+import { gerarPDF } from "@/src/modules/advertencia/services/pdfService";
+import { AdvertenciaData } from "@/src/modules/advertencia/types/advertencia";
 import { FONT_SIZE } from "@/src/theme/layout";
 import { showError, showInfo } from "@/src/utils/toast";
 

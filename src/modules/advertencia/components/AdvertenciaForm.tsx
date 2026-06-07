@@ -1,13 +1,13 @@
 import { Dispatch, SetStateAction } from "react";
 import { ScrollView } from "react-native";
 
-import { AdvertenciaData } from "../types/advertencia";
 import { motivosAdvertencia } from "../data/motivos";
+import { AdvertenciaData } from "../types/advertencia";
 
-import { Input } from "./Input";
-import { PickerInput } from "./PickerInput";
 import { DatePickerInput } from "./DatePickerInput";
+import { Input } from "./Input";
 import { MotivosSelector } from "./MotivosSelector";
+import { PickerInput } from "./PickerInput";
 
 interface Props {
   data: AdvertenciaData;

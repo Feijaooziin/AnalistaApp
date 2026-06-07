@@ -1,9 +1,9 @@
-import * as Print from "expo-print";
 import * as FileSystem from "expo-file-system/legacy";
+import * as Print from "expo-print";
 
+import { logoBase64 } from "@/src/modules/advertencia/data/logoBase64";
 import { AdvertenciaData } from "../types/advertencia";
 import { gerarHtmlAdvertencia } from "./templateAdvertencia";
-import { logoBase64 } from "../data/logoBase64";
 
 function normalizarTexto(texto: string) {
   return texto

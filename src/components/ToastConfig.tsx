@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import { BaseToastProps } from "react-native-toast-message";
 
-import { COLORS } from "@/src/advertencia/constants/colors";
+import { COLORS } from "@/src/modules/advertencia/constants/colors";
 
 function ToastContainer({
   icon,
