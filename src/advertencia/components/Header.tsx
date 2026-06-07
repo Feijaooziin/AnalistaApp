@@ -1,4 +1,4 @@
-import { View, Text, Image, StatusBar } from "react-native";
+import { Image, StatusBar, Text, View } from "react-native";
 import { COLORS } from "../constants/colors";
 
 export default function Header() {
@@ -43,7 +43,7 @@ export default function Header() {
         </Text>
       </View>
       <Image
-        source={require("../../assets/logo.png")}
+        source={require("../../../assets/images/ECLA/ECLA-Icon-Color.png")}
         style={{
           width: 48,
           height: 48,
