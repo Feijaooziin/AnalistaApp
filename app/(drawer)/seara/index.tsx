@@ -4,7 +4,7 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
 export default function Seara() {
   return (
-    <ScreenContainer>
+    <ScreenContainer header={{ title: "Seara" }}>
       <Text>Seara</Text>
     </ScreenContainer>
   );
