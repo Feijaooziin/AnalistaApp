@@ -6,10 +6,10 @@ export const light = {
 
   card: "#FFFFFF",
 
-  primary: "#1c2543", // azul escuro (base da marca)
+  primary: "#1c2543",
   primaryDark: "#223262",
 
-  secondary: "#223262", // azul médio
+  secondary: "#223262",
 
   success: "#12964e",
   warning: "#f59e0b",

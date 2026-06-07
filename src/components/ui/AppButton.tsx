@@ -1,3 +1,4 @@
+import { useTheme } from "@/src/contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { ComponentProps } from "react";
 import {
@@ -6,8 +7,6 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
 } from "react-native";
-
-import { COLORS } from "@/src/constants/colors";
 
 type Variant = "primary" | "danger" | "outline";
 
@@ -35,22 +34,23 @@ export default function AppButton({
   onPress,
   ...rest
 }: ButtonProps) {
+  const { colors } = useTheme();
   const isDanger = variant === "danger";
   const isOutline = variant === "outline";
 
   const textColor = isDanger
-    ? COLORS.danger
+    ? colors.danger
     : isOutline
-      ? COLORS.secondary
+      ? colors.secondary
       : "#FFFFFF";
 
   const backgroundColor = isOutline
     ? "transparent"
     : isDanger
       ? "#FFF5F7"
-      : COLORS.secondary;
+      : colors.secondary;
 
-  const borderColor = isDanger ? COLORS.danger : COLORS.secondary;
+  const borderColor = isDanger ? colors.danger : colors.secondary;
 
   return (
     <TouchableOpacity

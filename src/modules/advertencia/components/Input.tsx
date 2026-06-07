@@ -1,6 +1,5 @@
+import { useTheme } from "@/src/contexts/ThemeContext";
 import { Text, TextInput, TextInputProps, View } from "react-native";
-
-import { COLORS } from "../../../constants/colors";
 
 interface InputProps extends TextInputProps {
   label: string;
@@ -15,6 +14,8 @@ export function Input({
   error,
   ...rest
 }: InputProps) {
+  const { colors } = useTheme();
+
   return (
     <View
       style={{
@@ -25,7 +26,7 @@ export function Input({
         style={{
           fontSize: 14,
           fontWeight: "600",
-          color: error ? COLORS.danger : COLORS.primary,
+          color: error ? colors.danger : colors.primary,
           marginBottom: 6,
         }}
       >
@@ -34,7 +35,7 @@ export function Input({
         {required && (
           <Text
             style={{
-              color: COLORS.danger,
+              color: colors.danger,
             }}
           >
             {" *"}
@@ -45,14 +46,14 @@ export function Input({
       <TextInput
         {...rest}
         multiline={multiline}
-        placeholderTextColor={error ? COLORS.danger : COLORS.border}
+        placeholderTextColor={error ? colors.danger : colors.border}
         style={{
           borderWidth: 1,
-          borderColor: error ? COLORS.danger : COLORS.border,
+          borderColor: error ? colors.danger : colors.border,
           borderRadius: 10,
           padding: 12,
-          backgroundColor: error ? COLORS.errorBackground : COLORS.surface,
-          color: COLORS.text,
+          backgroundColor: error ? colors.danger : colors.surface,
+          color: colors.text,
           minHeight: multiline ? 100 : undefined,
           textAlignVertical: multiline ? "top" : "center",
         }}
@@ -61,7 +62,7 @@ export function Input({
       {!!error && (
         <Text
           style={{
-            color: COLORS.danger,
+            color: colors.danger,
             fontSize: 12,
             marginTop: 4,
           }}

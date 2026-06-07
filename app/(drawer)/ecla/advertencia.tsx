@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
-import { COLORS } from "@/src/constants/colors";
+import { useTheme } from "@/src/contexts/ThemeContext";
 import { AdvertenciaForm } from "@/src/modules/advertencia/components/AdvertenciaForm";
 import { gerarPDF } from "@/src/modules/advertencia/services/pdfService";
 import { AdvertenciaData } from "@/src/modules/advertencia/types/advertencia";
@@ -13,6 +13,7 @@ import { FONT_SIZE } from "@/src/theme/layout";
 import { showError, showInfo } from "@/src/utils/toast";
 
 export default function Advertencia() {
+  const { colors } = useTheme();
   const scrollRef = useRef<KeyboardAwareScrollView>(null);
 
   const initialData: AdvertenciaData = {
@@ -136,7 +137,7 @@ export default function Advertencia() {
                 style={{
                   fontSize: FONT_SIZE.xxl,
                   fontWeight: "700",
-                  color: COLORS.primary,
+                  color: colors.primary,
                 }}
               >
                 Advertências
@@ -145,7 +146,7 @@ export default function Advertencia() {
               <Text
                 style={{
                   fontSize: FONT_SIZE.md,
-                  color: COLORS.textSecondary,
+                  color: colors.textSecondary,
                   marginBottom: 24,
                 }}
               >

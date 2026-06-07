@@ -1,6 +1,6 @@
+import { useTheme } from "@/src/contexts/ThemeContext";
 import { Picker } from "@react-native-picker/picker";
 import { Text, View } from "react-native";
-import { COLORS } from "../../../constants/colors";
 
 interface PickerOption<T = string> {
   label: string;
@@ -20,6 +20,8 @@ export function PickerInput<T extends string | number>({
   options,
   onValueChange,
 }: PickerInputProps<T>) {
+  const { colors } = useTheme();
+
   function handleValueChange(itemValue: unknown) {
     onValueChange(itemValue as T);
   }
@@ -34,7 +36,7 @@ export function PickerInput<T extends string | number>({
         style={{
           fontSize: 14,
           fontWeight: "600",
-          color: COLORS.primary,
+          color: colors.primary,
           marginBottom: 6,
         }}
       >
@@ -52,9 +54,9 @@ export function PickerInput<T extends string | number>({
       >
         <Picker
           selectedValue={value}
-          dropdownIconColor={COLORS.primary}
+          dropdownIconColor={colors.primary}
           style={{
-            color: COLORS.secondary,
+            color: colors.secondary,
             backgroundColor: "#FFFFFF",
           }}
           onValueChange={handleValueChange}

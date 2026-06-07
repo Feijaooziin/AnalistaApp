@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { COLORS } from "../constants/colors";
+import { useTheme } from "../contexts/ThemeContext";
 
 interface DatePickerInputProps {
   label: string;
@@ -15,6 +15,7 @@ export function DatePickerInput({
   value,
   onChange,
 }: DatePickerInputProps) {
+  const { colors } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const formattedDate = value
@@ -47,7 +48,7 @@ export function DatePickerInput({
         style={{
           fontSize: 14,
           fontWeight: "600",
-          color: COLORS.primary,
+          color: colors.primary,
           marginBottom: 6,
         }}
       >
@@ -58,7 +59,7 @@ export function DatePickerInput({
         onPress={handleOpen}
         style={{
           borderWidth: 1,
-          borderColor: COLORS.border,
+          borderColor: colors.border,
           borderRadius: 10,
           backgroundColor: "#FFFFFF",
           padding: 12,
@@ -66,7 +67,7 @@ export function DatePickerInput({
       >
         <Text
           style={{
-            color: value ? COLORS.primary : COLORS.placeholder,
+            color: value ? colors.primary : colors.placeholder,
           }}
         >
           {formattedDate}

@@ -1,7 +1,6 @@
+import { useTheme } from "@/src/contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
-
-import { COLORS } from "../../../constants/colors";
 
 interface Props {
   motivos: string[];
@@ -19,6 +18,8 @@ export function MotivosSelector({
   required,
   error,
 }: Props) {
+  const { colors } = useTheme();
+
   function toggleMotivo(motivo: string) {
     const existe = selecionados.includes(motivo);
 
@@ -52,9 +53,9 @@ export function MotivosSelector({
             alignItems: "center",
             justifyContent: "center",
 
-            borderColor: isSelected ? COLORS.primary : COLORS.border,
+            borderColor: isSelected ? colors.primary : colors.border,
 
-            backgroundColor: isSelected ? COLORS.primary : COLORS.surface,
+            backgroundColor: isSelected ? colors.primary : colors.surface,
           }}
         >
           {isSelected && (
@@ -64,7 +65,7 @@ export function MotivosSelector({
 
         <Text
           style={{
-            color: COLORS.text,
+            color: colors.text,
           }}
         >
           {motivo}
@@ -83,7 +84,7 @@ export function MotivosSelector({
         style={{
           fontSize: 14,
           fontWeight: "600",
-          color: error ? COLORS.danger : COLORS.primary,
+          color: error ? colors.danger : colors.primary,
           marginBottom: 8,
         }}
       >
@@ -91,7 +92,7 @@ export function MotivosSelector({
         {required && (
           <Text
             style={{
-              color: COLORS.danger,
+              color: colors.danger,
             }}
           >
             {" *"}
@@ -102,10 +103,10 @@ export function MotivosSelector({
       <View
         style={{
           borderWidth: error ? 1 : 0,
-          borderColor: COLORS.danger,
+          borderColor: colors.danger,
           borderRadius: 10,
           padding: error ? 12 : 0,
-          backgroundColor: error ? COLORS.errorBackground : undefined,
+          backgroundColor: error ? colors.danger : undefined,
         }}
       >
         {motivos.map(renderMotivo)}
@@ -114,7 +115,7 @@ export function MotivosSelector({
       {!!error && (
         <Text
           style={{
-            color: COLORS.danger,
+            color: colors.danger,
             fontSize: 12,
             marginTop: 4,
           }}

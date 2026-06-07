@@ -1,8 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import { BaseToastProps } from "react-native-toast-message";
-
-import { COLORS } from "@/src/constants/colors";
+import { useTheme } from "../contexts/ThemeContext";
 
 function ToastContainer({
   icon,
@@ -15,11 +14,13 @@ function ToastContainer({
   title?: string;
   message?: string;
 }) {
+  const { colors } = useTheme();
+
   return (
     <View
       style={{
         width: "92%",
-        backgroundColor: COLORS.primary,
+        backgroundColor: colors.primary,
         borderRadius: 14,
         padding: 14,
         borderLeftWidth: 5,
@@ -72,44 +73,57 @@ function ToastContainer({
 }
 
 export const toastConfig = {
-  success: ({ text1, text2 }: BaseToastProps) => (
-    <ToastContainer
-      title={text1}
-      message={text2}
-      borderColor={COLORS.success}
-      icon={
-        <Ionicons
-          name="checkmark-circle-outline"
-          size={36}
-          color={COLORS.success}
-        />
-      }
-    />
-  ),
+  success: ({ text1, text2 }: BaseToastProps) => {
+    const { colors } = useTheme();
+    return (
+      <ToastContainer
+        title={text1}
+        message={text2}
+        borderColor={colors.success}
+        icon={
+          <Ionicons
+            name="checkmark-circle-outline"
+            size={36}
+            color={colors.success}
+          />
+        }
+      />
+    );
+  },
 
-  error: ({ text1, text2 }: BaseToastProps) => (
-    <ToastContainer
-      title={text1}
-      message={text2}
-      borderColor={COLORS.danger}
-      icon={
-        <Ionicons name="alert-circle-outline" size={36} color={COLORS.danger} />
-      }
-    />
-  ),
+  error: ({ text1, text2 }: BaseToastProps) => {
+    const { colors } = useTheme();
+    return (
+      <ToastContainer
+        title={text1}
+        message={text2}
+        borderColor={colors.danger}
+        icon={
+          <Ionicons
+            name="alert-circle-outline"
+            size={36}
+            color={colors.danger}
+          />
+        }
+      />
+    );
+  },
 
-  info: ({ text1, text2 }: BaseToastProps) => (
-    <ToastContainer
-      title={text1}
-      message={text2}
-      borderColor={COLORS.placeholder}
-      icon={
-        <Ionicons
-          name="alert-circle-outline"
-          size={36}
-          color={COLORS.placeholder}
-        />
-      }
-    />
-  ),
+  info: ({ text1, text2 }: BaseToastProps) => {
+    const { colors } = useTheme();
+    return (
+      <ToastContainer
+        title={text1}
+        message={text2}
+        borderColor={colors.placeholder}
+        icon={
+          <Ionicons
+            name="alert-circle-outline"
+            size={36}
+            color={colors.placeholder}
+          />
+        }
+      />
+    );
+  },
 };
