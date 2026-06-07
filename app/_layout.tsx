@@ -1,4 +1,5 @@
 import { Slot } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 
 import Toast from "react-native-toast-message";
@@ -13,6 +14,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
+      <StatusBar style="dark" />
       <Slot />
       <Toast />
     </ThemeProvider>
