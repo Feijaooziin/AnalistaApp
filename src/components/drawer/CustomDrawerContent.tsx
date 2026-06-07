@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, usePathname } from "expo-router";
-
+import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import DrawerGroup from "@/src/components/drawer/DrawerGroup";
@@ -8,9 +8,27 @@ import { drawerMenu } from "@/src/constants/drawerMenu";
 import { useTheme } from "@/src/contexts/ThemeContext";
 
 export default function CustomDrawerContent() {
-  const pathname = usePathname();
-
   const { colors } = useTheme();
+  const pathname = usePathname();
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+
+  function getCurrentGroup(pathname: string) {
+    if (pathname.startsWith("/jbs")) return "JBS";
+    if (pathname.startsWith("/ecla")) return "ECLA";
+    if (pathname.startsWith("/seara")) return "SEARA";
+    return null;
+  }
+
+  useEffect(() => {
+    const currentGroup = getCurrentGroup(pathname);
+
+    if (!currentGroup) {
+      setOpenGroup(null);
+      return;
+    }
+
+    setOpenGroup(currentGroup);
+  }, [pathname]);
 
   return (
     <View
@@ -57,6 +75,9 @@ export default function CustomDrawerContent() {
                 label={item.label}
                 icon={item.icon}
                 children={item.children}
+                groupKey={item.label}
+                openGroup={openGroup}
+                setOpenGroup={setOpenGroup}
               />
             );
           }

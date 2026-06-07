@@ -1,15 +1,27 @@
 import { Ionicons } from "@expo/vector-icons";
-
-import { Text, TouchableOpacity, View } from "react-native";
-
-import { useState } from "react";
-
 import { router, usePathname } from "expo-router";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { ICON_SIZE } from "@/src/theme/layout";
 
-export default function DrawerGroup({ label, icon, children }: any) {
+type Props = {
+  label: string;
+  icon: any;
+  children: any[];
+  groupKey: string;
+  openGroup: string | null;
+  setOpenGroup: (key: string | null) => void;
+};
+
+export default function DrawerGroup({
+  label,
+  icon,
+  children,
+  groupKey,
+  openGroup,
+  setOpenGroup,
+}: Props) {
   const { colors } = useTheme();
 
   const pathname = usePathname();
@@ -18,12 +30,15 @@ export default function DrawerGroup({ label, icon, children }: any) {
     (child: any) => pathname === `/${child.route}`,
   );
 
-  const [open, setOpen] = useState(groupActive);
+  const isOpen = openGroup === groupKey;
+  function toggleGroup() {
+    setOpenGroup(isOpen ? null : groupKey);
+  }
 
   return (
     <View>
       <TouchableOpacity
-        onPress={() => setOpen(!open)}
+        onPress={toggleGroup}
         style={{
           padding: 14,
           borderRadius: 12,
@@ -61,13 +76,13 @@ export default function DrawerGroup({ label, icon, children }: any) {
         </View>
 
         <Ionicons
-          name={open ? "chevron-down" : "chevron-forward"}
+          name={isOpen ? "chevron-down" : "chevron-forward"}
           size={ICON_SIZE.sm}
           color={colors.drawerText}
         />
       </TouchableOpacity>
 
-      {open && (
+      {isOpen && (
         <View
           style={{
             paddingLeft: 24,
@@ -89,7 +104,7 @@ export default function DrawerGroup({ label, icon, children }: any) {
                 }}
               >
                 <Ionicons
-                  name={icon}
+                  name={item.icon}
                   size={ICON_SIZE.sm}
                   color={active ? colors.drawerTextFocused : colors.drawerText}
                 />
