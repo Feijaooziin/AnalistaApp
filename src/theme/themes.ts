@@ -33,6 +33,9 @@ export const light = {
 
   placeholder: "#94A3B8",
 
+  error: "#92223e",
+  errorBackground: "#FDF2F8",
+
   disabled: "#E2E8F0",
   disabledText: "#94A3B8",
 
@@ -66,6 +69,9 @@ export const dark = {
   inputBorderFocused: "#223262",
 
   placeholder: "#94A3B8",
+
+  error: "#92223e",
+  errorBackground: "#FDF2F8",
 
   drawerText: "#FFFFFF",
   drawerTextFocused: "#FFFFFF",

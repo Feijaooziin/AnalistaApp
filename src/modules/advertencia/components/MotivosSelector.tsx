@@ -1,4 +1,5 @@
 import { useTheme } from "@/src/contexts/ThemeContext";
+import { ICON_SIZE } from "@/src/theme/layout";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
 
@@ -52,20 +53,19 @@ export function MotivosSelector({
             marginRight: 10,
             alignItems: "center",
             justifyContent: "center",
-
             borderColor: isSelected ? colors.primary : colors.border,
-
             backgroundColor: isSelected ? colors.primary : colors.surface,
           }}
         >
           {isSelected && (
-            <Ionicons name="checkmark" size={16} color="#FFFFFF" />
+            <Ionicons name="checkmark" size={ICON_SIZE.sm} color="#FFFFFF" />
           )}
         </View>
 
         <Text
           style={{
-            color: colors.text,
+            color: error ? colors.danger : colors.text,
+            fontWeight: isSelected ? "900" : "400",
           }}
         >
           {motivo}
@@ -84,7 +84,7 @@ export function MotivosSelector({
         style={{
           fontSize: 14,
           fontWeight: "600",
-          color: error ? colors.danger : colors.primary,
+          color: error ? colors.danger : colors.textSecondary,
           marginBottom: 8,
         }}
       >
@@ -105,8 +105,8 @@ export function MotivosSelector({
           borderWidth: error ? 1 : 0,
           borderColor: colors.danger,
           borderRadius: 10,
-          padding: error ? 12 : 0,
-          backgroundColor: error ? colors.danger : undefined,
+          padding: 6,
+          backgroundColor: error ? colors.errorBackground : undefined,
         }}
       >
         {motivos.map(renderMotivo)}

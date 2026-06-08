@@ -52,7 +52,7 @@ export function Input({
           borderColor: error ? colors.danger : colors.border,
           borderRadius: 10,
           padding: 12,
-          backgroundColor: error ? colors.danger : colors.surface,
+          backgroundColor: error ? colors.errorBackground : colors.surface,
           color: colors.text,
           minHeight: multiline ? 100 : undefined,
           textAlignVertical: multiline ? "top" : "center",
