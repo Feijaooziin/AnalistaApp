@@ -126,6 +126,7 @@ export default function Advertencia() {
                 fontSize: FONT_SIZE.xxl,
                 fontWeight: "700",
                 color: colors.text,
+                marginTop: 16,
               }}
             >
               Advertências

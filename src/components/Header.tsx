@@ -1,14 +1,10 @@
-import React from "react";
-
 import { Ionicons } from "@expo/vector-icons";
 import { router, useNavigation } from "expo-router";
-
+import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
-
 import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
 
 type HeaderVariant = "menu" | "back" | "search" | "close";
@@ -36,8 +32,13 @@ export default function Header({
 
   rightComponent,
 }: HeaderProps) {
-  const { colors } = useTheme();
+  const { colors, isDark, setTheme } = useTheme();
   const navigation = useNavigation<any>();
+
+  async function handleToggleTheme() {
+    const nextTheme = isDark ? "light" : "dark";
+    await setTheme(nextTheme);
+  }
 
   function renderLeftIcon() {
     switch (variant) {
@@ -133,19 +134,36 @@ export default function Header({
             flexDirection: "row",
             alignItems: "center",
             marginLeft: SPACING.md,
+            gap: SPACING.xl,
           }}
         >
           {rightComponent}
 
-          {!rightComponent && showLogo && (
-            <Image
-              source={require("@/assets/images/ECLA/ECLA-Icon-Color.png")}
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 999,
-              }}
-            />
+          {!rightComponent && (
+            <>
+              <TouchableOpacity onPress={handleToggleTheme} hitSlop={10}>
+                <Ionicons
+                  name={isDark ? "sunny-outline" : "moon-outline"}
+                  size={ICON_SIZE.lg}
+                  color={colors.text}
+                />
+              </TouchableOpacity>
+
+              {showLogo && (
+                <Image
+                  source={
+                    isDark
+                      ? require("@/assets/images/ECLA/ECLA-Icon-White.png")
+                      : require("@/assets/images/ECLA/ECLA-Icon-Color.png")
+                  }
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 999,
+                  }}
+                />
+              )}
+            </>
           )}
         </View>
       </View>
