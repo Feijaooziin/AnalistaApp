@@ -118,74 +118,61 @@ export default function Advertencia() {
         >
           <View
             style={{
-              flex: 1,
-              marginTop: 8,
+              backgroundColor: colors.background,
             }}
           >
-            <View
+            <Text
               style={{
-                backgroundColor: "#FFFFFF",
-                borderRadius: 16,
-                padding: 16,
-                shadowColor: "#000",
-                shadowOpacity: 0.08,
-                shadowRadius: 8,
-                elevation: 2,
+                fontSize: FONT_SIZE.xxl,
+                fontWeight: "700",
+                color: colors.text,
               }}
             >
-              <Text
-                style={{
-                  fontSize: FONT_SIZE.xxl,
-                  fontWeight: "700",
-                  color: colors.primary,
-                }}
-              >
-                Advertências
-              </Text>
+              Advertências
+            </Text>
 
-              <Text
-                style={{
-                  fontSize: FONT_SIZE.md,
-                  color: colors.textSecondary,
-                  marginBottom: 24,
-                }}
-              >
-                Gere advertências e suspensões em PDF.
-              </Text>
-              <AdvertenciaForm
-                data={data}
-                setData={setData}
-                errors={errors}
-                clearError={clearError}
-              />
-            </View>
-
-            <AppButton
-              title="Limpar Formulário"
-              variant="danger"
-              onPress={confirmarLimpeza}
+            <Text
               style={{
-                marginHorizontal: 16,
-                marginTop: 20,
+                fontSize: FONT_SIZE.md,
+                color: colors.textSecondary,
+                marginBottom: 24,
               }}
-              leftIcon="trash-bin-outline"
-            />
-
-            <AppButton
-              title={
-                data.tipoDocumento === "ADVERTENCIA"
-                  ? "Gerar Advertência"
-                  : "Gerar Suspensão"
-              }
-              onPress={handleGerarDocumento}
-              style={{
-                marginHorizontal: 16,
-                marginTop: 12,
-                marginBottom: 32,
-              }}
-              leftIcon="document-text"
+            >
+              Gere advertências e suspensões em PDF.
+            </Text>
+            <AdvertenciaForm
+              data={data}
+              setData={setData}
+              errors={errors}
+              clearError={clearError}
             />
           </View>
+
+          <AppButton
+            title="Limpar Formulário"
+            variant="danger"
+            onPress={confirmarLimpeza}
+            style={{
+              marginHorizontal: 16,
+              marginTop: 20,
+            }}
+            leftIcon="trash-bin-outline"
+          />
+
+          <AppButton
+            title={
+              data.tipoDocumento === "ADVERTENCIA"
+                ? "Gerar Advertência"
+                : "Gerar Suspensão"
+            }
+            onPress={handleGerarDocumento}
+            style={{
+              marginHorizontal: 16,
+              marginTop: 12,
+              marginBottom: 32,
+            }}
+            leftIcon="document-text"
+          />
         </KeyboardAwareScrollView>
       </ScreenContainer>
     </>

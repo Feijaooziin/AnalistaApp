@@ -14,7 +14,11 @@ export default function AppInput({ label, error, ...rest }: Props) {
   const [focused, setFocused] = useState(false);
 
   return (
-    <View style={{ marginBottom: SPACING.md }}>
+    <View
+      style={{
+        marginBottom: SPACING.md,
+      }}
+    >
       {!!label && (
         <Text
           style={{

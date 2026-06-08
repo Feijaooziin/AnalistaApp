@@ -1,10 +1,9 @@
 import { ReactNode } from "react";
 import { ScrollView, View } from "react-native";
 
+import Header from "@/src/components/Header";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
-
-import Header from "@/src/components/Header";
 
 interface Props {
   children: ReactNode;
@@ -25,7 +24,6 @@ export default function ScreenContainer({
   header,
 }: Props) {
   const { colors } = useTheme();
-
   const content = scrollable ? (
     <ScrollView
       showsVerticalScrollIndicator={false}

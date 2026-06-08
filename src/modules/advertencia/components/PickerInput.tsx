@@ -36,7 +36,7 @@ export function PickerInput<T extends string | number>({
         style={{
           fontSize: 14,
           fontWeight: "600",
-          color: colors.primary,
+          color: colors.textSecondary,
           marginBottom: 6,
         }}
       >
@@ -46,18 +46,18 @@ export function PickerInput<T extends string | number>({
       <View
         style={{
           borderWidth: 1,
-          borderColor: "#CBD5E1",
+          borderColor: colors.border,
           borderRadius: 10,
           overflow: "hidden",
-          backgroundColor: "#FFFFFF",
+          backgroundColor: colors.surface,
         }}
       >
         <Picker
           selectedValue={value}
-          dropdownIconColor={colors.primary}
+          dropdownIconColor={colors.text}
           style={{
-            color: colors.secondary,
-            backgroundColor: "#FFFFFF",
+            color: colors.text,
+            backgroundColor: colors.surface,
           }}
           onValueChange={handleValueChange}
         >

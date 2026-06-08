@@ -5,6 +5,7 @@ import { motivosAdvertencia } from "../data/motivos";
 import { AdvertenciaData } from "../types/advertencia";
 
 import { DatePickerInput } from "@/src/components/DatePickerInput";
+import { useTheme } from "@/src/contexts/ThemeContext";
 import { Input } from "./Input";
 import { MotivosSelector } from "./MotivosSelector";
 import { PickerInput } from "./PickerInput";
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export function AdvertenciaForm({ data, setData, errors, clearError }: Props) {
+  const { colors } = useTheme();
   function updateField<K extends keyof AdvertenciaData>(
     field: K,
     value: AdvertenciaData[K],
