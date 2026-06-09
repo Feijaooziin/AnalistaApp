@@ -11,7 +11,7 @@ import AppInput from "@/src/components/ui/AppInput";
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
 
 import { PickerInput } from "@/src/components/PickerInput";
-import { JBS_CARGOS, JBS_ESCALAS } from "@/src/constants/jbs";
+import { JBS_CARGOS, JBS_ESCALAS } from "@/src/modules/jbs/constants/jbs";
 import { SPACING } from "@/src/theme/layout";
 
 export default function NovoFuncionario() {
