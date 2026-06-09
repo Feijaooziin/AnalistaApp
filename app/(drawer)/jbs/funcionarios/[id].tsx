@@ -62,7 +62,7 @@ export default function FuncionarioDetalhe() {
       <View style={{ gap: SPACING.md }}>
         <PageContext title="Informações Gerais" />
         <AppCard title="Nome" value={user.nome} />
-        <AppCard title="Matrícula" value={user.matricula ?? "-"} />
+        <AppCard title="Matrícula" value={user.matricula ?? "-"} copyable />
 
         <PageContext title="Informações Profissionais" />
         <AppCard title="Cargo" value={user.cargo ?? "-"} />
