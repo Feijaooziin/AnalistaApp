@@ -31,15 +31,15 @@ export const drawerMenu: DrawerMenuItem[] = [
     icon: "business-outline",
     children: [
       {
-        label: "Advertencias",
-        title: "Advertencias",
-        route: "ecla/advertencia",
-        icon: "business-outline",
-      },
-      {
         label: "Principal",
         title: "Emergent Cold LATAM",
         route: "ecla",
+        icon: "business-outline",
+      },
+      {
+        label: "Advertencias",
+        title: "Advertencias",
+        route: "ecla/advertencia",
         icon: "business-outline",
       },
     ],
@@ -57,7 +57,7 @@ export const drawerMenu: DrawerMenuItem[] = [
       },
       {
         label: "Status Operacional",
-        title: "Advertencias",
+        title: "Status Operacional",
         route: "jbs/statusJBS",
         icon: "business-outline",
       },

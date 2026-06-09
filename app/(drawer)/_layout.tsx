@@ -1,15 +1,8 @@
-import { usePathname } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 
 import CustomDrawerContent from "@/src/components/drawer/CustomDrawerContent";
 
-import { getRouteTitle } from "@/src/utils/getRouteTitle";
-
 export default function DrawerLayout() {
-  const pathname = usePathname();
-
-  const title = getRouteTitle(pathname);
-
   return (
     <Drawer
       drawerContent={() => <CustomDrawerContent />}

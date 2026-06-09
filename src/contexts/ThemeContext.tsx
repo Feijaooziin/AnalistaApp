@@ -1,9 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { STORAGE_KEYS, getItem, setItem } from "@/src/services/storage";
-
 import { dark, light } from "@/src/theme/themes";
-
 import { ThemeColors, ThemeName } from "@/src/theme/types";
 
 type ThemeContextData = {
