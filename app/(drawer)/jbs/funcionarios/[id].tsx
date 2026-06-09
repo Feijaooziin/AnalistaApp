@@ -59,17 +59,35 @@ export default function FuncionarioDetalhe() {
 
   return (
     <ScreenContainer header={{ title: user.nome, variant: "back" }}>
-      <PageContext title="Detalhes do Funcionário" />
-
       <View style={{ gap: SPACING.md }}>
+        <PageContext title="Informações Gerais" />
         <AppCard title="Nome" value={user.nome} />
         <AppCard title="Matrícula" value={user.matricula ?? "-"} />
-        <AppCard title="Cargo" value={user.cargo ?? "-"} />
 
+        <PageContext title="Informações Profissionais" />
+        <AppCard title="Cargo" value={user.cargo ?? "-"} />
+        <AppCard title="Escala" value={user.escala ?? "-"} />
+
+        <PageContext title="Contato" />
+        <AppCard title="Telefone" value={user.telefone ?? "-"} />
+        <AppCard title="E-mail" value={user.email ?? "-"} />
+
+        <PageContext title="Endereço" />
+        <AppCard title="Endereço" value={user.endereco ?? "-"} />
+      </View>
+
+      <View style={{ marginTop: SPACING.xxl, gap: SPACING.sm }}>
         <AppButton
           title="Editar"
           leftIcon="create-outline"
           onPress={() => router.push(`/jbs/funcionarios/edit/${user.id}`)}
+        />
+
+        <AppButton
+          title="Excluir"
+          leftIcon="trash-outline"
+          variant="danger"
+          // onPress={handleDelete}
         />
       </View>
     </ScreenContainer>

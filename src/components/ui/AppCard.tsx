@@ -13,12 +13,10 @@ import { FONT_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
 interface Props {
   title?: string;
   value?: string | number | null;
-
   children?: ReactNode;
-
   onPress?: () => void;
-
   style?: StyleProp<ViewStyle>;
+  copyable?: boolean;
 }
 
 export default function AppCard({
@@ -27,6 +25,7 @@ export default function AppCard({
   children,
   onPress,
   style,
+  copyable,
 }: Props) {
   const { colors } = useTheme();
 
