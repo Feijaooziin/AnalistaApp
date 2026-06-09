@@ -59,7 +59,7 @@ export default function FuncionarioForm({
 
       <AppInput
         label="Matrícula"
-        value={form.matricula}
+        value={form.matricula || undefined}
         onChangeText={(v) => updateField("matricula", v)}
       />
 

@@ -1,5 +1,5 @@
-import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
@@ -33,9 +33,11 @@ export default function FuncionarioDetalhe() {
     setLoading(false);
   }
 
-  useEffect(() => {
-    loadUser();
-  }, [id]);
+  useFocusEffect(
+    useCallback(() => {
+      loadUser();
+    }, [id]),
+  );
 
   if (loading) {
     return (

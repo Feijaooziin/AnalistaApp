@@ -9,6 +9,7 @@ import FuncionarioForm from "@/src/modules/jbs/FuncionarioForm";
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
 import { FuncionarioFormData } from "@/src/modules/jbs/types/funcionarioForm";
 import { User } from "@/src/types/user";
+import { showError, showSuccess } from "@/src/utils/toast";
 
 export default function EditarFuncionario() {
   const { id } = useLocalSearchParams();
@@ -33,17 +34,25 @@ export default function EditarFuncionario() {
         id: Number(id),
 
         nome: data.nome,
-        matricula: data.matricula || null,
-        cargo: data.cargo || null,
-        escala: data.escala || null,
-        endereco: data.endereco || null,
-        email: data.email || null,
-        telefone: data.telefone || null,
+        matricula: data.matricula || undefined,
+        cargo: data.cargo || undefined,
+        escala: data.escala || undefined,
+        endereco: data.endereco || undefined,
+        email: data.email || undefined,
+        telefone: data.telefone || undefined,
       });
 
-      router.back();
+      showSuccess(
+        "Funcionário atualizado",
+        "As alterações foram salvas com sucesso.",
+      );
+
+      setTimeout(() => {
+        router.back();
+      }, 300);
     } catch (error) {
       console.log(error);
+      showError("Erro ao atualizar", "Não foi possível salvar as alterações.");
     }
   }
 
