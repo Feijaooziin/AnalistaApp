@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { FlatList, Text, TouchableOpacity } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
 import { User } from "@/src/types/user";
@@ -10,13 +10,29 @@ import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import { PickerInput } from "@/src/components/PickerInput";
 import AppCard from "@/src/components/ui/AppCard";
+import AppInput from "@/src/components/ui/AppInput";
+import { JBS_CARGOS_FILTER } from "@/src/modules/jbs/constants/jbs";
 
 export default function Funcionarios() {
   const { colors } = useTheme();
 
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cargoFilter, setCargoFilter] = useState("Todos");
+  const [search, setSearch] = useState("");
+  const filteredUsers = users.filter((user) => {
+    const term = search.toLowerCase();
+
+    const matchesSearch =
+      user.nome.toLowerCase().includes(term) ||
+      user.matricula?.toLowerCase().includes(term);
+
+    const matchesCargo = cargoFilter === "Todos" || user.cargo === cargoFilter;
+
+    return matchesSearch && matchesCargo;
+  });
 
   async function loadUsers() {
     setLoading(true);
@@ -41,11 +57,31 @@ export default function Funcionarios() {
 
   return (
     <ScreenContainer scrollable={false} header={{ title: "Funcionários" }}>
+      <View style={{ marginTop: SPACING.lg }}>
+        <AppInput
+          placeholder="Pesquisar funcionário..."
+          value={search}
+          onChangeText={setSearch}
+        />
+        <PickerInput
+          label="Cargo"
+          value={cargoFilter}
+          onValueChange={setCargoFilter}
+          options={JBS_CARGOS_FILTER}
+        />
+        <Text
+          style={{
+            color: colors.textSecondary,
+            marginBottom: SPACING.xxl,
+          }}
+        >
+          {filteredUsers.length} funcionário(s)
+        </Text>
+      </View>
       <FlatList
-        data={users ?? []}
+        data={filteredUsers}
         keyExtractor={(item) => String(item.id)}
         contentContainerStyle={{
-          padding: SPACING.lg,
           paddingBottom: 120,
           gap: SPACING.sm,
         }}

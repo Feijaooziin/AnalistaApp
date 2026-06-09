@@ -21,6 +21,14 @@ export const JBS_CARGOS = [
   },
 ];
 
+export const JBS_CARGOS_FILTER = [
+  {
+    label: "Todos",
+    value: "Todos",
+  },
+  ...JBS_CARGOS,
+];
+
 export const JBS_ESCALAS = [
   {
     label: "SEG / SEX - 20H / 05H",
