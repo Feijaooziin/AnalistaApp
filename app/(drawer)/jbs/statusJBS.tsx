@@ -7,7 +7,7 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import TimePickerInput from "@/src/components/TimePickerInput";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
-import { showInfo } from "@/src/utils/toast";
+import { showInfo, showSuccess } from "@/src/utils/toast";
 
 export default function statusJBS() {
   const [data, setData] = useState<Date | null>(null);
@@ -33,8 +33,7 @@ export default function statusJBS() {
   }
 
   const gerarMensagem = () =>
-    `*_Status expedição JBS_*
-*Data da Operação:* ${formatDate(data)}
+    `*_EXPEDIÇÃO JBS ${formatDate(data)}_*
 *Quantidade de carros:* ${carros}
 *Peso Bruto:* ${pesoBruto}
 *Volumes:* ${volumes}
@@ -46,12 +45,12 @@ export default function statusJBS() {
     const msg = gerarMensagem();
     Clipboard.setStringAsync(msg);
 
-    showInfo("Copiado!", "Texto copiado para a área de transferência.");
+    showSuccess("Copiado!", "Texto copiado para a área de transferência.");
   };
 
   const reset = async () => {
     Alert.alert(
-      "Limpar capos",
+      "Limpar campos",
       "Tem certeza que deseja limpar todos os campos?",
       [
         { text: "Cancelar", style: "cancel" },
