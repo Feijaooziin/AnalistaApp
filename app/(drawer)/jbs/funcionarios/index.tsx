@@ -11,8 +11,8 @@ import { SPACING } from "@/src/theme/layout";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import { PickerInput } from "@/src/components/PickerInput";
-import AppCard from "@/src/components/ui/AppCard";
 import AppInput from "@/src/components/ui/AppInput";
+import FuncionarioCard from "@/src/modules/jbs/components/FuncionarioCard";
 import { JBS_CARGOS_FILTER } from "@/src/modules/jbs/constants/jbs";
 
 export default function Funcionarios() {
@@ -86,15 +86,7 @@ export default function Funcionarios() {
           gap: SPACING.sm,
         }}
         renderItem={({ item }) => (
-          <AppCard onPress={() => goToDetails(item.id)}>
-            <Text style={{ fontWeight: "600", color: colors.text }}>
-              {item.nome}
-            </Text>
-
-            <Text style={{ color: colors.textSecondary }}>
-              Matrícula: {item.matricula ?? "-"}
-            </Text>
-          </AppCard>
+          <FuncionarioCard user={item} onPress={() => goToDetails(item.id)} />
         )}
       />
 
