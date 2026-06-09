@@ -1,6 +1,6 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
 import { User } from "@/src/types/user";
@@ -8,9 +8,10 @@ import { User } from "@/src/types/user";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
+import AppButton from "@/src/components/ui/AppButton";
 import AppCard from "@/src/components/ui/AppCard";
 import { useTheme } from "@/src/contexts/ThemeContext";
-import { RADIUS, SPACING } from "@/src/theme/layout";
+import { SPACING } from "@/src/theme/layout";
 
 export default function FuncionarioDetalhe() {
   const { colors } = useTheme();
@@ -63,21 +64,11 @@ export default function FuncionarioDetalhe() {
         <AppCard title="Matrícula" value={user.matricula ?? "-"} />
         <AppCard title="Cargo" value={user.cargo ?? "-"} />
 
-        {/* BOTÃO EDITAR (preparação futura) */}
-        <TouchableOpacity
-          // onPress={() => router.push(`/jbs/funcionarios/${id}/editar` as any)}
-          style={{
-            marginTop: SPACING.lg,
-            backgroundColor: colors.primary,
-            padding: SPACING.md,
-            borderRadius: RADIUS.md,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ color: "#fff", fontWeight: "600" }}>
-            Editar funcionário
-          </Text>
-        </TouchableOpacity>
+        <AppButton
+          title="Editar"
+          leftIcon="create-outline"
+          onPress={() => router.push(`/jbs/funcionarios/edit/${user.id}`)}
+        />
       </View>
     </ScreenContainer>
   );
