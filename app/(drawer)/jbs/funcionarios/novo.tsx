@@ -11,6 +11,7 @@ import AppInput from "@/src/components/ui/AppInput";
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
 
 import { PickerInput } from "@/src/components/PickerInput";
+import { JBS_CARGOS, JBS_ESCALAS } from "@/src/constants/jbs";
 import { SPACING } from "@/src/theme/layout";
 
 export default function NovoFuncionario() {
@@ -87,56 +88,14 @@ export default function NovoFuncionario() {
         <PickerInput
           label="Cargo"
           value={form.cargo}
-          options={[
-            {
-              label: "Auxiliar de operações",
-              value: "Auxiliar de operações",
-            },
-            {
-              label: "Conferente",
-              value: "Conferente",
-            },
-            {
-              label: "Assistente Administrativo",
-              value: "Assistente Administrativo",
-            },
-            {
-              label: "Líder de Operações",
-              value: "Líder de Operações",
-            },
-            {
-              label: "Supervisor de Operações",
-              value: "Supervisor de Operações",
-            },
-          ]}
+          options={JBS_CARGOS}
           onValueChange={(v) => updateField("cargo", v)}
         />
 
         <PickerInput
-          label="Cargo"
+          label="Escala"
           value={form.escala}
-          options={[
-            {
-              label: "SEG / SEX - 20H / 05H",
-              value: "SEG / SEX - 20H / 05H",
-            },
-            {
-              label: "DOM / QUI - 20H / 05H",
-              value: "DOM / QUI - 20H / 05H",
-            },
-            {
-              label: "DOM / QUI - 21H / 06H",
-              value: "DOM / QUI - 21H / 06H",
-            },
-            {
-              label: "DOM / QUI - 22H / 07H",
-              value: "DOM / QUI - 22H / 07H",
-            },
-            {
-              label: "SUPERVISOR",
-              value: "SUPERVISOR",
-            },
-          ]}
+          options={JBS_ESCALAS}
           onValueChange={(v) => updateField("escala", v)}
         />
 
