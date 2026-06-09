@@ -10,6 +10,7 @@ import AppInput from "@/src/components/ui/AppInput";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
 
+import { PickerInput } from "@/src/components/PickerInput";
 import { SPACING } from "@/src/theme/layout";
 
 export default function NovoFuncionario() {
@@ -20,8 +21,8 @@ export default function NovoFuncionario() {
   const [form, setForm] = useState({
     nome: "",
     matricula: "",
-    cargo: "",
-    escala: "",
+    cargo: "Auxiliar de operações",
+    escala: "SEG / SEX - 20H / 05H",
     endereco: "",
     email: "",
     telefone: "",
@@ -83,18 +84,60 @@ export default function NovoFuncionario() {
           placeholder="Opcional"
         />
 
-        <AppInput
+        <PickerInput
           label="Cargo"
           value={form.cargo}
-          onChangeText={(v) => updateField("cargo", v)}
-          placeholder="Ex: Operador"
+          options={[
+            {
+              label: "Auxiliar de operações",
+              value: "Auxiliar de operações",
+            },
+            {
+              label: "Conferente",
+              value: "Conferente",
+            },
+            {
+              label: "Assistente Administrativo",
+              value: "Assistente Administrativo",
+            },
+            {
+              label: "Líder de Operações",
+              value: "Líder de Operações",
+            },
+            {
+              label: "Supervisor de Operações",
+              value: "Supervisor de Operações",
+            },
+          ]}
+          onValueChange={(v) => updateField("cargo", v)}
         />
 
-        <AppInput
-          label="Escala"
+        <PickerInput
+          label="Cargo"
           value={form.escala}
-          onChangeText={(v) => updateField("escala", v)}
-          placeholder="Ex: 12x36"
+          options={[
+            {
+              label: "SEG / SEX - 20H / 05H",
+              value: "SEG / SEX - 20H / 05H",
+            },
+            {
+              label: "DOM / QUI - 20H / 05H",
+              value: "DOM / QUI - 20H / 05H",
+            },
+            {
+              label: "DOM / QUI - 21H / 06H",
+              value: "DOM / QUI - 21H / 06H",
+            },
+            {
+              label: "DOM / QUI - 22H / 07H",
+              value: "DOM / QUI - 22H / 07H",
+            },
+            {
+              label: "SUPERVISOR",
+              value: "SUPERVISOR",
+            },
+          ]}
+          onValueChange={(v) => updateField("escala", v)}
         />
 
         <AppInput

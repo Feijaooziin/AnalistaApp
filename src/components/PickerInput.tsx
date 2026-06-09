@@ -1,6 +1,7 @@
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { Picker } from "@react-native-picker/picker";
 import { Text, View } from "react-native";
+import { RADIUS } from "../theme/layout";
 
 interface PickerOption<T = string> {
   label: string;
@@ -47,7 +48,7 @@ export function PickerInput<T extends string | number>({
         style={{
           borderWidth: 1,
           borderColor: colors.border,
-          borderRadius: 10,
+          borderRadius: RADIUS.sm,
           overflow: "hidden",
           backgroundColor: colors.surface,
         }}

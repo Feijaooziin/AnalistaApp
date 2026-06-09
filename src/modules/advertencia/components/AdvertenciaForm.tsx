@@ -5,10 +5,10 @@ import { motivosAdvertencia } from "../data/motivos";
 import { AdvertenciaData } from "../types/advertencia";
 
 import { DatePickerInput } from "@/src/components/DatePickerInput";
+import { PickerInput } from "@/src/components/PickerInput";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { Input } from "./Input";
 import { MotivosSelector } from "./MotivosSelector";
-import { PickerInput } from "./PickerInput";
 
 interface Props {
   data: AdvertenciaData;

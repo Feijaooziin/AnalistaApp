@@ -41,7 +41,7 @@ export default function AppInput({ label, error, ...rest }: Props) {
           backgroundColor: colors.surface,
           padding: 14,
           borderRadius: RADIUS.sm,
-          borderWidth: 2,
+          borderWidth: 1,
           borderColor: error
             ? colors.danger
             : focused
