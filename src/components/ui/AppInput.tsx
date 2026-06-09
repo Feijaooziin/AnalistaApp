@@ -39,10 +39,8 @@ export default function AppInput({ label, error, ...rest }: Props) {
         onBlur={() => setFocused(false)}
         style={{
           backgroundColor: colors.surface,
-
           padding: 14,
           borderRadius: RADIUS.sm,
-
           borderWidth: 2,
           borderColor: error
             ? colors.danger
