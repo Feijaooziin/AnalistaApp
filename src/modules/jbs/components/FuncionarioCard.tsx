@@ -60,7 +60,7 @@ export default function FuncionarioCard({ user, onPress }: Props) {
             marginTop: 2,
           }}
         >
-          Cargo: {user.cargo ?? "-"}
+          {user.cargo ?? "-"}
         </Text>
 
         <Text
@@ -69,7 +69,7 @@ export default function FuncionarioCard({ user, onPress }: Props) {
             marginTop: 2,
           }}
         >
-          Escala: {user.escala ?? "-"}
+          {user.escala ?? "-"}
         </Text>
       </View>
 
