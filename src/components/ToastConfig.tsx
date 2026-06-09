@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import { BaseToastProps } from "react-native-toast-message";
 import { useTheme } from "../contexts/ThemeContext";
+import { ICON_SIZE } from "../theme/layout";
 
 function ToastContainer({
   icon,
@@ -87,7 +88,7 @@ export function useToastConfig() {
         icon={
           <Ionicons
             name="checkmark-circle-outline"
-            size={36}
+            size={ICON_SIZE.xxl}
             color={colors.success}
           />
         }
@@ -103,8 +104,24 @@ export function useToastConfig() {
         icon={
           <Ionicons
             name="alert-circle-outline"
-            size={36}
+            size={ICON_SIZE.xxl}
             color={colors.danger}
+          />
+        }
+      />
+    ),
+
+    warning: ({ text1, text2 }: BaseToastProps) => (
+      <ToastContainer
+        title={text1}
+        message={text2}
+        borderColor={colors.warning}
+        backgroundColor={colors.primary}
+        icon={
+          <Ionicons
+            name="warning-outline"
+            size={ICON_SIZE.xxl}
+            color={colors.warning}
           />
         }
       />
@@ -115,12 +132,28 @@ export function useToastConfig() {
         title={text1}
         message={text2}
         borderColor={colors.info}
-        backgroundColor={colors.info}
+        backgroundColor={colors.primary}
         icon={
           <Ionicons
             name="information-circle-outline"
-            size={36}
+            size={ICON_SIZE.xxl}
             color={colors.info}
+          />
+        }
+      />
+    ),
+
+    unknownError: ({ text1, text2 }: BaseToastProps) => (
+      <ToastContainer
+        title={text1}
+        message={text2}
+        borderColor={colors.danger}
+        backgroundColor={colors.primary}
+        icon={
+          <Ionicons
+            name="bug-outline"
+            size={ICON_SIZE.xxl}
+            color={colors.danger}
           />
         }
       />

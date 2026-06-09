@@ -32,13 +32,13 @@ export function showWarning(title: string, message?: string) {
   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
 
   Toast.show({
-    type: "info",
+    type: "warning",
     text1: title,
     text2: message,
   });
 }
 
-export function showUnexpectedError(error: unknown) {
+export function showUnexpectedError(error?: unknown) {
   console.error(error);
 
   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
@@ -46,6 +46,6 @@ export function showUnexpectedError(error: unknown) {
   Toast.show({
     type: "error",
     text1: "Erro inesperado",
-    text2: "Tente novamente.",
+    text2: "Ocorreu um erro não tratado.",
   });
 }
