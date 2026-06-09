@@ -6,11 +6,13 @@ import { useTheme } from "../contexts/ThemeContext";
 function ToastContainer({
   icon,
   borderColor,
+  backgroundColor,
   title,
   message,
 }: {
   icon: React.ReactNode;
   borderColor: string;
+  backgroundColor: string;
   title?: string;
   message?: string;
 }) {
@@ -20,7 +22,7 @@ function ToastContainer({
     <View
       style={{
         width: "92%",
-        backgroundColor: colors.primary,
+        backgroundColor,
         borderRadius: 14,
         padding: 14,
         borderLeftWidth: 5,
@@ -72,14 +74,16 @@ function ToastContainer({
   );
 }
 
-export const toastConfig = {
-  success: ({ text1, text2 }: BaseToastProps) => {
-    const { colors } = useTheme();
-    return (
+export function useToastConfig() {
+  const { colors } = useTheme();
+
+  return {
+    success: ({ text1, text2 }: BaseToastProps) => (
       <ToastContainer
         title={text1}
         message={text2}
         borderColor={colors.success}
+        backgroundColor={colors.primary}
         icon={
           <Ionicons
             name="checkmark-circle-outline"
@@ -88,16 +92,14 @@ export const toastConfig = {
           />
         }
       />
-    );
-  },
+    ),
 
-  error: ({ text1, text2 }: BaseToastProps) => {
-    const { colors } = useTheme();
-    return (
+    error: ({ text1, text2 }: BaseToastProps) => (
       <ToastContainer
         title={text1}
         message={text2}
         borderColor={colors.danger}
+        backgroundColor={colors.primary}
         icon={
           <Ionicons
             name="alert-circle-outline"
@@ -106,24 +108,22 @@ export const toastConfig = {
           />
         }
       />
-    );
-  },
+    ),
 
-  info: ({ text1, text2 }: BaseToastProps) => {
-    const { colors } = useTheme();
-    return (
+    info: ({ text1, text2 }: BaseToastProps) => (
       <ToastContainer
         title={text1}
         message={text2}
-        borderColor={colors.placeholder}
+        borderColor={colors.info}
+        backgroundColor={colors.info}
         icon={
           <Ionicons
-            name="alert-circle-outline"
+            name="information-circle-outline"
             size={36}
-            color={colors.placeholder}
+            color={colors.info}
           />
         }
       />
-    );
-  },
-};
+    ),
+  };
+}
