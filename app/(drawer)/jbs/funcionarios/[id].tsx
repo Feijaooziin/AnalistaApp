@@ -1,6 +1,6 @@
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
 import { User } from "@/src/types/user";
@@ -12,6 +12,7 @@ import AppButton from "@/src/components/ui/AppButton";
 import AppCard from "@/src/components/ui/AppCard";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
+import { showError, showSuccess } from "@/src/utils/toast";
 
 export default function FuncionarioDetalhe() {
   const { colors } = useTheme();
@@ -23,14 +24,52 @@ export default function FuncionarioDetalhe() {
 
   async function loadUser() {
     if (!id) return;
-
     setLoading(true);
 
     const data = await usersJbsRepository.findById(Number(id));
 
     setUser(data ?? null);
-
     setLoading(false);
+  }
+
+  function handleDelete() {
+    Alert.alert(
+      "Excluir funcionário",
+      `Deseja realmente excluir ${user?.nome}?`,
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              if (!user?.id) return;
+
+              await usersJbsRepository.remove(user.id);
+
+              showSuccess(
+                "Funcionário removido",
+                "Cadastro excluído com sucesso.",
+              );
+
+              setTimeout(() => {
+                router.back();
+              }, 300);
+            } catch (error) {
+              console.log(error);
+
+              showError(
+                "Erro ao excluir",
+                "Não foi possível remover o funcionário.",
+              );
+            }
+          },
+        },
+      ],
+    );
   }
 
   useFocusEffect(
@@ -87,7 +126,7 @@ export default function FuncionarioDetalhe() {
           title="Excluir"
           leftIcon="trash-outline"
           variant="danger"
-          // onPress={handleDelete}
+          onPress={handleDelete}
         />
       </View>
     </ScreenContainer>
