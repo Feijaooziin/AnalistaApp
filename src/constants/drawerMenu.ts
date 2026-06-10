@@ -82,6 +82,7 @@ export const drawerMenu: DrawerMenuItem[] = [
       },
     ],
   },
+
   {
     label: "Ferramentas",
     icon: "hammer-outline",
@@ -93,5 +94,12 @@ export const drawerMenu: DrawerMenuItem[] = [
         icon: "mail-outline",
       },
     ],
+  },
+
+  {
+    label: "Sobre",
+    title: "Sobre",
+    route: "about",
+    icon: "information-circle-outline",
   },
 ];
