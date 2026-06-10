@@ -133,7 +133,7 @@ export default function Funcionarios() {
           justifyContent: "center",
         }}
       >
-        <Ionicons name="add" size={28} color="#fff" />
+        <Ionicons name="person-add-outline" size={28} color="#fff" />
       </TouchableOpacity>
     </ScreenContainer>
   );

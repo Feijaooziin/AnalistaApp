@@ -126,7 +126,7 @@ export default function FuncionarioDetalhe() {
 
         <AppButton
           title="Excluir"
-          leftIcon="trash-outline"
+          leftIcon="person-remove-outline"
           variant="danger"
           onPress={handleDelete}
         />
