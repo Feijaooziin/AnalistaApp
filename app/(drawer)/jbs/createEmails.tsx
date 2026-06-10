@@ -7,24 +7,17 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 import AppCard from "@/src/components/ui/AppCard";
 import { useTheme } from "@/src/contexts/ThemeContext";
+import {
+  EMAIL_OPTIONS,
+  EMAIL_SUBJECT,
+  EMAIL_TO,
+} from "@/src/modules/jbs/constants/email";
 import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
 
 export default function CreateEmails() {
   const { colors } = useTheme();
   const [selected, setSelected] = useState<string[]>([]);
-  const EMAIL_OPTIONS = [
-    "Cortes",
-    "Madero",
-    "Paletes",
-    "Produtividade",
-    "Cargas Paradas",
-    "Processos Noturnos",
-    "Fiboi CRT",
-    "Outbound",
-  ];
-
-  const EMAIL_TO = "leonardo.santos@emergentcold.com";
-  const EMAIL_SUBJECT = "Criar Emails";
+  const selectedCount = selected.length;
 
   function toggleItem(item: string) {
     setSelected((prev) =>
@@ -33,7 +26,13 @@ export default function CreateEmails() {
   }
 
   async function handleSend() {
-    const body = selected.join("\n");
+    const body = `
+Itens selecionados:
+
+${selected.join("\n")}
+
+Enviado pelo Analista App
+`;
 
     const url =
       `mailto:${EMAIL_TO}` +
@@ -44,14 +43,30 @@ export default function CreateEmails() {
   }
 
   return (
-    <ScreenContainer header={{ title: "Criar E-mail" }}>
-      <PageContext title="Envio de E-mail" />
+    <ScreenContainer header={{ title: "Criar Emails" }}>
+      <PageContext title="Criar Emails Operacionais" />
+      <Text
+        style={{
+          marginBottom: 16,
+          color: colors.textSecondary,
+        }}
+      >
+        {selectedCount} item(ns) selecionado(s)
+      </Text>
+
       <View style={{ gap: SPACING.sm, marginBottom: SPACING.xxl }}>
         {EMAIL_OPTIONS.map((item) => {
           const checked = selected.includes(item);
 
           return (
-            <AppCard key={item} onPress={() => toggleItem(item)}>
+            <AppCard
+              key={item}
+              onPress={() => toggleItem(item)}
+              style={{
+                borderWidth: 1,
+                borderColor: checked ? colors.text : colors.border,
+              }}
+            >
               <View
                 style={{
                   flexDirection: "row",
@@ -75,8 +90,9 @@ export default function CreateEmails() {
       </View>
 
       <AppButton
-        title="Enviar E-mail"
+        title="Enviar Email"
         leftIcon="mail-outline"
+        disabled={selected.length === 0}
         onPress={handleSend}
       />
     </ScreenContainer>
