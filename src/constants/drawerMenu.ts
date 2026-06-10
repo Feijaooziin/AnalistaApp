@@ -82,4 +82,16 @@ export const drawerMenu: DrawerMenuItem[] = [
       },
     ],
   },
+  {
+    label: "Ferramentas",
+    icon: "hammer-outline",
+    children: [
+      {
+        label: "Email Rápido",
+        title: "Email Rápido",
+        route: "tools/quickEmail",
+        icon: "mail-outline",
+      },
+    ],
+  },
 ];

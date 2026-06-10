@@ -26,7 +26,6 @@ export default function FuncionarioForm({
   onSubmit,
 }: Props) {
   const [error, setError] = useState<string | null>(null);
-
   const [form, setForm] = useState<FuncionarioFormData>(initialValues);
 
   function updateField(field: keyof FuncionarioFormData, value: string) {
