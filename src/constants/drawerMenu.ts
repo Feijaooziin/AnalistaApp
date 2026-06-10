@@ -1,7 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import { ComponentProps } from "react";
 
-type IconName = ComponentProps<typeof Ionicons>["name"];
+type IconName =
+  | ComponentProps<typeof Ionicons>["name"]
+  | "ecla"
+  | "jbs"
+  | "seara";
 
 export type DrawerItem = {
   label: string;
@@ -28,7 +32,7 @@ export const drawerMenu: DrawerMenuItem[] = [
 
   {
     label: "ECLA",
-    icon: "business-outline",
+    icon: "ecla",
     children: [
       {
         label: "Principal",
@@ -40,14 +44,14 @@ export const drawerMenu: DrawerMenuItem[] = [
         label: "Advertencias",
         title: "Advertencias",
         route: "ecla/advertencia",
-        icon: "business-outline",
+        icon: "warning-outline",
       },
     ],
   },
 
   {
     label: "JBS",
-    icon: "cube-outline",
+    icon: "jbs",
     children: [
       {
         label: "Funcionários",
@@ -59,7 +63,7 @@ export const drawerMenu: DrawerMenuItem[] = [
         label: "Status Operacional",
         title: "Status Operacional",
         route: "jbs/statusJBS",
-        icon: "business-outline",
+        icon: "stats-chart-outline",
       },
       {
         label: "Criar Emails",
@@ -72,7 +76,7 @@ export const drawerMenu: DrawerMenuItem[] = [
 
   {
     label: "Seara",
-    icon: "restaurant-outline",
+    icon: "seara",
     children: [
       {
         label: "Principal",

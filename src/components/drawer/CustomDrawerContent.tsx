@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import { router, usePathname } from "expo-router";
 import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -6,6 +5,8 @@ import { Text, TouchableOpacity, View } from "react-native";
 import DrawerGroup from "@/src/components/drawer/DrawerGroup";
 import { drawerMenu } from "@/src/constants/drawerMenu";
 import { useTheme } from "@/src/contexts/ThemeContext";
+import { ICON_SIZE } from "@/src/theme/layout";
+import AppIcon from "../AppIcon";
 
 export default function CustomDrawerContent() {
   const { colors } = useTheme();
@@ -100,9 +101,9 @@ export default function CustomDrawerContent() {
                 backgroundColor: active ? colors.primary : "transparent",
               }}
             >
-              <Ionicons
+              <AppIcon
                 name={item.icon}
-                size={22}
+                size={ICON_SIZE.md}
                 color={active ? colors.drawerTextFocused : colors.drawerText}
               />
 
