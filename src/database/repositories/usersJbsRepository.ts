@@ -91,4 +91,10 @@ export const usersJbsRepository = {
       [id],
     );
   },
+
+  async clear() {
+    await db.runAsync(`
+    DELETE FROM usersJbs
+  `);
+  },
 };

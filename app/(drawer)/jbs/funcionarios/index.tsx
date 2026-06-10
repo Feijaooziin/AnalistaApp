@@ -11,9 +11,12 @@ import { SPACING } from "@/src/theme/layout";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import { PickerInput } from "@/src/components/PickerInput";
+import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
 import FuncionarioCard from "@/src/modules/jbs/components/FuncionarioCard";
 import { JBS_CARGOS_FILTER } from "@/src/modules/jbs/constants/jbs";
+import { exportDatabase } from "@/src/services/backup/exportDatabase";
+import { importDatabase } from "@/src/services/backup/importDatabase";
 
 export default function Funcionarios() {
   const { colors } = useTheme();
@@ -77,18 +80,32 @@ export default function Funcionarios() {
         >
           {filteredUsers.length} funcionário(s)
         </Text>
+
+        <FlatList
+          data={filteredUsers}
+          keyExtractor={(item) => String(item.id)}
+          contentContainerStyle={{
+            paddingBottom: 120,
+            gap: SPACING.sm,
+          }}
+          renderItem={({ item }) => (
+            <FuncionarioCard user={item} onPress={() => goToDetails(item.id)} />
+          )}
+        />
       </View>
-      <FlatList
-        data={filteredUsers}
-        keyExtractor={(item) => String(item.id)}
-        contentContainerStyle={{
-          paddingBottom: 120,
-          gap: SPACING.sm,
-        }}
-        renderItem={({ item }) => (
-          <FuncionarioCard user={item} onPress={() => goToDetails(item.id)} />
-        )}
-      />
+
+      <View style={{ gap: SPACING.lg }}>
+        <AppButton
+          title="Exportar Backup"
+          leftIcon="cloud-upload-outline"
+          onPress={exportDatabase}
+        />
+        <AppButton
+          title="Importar Backup"
+          leftIcon="cloud-download-outline"
+          onPress={importDatabase}
+        />
+      </View>
 
       {/* FAB */}
       <TouchableOpacity
