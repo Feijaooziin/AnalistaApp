@@ -46,6 +46,20 @@ export default function Funcionarios() {
     setLoading(false);
   }
 
+  async function handleImport() {
+    try {
+      await importDatabase();
+
+      await loadUsers();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleExport() {
+    await exportDatabase();
+  }
+
   useFocusEffect(
     useCallback(() => {
       loadUsers();
@@ -98,12 +112,12 @@ export default function Funcionarios() {
         <AppButton
           title="Exportar Backup"
           leftIcon="cloud-upload-outline"
-          onPress={exportDatabase}
+          onPress={handleExport}
         />
         <AppButton
           title="Importar Backup"
           leftIcon="cloud-download-outline"
-          onPress={importDatabase}
+          onPress={handleImport}
         />
       </View>
 
