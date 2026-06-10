@@ -8,6 +8,10 @@ export const JBS_CARGOS = [
     value: "Conferente",
   },
   {
+    label: "Operador de Empilhadeira",
+    value: "Operador de Empilhadeira",
+  },
+  {
     label: "Assistente Administrativo",
     value: "Assistente Administrativo",
   },
@@ -31,20 +35,20 @@ export const JBS_CARGOS_FILTER = [
 
 export const JBS_ESCALAS = [
   {
-    label: "SEG / SEX - 20H / 05H",
-    value: "SEG / SEX - 20H / 05H",
+    label: "DOM - QUI / 20:00 - 05:00",
+    value: "DOM - QUI / 20:00 - 05:00",
   },
   {
-    label: "DOM / QUI - 20H / 05H",
-    value: "DOM / QUI - 20H / 05H",
+    label: "DOM - QUI / 21:00 - 06:00",
+    value: "DOM - QUI / 21:00 - 06:00",
   },
   {
-    label: "DOM / QUI - 21H / 06H",
-    value: "DOM / QUI - 21H / 06H",
+    label: "DOM - QUI / 22:00 - 07:00",
+    value: "DOM - QUI / 22:00 - 07:00",
   },
   {
-    label: "DOM / QUI - 22H / 07H",
-    value: "DOM / QUI - 22H / 07H",
+    label: "SEG - SEX / 20:00 - 05:00",
+    value: "SEG - SEX / 20:00 - 05:00",
   },
   {
     label: "SUPERVISOR",
