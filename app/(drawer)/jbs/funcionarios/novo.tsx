@@ -4,6 +4,7 @@ import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
+import { triggerRefresh } from "@/src/hooks/useRefresh";
 import FuncionarioForm from "@/src/modules/jbs/FuncionarioForm";
 
 export default function NovoFuncionario() {
@@ -18,6 +19,7 @@ export default function NovoFuncionario() {
       telefone: data.telefone || null,
     });
 
+    triggerRefresh("usersJbs");
     router.back();
   }
 

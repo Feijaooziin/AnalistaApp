@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router, useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
+import { router } from "expo-router";
+import { useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
@@ -13,6 +13,7 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import { PickerInput } from "@/src/components/PickerInput";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
+import { useRefresh } from "@/src/hooks/useRefresh";
 import FuncionarioCard from "@/src/modules/jbs/components/FuncionarioCard";
 import { JBS_CARGOS_FILTER } from "@/src/modules/jbs/constants/jbs";
 import { exportDatabase } from "@/src/services/backup/exportDatabase";
@@ -60,11 +61,7 @@ export default function Funcionarios() {
     await exportDatabase();
   }
 
-  useFocusEffect(
-    useCallback(() => {
-      loadUsers();
-    }, []),
-  );
+  useRefresh("usersJbs", loadUsers);
 
   function goToDetails(id?: number) {
     if (!id) return;

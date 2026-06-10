@@ -1,4 +1,5 @@
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
+import { triggerRefresh } from "@/src/hooks/useRefresh";
 import { showSuccess, showUnexpectedError } from "@/src/utils/toast";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system/legacy";
@@ -35,6 +36,7 @@ export async function importDatabase() {
     });
   }
 
-  showSuccess("Backup restaurado", `${total} registros importados`);
+  showSuccess("Arquivo importado", `${total} funcionário(s) recuperado(s)`);
+  triggerRefresh("usersJbs");
   return total;
 }

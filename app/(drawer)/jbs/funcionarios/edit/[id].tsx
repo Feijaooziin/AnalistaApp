@@ -7,6 +7,7 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import FuncionarioForm from "@/src/modules/jbs/FuncionarioForm";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
+import { triggerRefresh } from "@/src/hooks/useRefresh";
 import { FuncionarioFormData } from "@/src/modules/jbs/types/funcionarioForm";
 import { User } from "@/src/types/user";
 import { showError, showSuccess } from "@/src/utils/toast";
@@ -48,6 +49,7 @@ export default function EditarFuncionario() {
       );
 
       setTimeout(() => {
+        triggerRefresh("usersJbs");
         router.back();
       }, 300);
     } catch (error) {

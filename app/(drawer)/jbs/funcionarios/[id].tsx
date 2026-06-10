@@ -11,6 +11,7 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 import AppCard from "@/src/components/ui/AppCard";
 import { useTheme } from "@/src/contexts/ThemeContext";
+import { triggerRefresh } from "@/src/hooks/useRefresh";
 import { SPACING } from "@/src/theme/layout";
 import { showError, showSuccess } from "@/src/utils/toast";
 
@@ -56,6 +57,7 @@ export default function FuncionarioDetalhe() {
               );
 
               setTimeout(() => {
+                triggerRefresh("usersJbs");
                 router.back();
               }, 300);
             } catch (error) {
