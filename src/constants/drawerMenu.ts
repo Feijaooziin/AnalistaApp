@@ -54,7 +54,7 @@ export const drawerMenu: DrawerMenuItem[] = [
 
   {
     label: "JBS",
-    icon: "ecla-icon",
+    icon: "logo-jbs",
     children: [
       {
         label: "Funcionários",
@@ -79,7 +79,7 @@ export const drawerMenu: DrawerMenuItem[] = [
 
   {
     label: "Seara",
-    icon: "ecla-icon",
+    icon: "logo-seara",
     children: [
       {
         label: "Principal",

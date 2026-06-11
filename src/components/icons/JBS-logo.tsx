@@ -1,14 +1,14 @@
 import Svg, { G, Path, SvgProps } from "react-native-svg";
 
 export default function JbsLogo({
-  width = 80,
+  width = 40,
   height = 32,
   ...props
 }: SvgProps) {
   return (
     <Svg viewBox="0 0 300 119" width={width} height={height} {...props}>
       <G
-        transform="translate(0.000000,119.000000) scale(0.100000,-0.100000)"
+        transform="translate(0.000000,119.000000) scale(0.1,-0.1)"
         fill={props.fill ?? "#000000"}
         stroke="none"
       >

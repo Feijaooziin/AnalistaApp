@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { View } from "react-native";
 
 import {
   EclaIcon,
@@ -24,26 +25,61 @@ interface Props {
 }
 
 export default function AppIcon({ name, size = 24, color = "#000" }: Props) {
+  const wrapperStyle = {
+    width: size,
+    height: size,
+    justifyContent: "center" as const,
+    alignItems: "center" as const,
+  };
+
   switch (name) {
     case "ecla-icon":
-      return <EclaIcon width={size} height={size} fill={color} />;
+      return (
+        <View style={wrapperStyle}>
+          <EclaIcon width={size * 1.1} height={size * 1.1} fill={color} />
+        </View>
+      );
 
     case "ecla-pin":
-      return <EclaPin width={size} height={size} fill={color} />;
+      return (
+        <View style={wrapperStyle}>
+          <EclaPin width={size * 1.1} height={size * 1.1} fill={color} />
+        </View>
+      );
 
     case "ecla-pin-circle":
-      return <EclaPinCircle width={size} height={size} fill={color} />;
+      return (
+        <View style={wrapperStyle}>
+          <EclaPinCircle width={size * 1.1} height={size * 1.1} fill={color} />
+        </View>
+      );
 
     case "logo-ecla":
-      return <EclaLogo width={size * 4} height={size} fill={color} />;
+      return (
+        <View style={wrapperStyle}>
+          <EclaLogo width={size * 1.4} height={size} fill={color} />
+        </View>
+      );
 
     case "logo-jbs":
-      return <JbsLogo width={size * 3} height={size} fill={color} />;
+      return (
+        <View style={wrapperStyle}>
+          <JbsLogo width={size * 1.5} height={size * 0.5} fill={color} />
+        </View>
+      );
 
     case "logo-seara":
-      return <SearaLogo width={size * 3} height={size} fill={color} />;
+      return (
+        <View style={wrapperStyle}>
+          <SearaLogo width={size * 1.5} height={size * 0.8} fill={color} />
+        </View>
+      );
 
     default:
-      return <Ionicons name={name as any} size={size} color={color} />;
+      return (
+        <View style={wrapperStyle}>
+          <Ionicons name={name as any} size={size} color={color} />;
+        </View>
+      );
   }
 }
