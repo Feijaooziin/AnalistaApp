@@ -1,11 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useNavigation } from "expo-router";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
+import AppIcon from "./icons/AppIcon";
 
 type HeaderVariant = "menu" | "back" | "search" | "close";
 
@@ -150,17 +151,10 @@ export default function Header({
               </TouchableOpacity>
 
               {showLogo && (
-                <Image
-                  source={
-                    isDark
-                      ? require("@/assets/images/ECLA/ECLA-Icon-White.png")
-                      : require("@/assets/images/ECLA/ECLA-Icon-Color.png")
-                  }
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 999,
-                  }}
+                <AppIcon
+                  name="ecla-icon"
+                  size={ICON_SIZE.xxl}
+                  color={colors.text}
                 />
               )}
             </>

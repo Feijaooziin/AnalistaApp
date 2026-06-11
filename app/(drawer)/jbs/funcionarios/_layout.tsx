@@ -30,6 +30,16 @@ export default function FuncionariosLayout() {
           title: "Detalhes",
         }}
       />
+
+      <Stack.Screen
+        name="options"
+        options={{
+          title: "Detalhes",
+          presentation: "formSheet",
+          sheetGrabberVisible: false,
+          sheetAllowedDetents: [0.25, 1],
+        }}
+      />
     </Stack>
   );
 }

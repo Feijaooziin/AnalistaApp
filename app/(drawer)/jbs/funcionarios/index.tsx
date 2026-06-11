@@ -16,12 +16,9 @@ import AppInput from "@/src/components/ui/AppInput";
 import { useRefresh } from "@/src/hooks/useRefresh";
 import FuncionarioCard from "@/src/modules/jbs/components/FuncionarioCard";
 import { JBS_CARGOS_FILTER } from "@/src/modules/jbs/constants/jbs";
-import { exportDatabase } from "@/src/services/backup/exportDatabase";
-import { importDatabase } from "@/src/services/backup/importDatabase";
 
 export default function Funcionarios() {
   const { colors } = useTheme();
-
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [cargoFilter, setCargoFilter] = useState("Todos");
@@ -45,20 +42,6 @@ export default function Funcionarios() {
 
     setUsers(Array.isArray(data) ? data : []);
     setLoading(false);
-  }
-
-  async function handleImport() {
-    try {
-      await importDatabase();
-
-      await loadUsers();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function handleExport() {
-    await exportDatabase();
   }
 
   useRefresh("usersJbs", loadUsers);
@@ -111,14 +94,9 @@ export default function Funcionarios() {
 
         <View style={{ gap: SPACING.sm }}>
           <AppButton
-            title="Exportar Backup"
-            leftIcon="cloud-upload-outline"
-            onPress={handleExport}
-          />
-          <AppButton
-            title="Importar Backup"
-            leftIcon="cloud-download-outline"
-            onPress={handleImport}
+            title="Opções"
+            leftIcon="toggle-outline"
+            onPress={() => router.push("/jbs/funcionarios/options")}
           />
         </View>
       </View>
@@ -128,8 +106,8 @@ export default function Funcionarios() {
         onPress={() => router.push("/jbs/funcionarios/novo")}
         style={{
           position: "absolute",
-          bottom: 140,
-          right: 20,
+          bottom: 80,
+          right: 16,
           backgroundColor: colors.primary,
           width: 56,
           height: 56,
