@@ -1,8 +1,10 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { useTheme } from "../contexts/ThemeContext";
+import { useTheme } from "@/src/contexts/ThemeContext";
+import { FONT_SIZE, ICON_SIZE } from "../theme/layout";
 
 interface DatePickerInputProps {
   label: string;
@@ -10,17 +12,13 @@ interface DatePickerInputProps {
   onChange: (date: Date) => void;
 }
 
-export function DatePickerInput({
+export default function DatePickerInput({
   label,
   value,
   onChange,
 }: DatePickerInputProps) {
   const { colors } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-
-  const formattedDate = value
-    ? value.toLocaleDateString("pt-BR")
-    : "Selecione uma data";
 
   function handleOpen() {
     setIsOpen(true);
@@ -38,12 +36,13 @@ export function DatePickerInput({
     }
   }
 
+  const formattedDate = value
+    ? value.toLocaleDateString("pt-BR")
+    : "Selecionar data";
+
   return (
-    <View
-      style={{
-        marginBottom: 16,
-      }}
-    >
+    <View style={{ marginBottom: 16 }}>
+      {/* LABEL */}
       <Text
         style={{
           fontSize: 14,
@@ -55,6 +54,7 @@ export function DatePickerInput({
         {label}
       </Text>
 
+      {/* INPUT BUTTON */}
       <Pressable
         onPress={handleOpen}
         style={{
@@ -63,17 +63,31 @@ export function DatePickerInput({
           borderRadius: 10,
           backgroundColor: colors.surface,
           padding: 12,
+
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
         }}
       >
+        <Ionicons
+          name="calendar-outline"
+          size={ICON_SIZE.md}
+          color={colors.textSecondary}
+        />
+
         <Text
           style={{
             color: value ? colors.text : colors.placeholder,
+            fontSize: FONT_SIZE.xl,
+            fontWeight: "500",
           }}
         >
           {formattedDate}
         </Text>
       </Pressable>
 
+      {/* PICKER */}
       {isOpen && (
         <DateTimePicker
           value={value ?? new Date()}

@@ -2,7 +2,7 @@ import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
 import { Alert } from "react-native";
 
-import { DatePickerInput } from "@/src/components/DatePickerInput";
+import DatePickerInput from "@/src/components/DatePickerInput";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import TimePickerInput from "@/src/components/TimePickerInput";
 import AppButton from "@/src/components/ui/AppButton";
@@ -123,17 +123,18 @@ export default function statusJBS() {
       />
 
       <AppButton
+        title="Copiar"
+        leftIcon="copy-outline"
+        onPress={copiar}
+        style={{ marginTop: 16 }}
+      />
+
+      <AppButton
         title="Limpar campos"
         leftIcon="trash-bin-outline"
         variant="danger"
         onPress={reset}
-      />
-
-      <AppButton
-        title="Copiar"
-        leftIcon="copy-outline"
-        onPress={copiar}
-        style={{ marginTop: 12 }}
+        style={{ marginTop: 16 }}
       />
     </ScreenContainer>
   );
