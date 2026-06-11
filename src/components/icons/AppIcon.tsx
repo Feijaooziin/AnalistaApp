@@ -76,10 +76,6 @@ export default function AppIcon({ name, size = 24, color = "#000" }: Props) {
       );
 
     default:
-      return (
-        <View style={wrapperStyle}>
-          <Ionicons name={name as any} size={size} color={color} />;
-        </View>
-      );
+      return <Ionicons name={name as any} size={size} color={color} />;
   }
 }

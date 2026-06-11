@@ -38,7 +38,7 @@ export default function ScreenContainer({
     <View
       style={{
         flex: 1,
-        paddingHorizontal: SPACING.lg,
+        padding: SPACING.lg,
       }}
     >
       {children}

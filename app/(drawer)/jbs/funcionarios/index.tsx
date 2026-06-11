@@ -71,51 +71,56 @@ export default function Funcionarios() {
 
   return (
     <ScreenContainer scrollable={false} header={{ title: "Funcionários" }}>
-      <View style={{ marginTop: SPACING.lg }}>
-        <AppInput
-          placeholder="Pesquisar funcionário..."
-          value={search}
-          onChangeText={setSearch}
-        />
-        <PickerInput
-          label="Cargo"
-          value={cargoFilter}
-          onValueChange={setCargoFilter}
-          options={JBS_CARGOS_FILTER}
-        />
-        <Text
-          style={{
-            color: colors.textSecondary,
-            marginBottom: SPACING.xxl,
-          }}
-        >
-          {filteredUsers.length} funcionário(s)
-        </Text>
+      <View style={{ flex: 1, justifyContent: "space-between" }}>
+        <View style={{ flex: 1, marginTop: SPACING.lg }}>
+          <AppInput
+            placeholder="Pesquisar funcionário..."
+            value={search}
+            onChangeText={setSearch}
+          />
+          <PickerInput
+            label="Cargo"
+            value={cargoFilter}
+            onValueChange={setCargoFilter}
+            options={JBS_CARGOS_FILTER}
+          />
+          <Text
+            style={{
+              color: colors.textSecondary,
+              marginBottom: SPACING.xxl,
+            }}
+          >
+            {filteredUsers.length} funcionário(s)
+          </Text>
 
-        <FlatList
-          data={filteredUsers}
-          keyExtractor={(item) => String(item.id)}
-          contentContainerStyle={{
-            paddingBottom: 120,
-            gap: SPACING.sm,
-          }}
-          renderItem={({ item }) => (
-            <FuncionarioCard user={item} onPress={() => goToDetails(item.id)} />
-          )}
-        />
-      </View>
+          <FlatList
+            data={filteredUsers}
+            keyExtractor={(item) => String(item.id)}
+            contentContainerStyle={{
+              paddingBottom: 120,
+              gap: SPACING.sm,
+            }}
+            renderItem={({ item }) => (
+              <FuncionarioCard
+                user={item}
+                onPress={() => goToDetails(item.id)}
+              />
+            )}
+          />
+        </View>
 
-      <View style={{ gap: SPACING.lg }}>
-        <AppButton
-          title="Exportar Backup"
-          leftIcon="cloud-upload-outline"
-          onPress={handleExport}
-        />
-        <AppButton
-          title="Importar Backup"
-          leftIcon="cloud-download-outline"
-          onPress={handleImport}
-        />
+        <View style={{ gap: SPACING.sm }}>
+          <AppButton
+            title="Exportar Backup"
+            leftIcon="cloud-upload-outline"
+            onPress={handleExport}
+          />
+          <AppButton
+            title="Importar Backup"
+            leftIcon="cloud-download-outline"
+            onPress={handleImport}
+          />
+        </View>
       </View>
 
       {/* FAB */}
@@ -123,7 +128,7 @@ export default function Funcionarios() {
         onPress={() => router.push("/jbs/funcionarios/novo")}
         style={{
           position: "absolute",
-          bottom: 30,
+          bottom: 140,
           right: 20,
           backgroundColor: colors.primary,
           width: 56,

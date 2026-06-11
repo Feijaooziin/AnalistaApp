@@ -92,12 +92,9 @@ export default function CustomDrawerContent() {
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-
                 padding: 14,
                 borderRadius: 12,
-
                 marginBottom: 6,
-
                 backgroundColor: active ? colors.primary : "transparent",
               }}
             >
@@ -124,9 +121,7 @@ export default function CustomDrawerContent() {
       <View
         style={{
           marginTop: "auto",
-
           padding: 20,
-
           borderTopWidth: 1,
           borderTopColor: colors.border,
         }}

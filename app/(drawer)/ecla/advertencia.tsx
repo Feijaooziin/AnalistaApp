@@ -1,15 +1,15 @@
 import * as Sharing from "expo-sharing";
 import { useRef, useState } from "react";
-import { Alert, Text, View } from "react-native";
+import { Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { AdvertenciaForm } from "@/src/modules/advertencia/components/AdvertenciaForm";
 import { gerarPDF } from "@/src/modules/advertencia/services/pdfService";
 import { AdvertenciaData } from "@/src/modules/advertencia/types/advertencia";
-import { FONT_SIZE } from "@/src/theme/layout";
 import { showError, showInfo } from "@/src/utils/toast";
 
 export default function Advertencia() {
@@ -108,74 +108,50 @@ export default function Advertencia() {
   };
 
   return (
-    <>
-      <ScreenContainer scrollable={false} header={{ title: "Advertencias" }}>
-        <KeyboardAwareScrollView
-          ref={scrollRef}
-          enableOnAndroid
-          keyboardShouldPersistTaps="handled"
-          extraScrollHeight={300}
-        >
-          <View
-            style={{
-              backgroundColor: colors.background,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: FONT_SIZE.xxl,
-                fontWeight: "700",
-                color: colors.text,
-                marginTop: 16,
-              }}
-            >
-              Advertências
-            </Text>
+    <ScreenContainer header={{ title: "Advertencias" }}>
+      <KeyboardAwareScrollView
+        ref={scrollRef}
+        enableOnAndroid
+        keyboardShouldPersistTaps="handled"
+        extraScrollHeight={300}
+      >
+        <PageContext
+          title="Advertências"
+          subtitle="Gere advertências e suspensões em PDF."
+        />
+        <AdvertenciaForm
+          data={data}
+          setData={setData}
+          errors={errors}
+          clearError={clearError}
+        />
 
-            <Text
-              style={{
-                fontSize: FONT_SIZE.md,
-                color: colors.textSecondary,
-                marginBottom: 24,
-              }}
-            >
-              Gere advertências e suspensões em PDF.
-            </Text>
-            <AdvertenciaForm
-              data={data}
-              setData={setData}
-              errors={errors}
-              clearError={clearError}
-            />
-          </View>
+        <AppButton
+          title="Limpar Formulário"
+          variant="danger"
+          onPress={confirmarLimpeza}
+          style={{
+            marginHorizontal: 16,
+            marginTop: 20,
+          }}
+          leftIcon="trash-bin-outline"
+        />
 
-          <AppButton
-            title="Limpar Formulário"
-            variant="danger"
-            onPress={confirmarLimpeza}
-            style={{
-              marginHorizontal: 16,
-              marginTop: 20,
-            }}
-            leftIcon="trash-bin-outline"
-          />
-
-          <AppButton
-            title={
-              data.tipoDocumento === "ADVERTENCIA"
-                ? "Gerar Advertência"
-                : "Gerar Suspensão"
-            }
-            onPress={handleGerarDocumento}
-            style={{
-              marginHorizontal: 16,
-              marginTop: 12,
-              marginBottom: 32,
-            }}
-            leftIcon="document-text"
-          />
-        </KeyboardAwareScrollView>
-      </ScreenContainer>
-    </>
+        <AppButton
+          title={
+            data.tipoDocumento === "ADVERTENCIA"
+              ? "Gerar Advertência"
+              : "Gerar Suspensão"
+          }
+          onPress={handleGerarDocumento}
+          style={{
+            marginHorizontal: 16,
+            marginTop: 12,
+            marginBottom: 32,
+          }}
+          leftIcon="document-text"
+        />
+      </KeyboardAwareScrollView>
+    </ScreenContainer>
   );
 }
