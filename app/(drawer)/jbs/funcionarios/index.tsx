@@ -53,7 +53,10 @@ export default function Funcionarios() {
   }
 
   return (
-    <ScreenContainer scrollable={false} header={{ title: "Funcionários" }}>
+    <ScreenContainer
+      scrollable={false}
+      header={{ title: "Funcionários", toggleTheme: true }}
+    >
       <View style={{ flex: 1, justifyContent: "space-between" }}>
         <View style={{ flex: 1, marginTop: SPACING.lg }}>
           <AppInput

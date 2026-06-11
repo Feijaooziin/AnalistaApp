@@ -21,10 +21,10 @@ interface HeaderProps {
 }
 
 export default function Header({
-  title = "Analista App",
+  title,
   variant = "menu",
   showLogo = true,
-  toggleTheme = true,
+  toggleTheme = false,
   onSearchPress,
   onClosePress,
   rightComponent,
@@ -112,18 +112,22 @@ export default function Header({
             {renderLeftIcon()}
           </TouchableOpacity>
 
-          <Text
-            numberOfLines={1}
-            style={{
-              flex: 1,
-              marginLeft: SPACING.lg,
-              fontSize: FONT_SIZE.xl,
-              fontWeight: "bold",
-              color: colors.text,
-            }}
-          >
-            {title}
-          </Text>
+          {title ? (
+            <Text
+              numberOfLines={1}
+              style={{
+                flex: 1,
+                marginLeft: SPACING.lg,
+                fontSize: FONT_SIZE.xl,
+                fontWeight: "bold",
+                color: colors.text,
+              }}
+            >
+              {title}
+            </Text>
+          ) : (
+            <View style={{ flex: 1 }} />
+          )}
         </View>
 
         <View

@@ -12,7 +12,7 @@ interface Props {
   modal?: boolean;
 
   header?: {
-    title: string;
+    title?: string;
     variant?: "menu" | "back" | "search" | "close";
     showLogo?: boolean;
     toggleTheme?: boolean;
@@ -55,15 +55,14 @@ export default function ScreenContainer({
         backgroundColor: colors.background,
       }}
     >
-      {/* HEADER OPCIONAL */}
-      {header && (
+      {(header || modal) && (
         <Header
-          title={header.title}
-          variant={modal ? "close" : (header.variant ?? "menu")}
-          showLogo={modal ? false : header.showLogo}
-          toggleTheme={modal ? false : (header.toggleTheme ?? true)}
+          title={header?.title}
+          variant={modal ? "close" : (header?.variant ?? "menu")}
+          showLogo={modal ? false : header?.showLogo}
+          toggleTheme={header?.toggleTheme}
+          rightComponent={header?.rightComponent}
           onClosePress={() => router.back()}
-          rightComponent={header.rightComponent}
         />
       )}
 
