@@ -13,24 +13,20 @@ type HeaderVariant = "menu" | "back" | "search" | "close";
 interface HeaderProps {
   title?: string;
   variant?: HeaderVariant;
-
   showLogo?: boolean;
-
+  toggleTheme?: boolean;
   onSearchPress?: () => void;
   onClosePress?: () => void;
-
   rightComponent?: React.ReactNode;
 }
 
 export default function Header({
   title = "Analista App",
   variant = "menu",
-
   showLogo = true,
-
+  toggleTheme = true,
   onSearchPress,
   onClosePress,
-
   rightComponent,
 }: HeaderProps) {
   const { colors, isDark, setTheme } = useTheme();
@@ -142,13 +138,15 @@ export default function Header({
 
           {!rightComponent && (
             <>
-              <TouchableOpacity onPress={handleToggleTheme} hitSlop={10}>
-                <Ionicons
-                  name={isDark ? "sunny-outline" : "moon-outline"}
-                  size={ICON_SIZE.lg}
-                  color={colors.text}
-                />
-              </TouchableOpacity>
+              {toggleTheme && (
+                <TouchableOpacity onPress={handleToggleTheme} hitSlop={10}>
+                  <Ionicons
+                    name={isDark ? "sunny-outline" : "moon-outline"}
+                    size={ICON_SIZE.lg}
+                    color={colors.text}
+                  />
+                </TouchableOpacity>
+              )}
 
               {showLogo && (
                 <AppIcon

@@ -22,7 +22,12 @@ export default function funcionarios() {
   triggerRefresh("usersJbs");
 
   return (
-    <ScreenContainer>
+    <ScreenContainer
+      modal
+      header={{
+        title: "",
+      }}
+    >
       <View style={{ gap: SPACING.sm }}>
         <AppButton
           title="Exportar Backup"

@@ -4,16 +4,18 @@ import { ScrollView, View } from "react-native";
 import Header from "@/src/components/Header";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
+import { router } from "expo-router";
 
 interface Props {
   children: ReactNode;
-
   scrollable?: boolean;
+  modal?: boolean;
 
   header?: {
     title: string;
     variant?: "menu" | "back" | "search" | "close";
     showLogo?: boolean;
+    toggleTheme?: boolean;
     rightComponent?: ReactNode;
   };
 }
@@ -22,6 +24,7 @@ export default function ScreenContainer({
   children,
   scrollable = true,
   header,
+  modal = false,
 }: Props) {
   const { colors } = useTheme();
   const content = scrollable ? (
@@ -56,8 +59,10 @@ export default function ScreenContainer({
       {header && (
         <Header
           title={header.title}
-          variant={header.variant ?? "menu"}
-          showLogo={header.showLogo}
+          variant={modal ? "close" : (header.variant ?? "menu")}
+          showLogo={modal ? false : header.showLogo}
+          toggleTheme={modal ? false : (header.toggleTheme ?? true)}
+          onClosePress={() => router.back()}
           rightComponent={header.rightComponent}
         />
       )}
