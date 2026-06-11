@@ -3,9 +3,12 @@ import { ComponentProps } from "react";
 
 type IconName =
   | ComponentProps<typeof Ionicons>["name"]
-  | "ecla"
-  | "jbs"
-  | "seara";
+  | "ecla-icon"
+  | "ecla-pin"
+  | "ecla-pin-circle"
+  | "logo-ecla"
+  | "logo-jbs"
+  | "logo-seara";
 
 export type DrawerItem = {
   label: string;
@@ -32,7 +35,7 @@ export const drawerMenu: DrawerMenuItem[] = [
 
   {
     label: "ECLA",
-    icon: "ecla",
+    icon: "ecla-icon",
     children: [
       {
         label: "Principal",
@@ -51,7 +54,7 @@ export const drawerMenu: DrawerMenuItem[] = [
 
   {
     label: "JBS",
-    icon: "jbs",
+    icon: "ecla-icon",
     children: [
       {
         label: "Funcionários",
@@ -76,7 +79,7 @@ export const drawerMenu: DrawerMenuItem[] = [
 
   {
     label: "Seara",
-    icon: "seara",
+    icon: "ecla-icon",
     children: [
       {
         label: "Principal",

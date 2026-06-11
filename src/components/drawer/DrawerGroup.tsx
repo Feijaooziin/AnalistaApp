@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { ICON_SIZE } from "@/src/theme/layout";
-import AppIcon from "../AppIcon";
+import AppIcon from "../icons/AppIcon";
 
 type Props = {
   label: string;

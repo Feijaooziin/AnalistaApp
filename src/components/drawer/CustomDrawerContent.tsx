@@ -6,7 +6,7 @@ import DrawerGroup from "@/src/components/drawer/DrawerGroup";
 import { drawerMenu } from "@/src/constants/drawerMenu";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { ICON_SIZE } from "@/src/theme/layout";
-import AppIcon from "../AppIcon";
+import AppIcon from "../icons/AppIcon";
 
 export default function CustomDrawerContent() {
   const { colors } = useTheme();
