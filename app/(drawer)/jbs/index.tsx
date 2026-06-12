@@ -4,7 +4,7 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
 export default function Jbs() {
   return (
-    <ScreenContainer header={{ title: "JBS" }}>
+    <ScreenContainer header={{ title: "JBS", toggleTheme: true }}>
       <Text>JBS</Text>
     </ScreenContainer>
   );

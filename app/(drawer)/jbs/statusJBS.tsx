@@ -73,7 +73,9 @@ export default function statusJBS() {
   };
 
   return (
-    <ScreenContainer header={{ title: "Status Operacional" }}>
+    <ScreenContainer
+      header={{ title: "Status Operacional", toggleTheme: true }}
+    >
       <DatePickerInput
         label="Data da operação"
         value={data as any}

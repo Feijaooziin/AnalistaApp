@@ -43,7 +43,7 @@ Enviado pelo Analista App
   }
 
   return (
-    <ScreenContainer header={{ title: "Criar Emails" }}>
+    <ScreenContainer header={{ title: "Criar Emails", toggleTheme: true }}>
       <PageContext title="Criar Emails Operacionais" />
       <Text
         style={{

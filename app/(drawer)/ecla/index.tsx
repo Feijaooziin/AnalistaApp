@@ -3,7 +3,7 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
 export default function Ecla() {
   return (
-    <ScreenContainer header={{ title: "Emergent Cold" }}>
+    <ScreenContainer header={{ title: "Emergent Cold", toggleTheme: true }}>
       <PageContext title="ECLA" />
     </ScreenContainer>
   );

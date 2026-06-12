@@ -12,7 +12,7 @@ export default function About() {
   const { colors } = useTheme();
 
   return (
-    <ScreenContainer header={{ title: "Sobre" }}>
+    <ScreenContainer header={{ title: "Sobre", toggleTheme: true }}>
       <PageContext title="Analista App" />
       <View
         style={{

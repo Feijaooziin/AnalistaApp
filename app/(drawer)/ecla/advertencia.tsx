@@ -108,7 +108,7 @@ export default function Advertencia() {
   };
 
   return (
-    <ScreenContainer header={{ title: "Advertencias" }}>
+    <ScreenContainer header={{ title: "Advertencias", toggleTheme: true }}>
       <KeyboardAwareScrollView
         ref={scrollRef}
         enableOnAndroid

@@ -3,7 +3,7 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
 export default function Home() {
   return (
-    <ScreenContainer header={{ title: "Home", variant: "menu" }}>
+    <ScreenContainer header={{ title: "Home", toggleTheme: true }}>
       <PageContext title="Home" />
     </ScreenContainer>
   );

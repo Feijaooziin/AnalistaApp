@@ -35,7 +35,7 @@ export default function QuickEmail() {
   }
 
   return (
-    <ScreenContainer header={{ title: "Email Rápido" }}>
+    <ScreenContainer header={{ title: "Email Rápido", toggleTheme: true }}>
       <PageContext title="Enviar E-mail" />
 
       <View style={{ gap: 16 }}>
