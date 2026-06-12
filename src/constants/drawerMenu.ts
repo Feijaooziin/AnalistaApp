@@ -57,16 +57,16 @@ export const drawerMenu: DrawerMenuItem[] = [
     icon: "logo-jbs",
     children: [
       {
-        label: "Funcionários",
-        title: "Funcionários",
-        route: "jbs/funcionarios",
-        icon: "people-outline",
-      },
-      {
         label: "Status Operacional",
         title: "Status Operacional",
         route: "jbs/statusJBS",
         icon: "stats-chart-outline",
+      },
+      {
+        label: "Funcionários",
+        title: "Funcionários",
+        route: "jbs/funcionarios",
+        icon: "people-outline",
       },
       {
         label: "Criar Emails",
