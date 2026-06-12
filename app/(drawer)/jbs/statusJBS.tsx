@@ -2,9 +2,8 @@ import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
 import { Alert } from "react-native";
 
-import DatePickerInput from "@/src/components/DatePickerInput";
+import DateTimeInput from "@/src/components/DateTimeInput";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
-import TimePickerInput from "@/src/components/TimePickerInput";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
 import { showInfo, showSuccess } from "@/src/utils/toast";
@@ -76,7 +75,7 @@ export default function statusJBS() {
     <ScreenContainer
       header={{ title: "Status Operacional", toggleTheme: true }}
     >
-      <DatePickerInput
+      <DateTimeInput
         label="Data da operação"
         value={data as any}
         onChange={setData}
@@ -106,29 +105,25 @@ export default function statusJBS() {
         onChangeText={(text) => setVolumes(formatNumber(text))}
       />
 
-      <TimePickerInput
+      <DateTimeInput
         label="Final da Separação"
         value={separacao}
         onChange={setSeparacao}
+        variant="time"
       />
 
-      <TimePickerInput
+      <DateTimeInput
         label="Final da Conferência"
         value={conferencia}
         onChange={setConferencia}
+        variant="time"
       />
 
-      <TimePickerInput
+      <DateTimeInput
         label="Final do Carregamento"
         value={carregamento}
         onChange={setCarregamento}
-      />
-
-      <AppButton
-        title="Copiar"
-        leftIcon="copy-outline"
-        onPress={copiar}
-        style={{ marginTop: 16 }}
+        variant="time"
       />
 
       <AppButton
@@ -136,6 +131,13 @@ export default function statusJBS() {
         leftIcon="trash-bin-outline"
         variant="danger"
         onPress={reset}
+        style={{ marginTop: 16 }}
+      />
+
+      <AppButton
+        title="Copiar"
+        leftIcon="copy-outline"
+        onPress={copiar}
         style={{ marginTop: 16 }}
       />
     </ScreenContainer>

@@ -6,7 +6,7 @@ import { Platform, Pressable, Text, View } from "react-native";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE } from "@/src/theme/layout";
 
-type Variant = "date" | "time";
+type Variant = "date" | "time" | "datetime" | "month" | "year" | "range";
 
 interface Props {
   label: string;
@@ -14,7 +14,7 @@ interface Props {
   onChange?: (date: Date) => void;
   variant?: Variant;
   readonly?: boolean;
-  placeholder?: string;
+  format?: string;
 }
 
 export default function DateTimeInput({
@@ -23,52 +23,137 @@ export default function DateTimeInput({
   onChange,
   variant = "date",
   readonly = false,
-  placeholder,
+  format,
 }: Props) {
   const { colors } = useTheme();
+
   const [isOpen, setIsOpen] = useState(false);
 
   function handleOpen() {
+    if (readonly) return;
     setIsOpen(true);
+  }
+
+  function handleChange(_: any, selectedDate?: Date) {
+    setIsOpen(false);
+    if (selectedDate) {
+      onChange?.(selectedDate);
+    }
   }
 
   function handleDismiss() {
     setIsOpen(false);
   }
 
-  function handleChange(_: unknown, selectedDate?: Date) {
-    setIsOpen(false);
+  function getMode(): "date" | "time" {
+    switch (variant) {
+      case "time":
+        return "time";
 
-    if (selectedDate) {
-      if (onChange) {
-        onChange(selectedDate);
-      }
+      default:
+        return "date";
     }
   }
 
   function getIcon() {
-    return variant === "time" ? "time-outline" : "calendar-outline";
-  }
+    switch (variant) {
+      case "time":
+        return "time-outline";
 
-  function getPlaceholder() {
-    if (placeholder) return placeholder;
+      case "datetime":
+        return "calendar-clear-outline";
 
-    return variant === "time" ? "Selecionar horário" : "Selecionar data";
+      case "month":
+        return "calendar-number-outline";
+
+      case "year":
+        return "calendar-outline";
+
+      case "range":
+        return "swap-horizontal-outline";
+
+      default:
+        return "calendar-outline";
+    }
   }
 
   function formatValue() {
     if (!value) {
-      return getPlaceholder();
+      switch (variant) {
+        case "time":
+          return "Selecionar horário";
+
+        case "datetime":
+          return "Selecionar data e hora";
+
+        case "month":
+          return "Selecionar mês";
+
+        case "year":
+          return "Selecionar ano";
+
+        case "range":
+          return "Selecionar período";
+
+        default:
+          return "Selecionar data";
+      }
     }
 
-    if (variant === "time") {
-      return value.toLocaleTimeString("pt-BR", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
+    if (format) {
+      switch (format) {
+        case "dd/MM/yyyy":
+          return value.toLocaleDateString("pt-BR");
+
+        case "HH:mm":
+          return value.toLocaleTimeString("pt-BR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+        case "MMMM/yyyy":
+          return value.toLocaleDateString("pt-BR", {
+            month: "long",
+            year: "numeric",
+          });
+
+        case "yyyy":
+          return String(value.getFullYear());
+
+        default:
+          return value.toLocaleDateString("pt-BR");
+      }
     }
 
-    return value.toLocaleDateString("pt-BR");
+    switch (variant) {
+      case "time":
+        return value.toLocaleTimeString("pt-BR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
+      case "datetime":
+        return (
+          value.toLocaleDateString("pt-BR") +
+          " " +
+          value.toLocaleTimeString("pt-BR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        );
+
+      case "month":
+        return value.toLocaleDateString("pt-BR", {
+          month: "long",
+          year: "numeric",
+        });
+
+      case "year":
+        return String(value.getFullYear());
+
+      default:
+        return value.toLocaleDateString("pt-BR");
+    }
   }
 
   return (
@@ -85,30 +170,34 @@ export default function DateTimeInput({
       </Text>
 
       <Pressable
-        disabled={readonly}
         onPress={handleOpen}
         style={{
           borderWidth: 1,
           borderColor: colors.border,
           borderRadius: 10,
-          backgroundColor: readonly ? `${colors.surface}CC` : colors.surface,
+          backgroundColor: readonly ? colors.background : colors.surface,
+
           padding: 12,
+
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
+
           gap: 10,
-          opacity: readonly ? 0.6 : 1,
+
+          opacity: readonly ? 0.8 : 1,
         }}
       >
         <Ionicons
           name={getIcon()}
           size={ICON_SIZE.md}
-          color={value ? colors.text : colors.placeholder}
+          color={colors.textSecondary}
         />
 
         <Text
           style={{
             color: value ? colors.text : colors.placeholder,
+
             fontSize: FONT_SIZE.xl,
             fontWeight: "500",
           }}
@@ -120,7 +209,7 @@ export default function DateTimeInput({
       {isOpen && (
         <DateTimePicker
           value={value ?? new Date()}
-          mode={variant}
+          mode={getMode()}
           display={Platform.OS === "ios" ? "spinner" : "default"}
           onValueChange={handleChange}
           onDismiss={handleDismiss}

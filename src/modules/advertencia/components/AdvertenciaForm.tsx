@@ -4,9 +4,8 @@ import { ScrollView } from "react-native";
 import { motivosAdvertencia } from "../data/motivos";
 import { AdvertenciaData } from "../types/advertencia";
 
-import DatePickerInput from "@/src/components/DatePickerInput";
+import DateTimeInput from "@/src/components/DateTimeInput";
 import { PickerInput } from "@/src/components/ui/PickerInput";
-import { useTheme } from "@/src/contexts/ThemeContext";
 import { Input } from "./Input";
 import { MotivosSelector } from "./MotivosSelector";
 
@@ -18,7 +17,6 @@ interface Props {
 }
 
 export function AdvertenciaForm({ data, setData, errors, clearError }: Props) {
-  const { colors } = useTheme();
   function updateField<K extends keyof AdvertenciaData>(
     field: K,
     value: AdvertenciaData[K],
@@ -43,7 +41,7 @@ export function AdvertenciaForm({ data, setData, errors, clearError }: Props) {
         }}
       />
 
-      <DatePickerInput
+      <DateTimeInput
         label="Data de Admissão"
         value={data.admissao}
         onChange={(date) => updateField("admissao", date)}
@@ -96,13 +94,13 @@ export function AdvertenciaForm({ data, setData, errors, clearError }: Props) {
         }}
       />
 
-      <DatePickerInput
+      <DateTimeInput
         label="Data do Ocorrido"
         value={data.dataOcorrido}
         onChange={(date) => updateField("dataOcorrido", date)}
       />
 
-      <DatePickerInput
+      <DateTimeInput
         label="Data da Assinatura"
         value={data.dataAssinatura}
         onChange={(date) => updateField("dataAssinatura", date)}

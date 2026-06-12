@@ -40,7 +40,7 @@ export default function AppButton({
   const isOutline = variant === "outline";
 
   const textColor = isDanger
-    ? colors.danger
+    ? "#FFFFFF"
     : isOutline
       ? colors.secondary
       : "#FFFFFF";
@@ -48,7 +48,7 @@ export default function AppButton({
   const backgroundColor = isOutline
     ? "transparent"
     : isDanger
-      ? "#FFF5F7"
+      ? colors.danger
       : colors.secondary;
 
   const borderColor = isDanger ? colors.danger : colors.secondary;
