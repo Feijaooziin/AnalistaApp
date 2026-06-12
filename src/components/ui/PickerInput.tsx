@@ -1,7 +1,8 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Pressable, Text, View } from "react-native";
+
 import { useTheme } from "@/src/contexts/ThemeContext";
-import { RADIUS } from "@/src/theme/layout";
-import { Picker } from "@react-native-picker/picker";
-import { Text, View } from "react-native";
+import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
 
 interface PickerOption<T = string> {
   label: string;
@@ -10,63 +11,104 @@ interface PickerOption<T = string> {
 
 interface PickerInputProps<T = string> {
   label: string;
-  value: T;
+
+  value: T | null;
   options: PickerOption<T>[];
-  onValueChange: (value: T) => void;
+
+  onPress: () => void;
+
+  required?: boolean;
+  readonly?: boolean;
+  placeholder?: string;
+
+  size?: "sm" | "md" | "lg";
 }
 
-export function PickerInput<T extends string | number>({
+export default function PickerInput<T extends string | number>({
   label,
   value,
   options,
-  onValueChange,
+  onPress,
+  required,
+  readonly,
+  placeholder = "Selecione uma opção",
+  size = "md",
 }: PickerInputProps<T>) {
   const { colors } = useTheme();
 
-  function handleValueChange(itemValue: unknown) {
-    onValueChange(itemValue as T);
-  }
+  const sizes = {
+    sm: {
+      padding: SPACING.sm,
+      fontSize: FONT_SIZE.sm,
+      icon: ICON_SIZE.sm,
+    },
+
+    md: {
+      padding: SPACING.md,
+      fontSize: FONT_SIZE.md,
+      icon: ICON_SIZE.md,
+    },
+
+    lg: {
+      padding: SPACING.lg,
+      fontSize: FONT_SIZE.xl,
+      icon: ICON_SIZE.lg,
+    },
+  };
+
+  const currentSize = sizes[size];
+
+  const selectedOption = options.find((item) => item.value === value);
 
   return (
-    <View
-      style={{
-        marginBottom: 16,
-      }}
-    >
+    <View style={{ marginBottom: SPACING.md }}>
       <Text
         style={{
-          fontSize: 14,
+          fontSize: currentSize.fontSize,
           fontWeight: "600",
           color: colors.textSecondary,
           marginBottom: 6,
         }}
       >
         {label}
+
+        {required && <Text style={{ color: colors.error }}>{" *"}</Text>}
       </Text>
 
-      <View
+      <Pressable
+        onPress={readonly ? undefined : onPress}
         style={{
           borderWidth: 1,
           borderColor: colors.border,
-          borderRadius: RADIUS.sm,
-          overflow: "hidden",
-          backgroundColor: colors.surface,
+          borderRadius: 10,
+          backgroundColor: readonly ? colors.background : colors.surface,
+
+          padding: currentSize.padding,
+
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+
+          opacity: readonly ? 0.8 : 1,
         }}
       >
-        <Picker
-          selectedValue={value}
-          dropdownIconColor={colors.text}
+        <Text
           style={{
-            color: colors.text,
-            backgroundColor: colors.surface,
+            color: selectedOption ? colors.text : colors.placeholder,
+
+            fontSize: currentSize.fontSize,
+            fontWeight: selectedOption ? "600" : "400",
           }}
-          onValueChange={handleValueChange}
         >
-          {options.map(({ label, value }) => (
-            <Picker.Item key={String(value)} label={label} value={value} />
-          ))}
-        </Picker>
-      </View>
+          {selectedOption?.label ?? placeholder}
+        </Text>
+
+        <Ionicons
+          name="chevron-down"
+          size={currentSize.icon}
+          color={colors.textSecondary}
+        />
+      </Pressable>
     </View>
   );
 }

@@ -16,6 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 interface Props {
   title?: string;
   value?: string | number | null;
+  size?: "sm" | "md" | "lg";
   children?: ReactNode;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
@@ -25,6 +26,7 @@ interface Props {
 export default function AppCard({
   title,
   value,
+  size,
   children,
   onPress,
   style,
@@ -32,8 +34,32 @@ export default function AppCard({
 }: Props) {
   const { colors } = useTheme();
   const isTouchable = !!onPress || copyable;
-
   const Container = isTouchable ? TouchableOpacity : View;
+
+  const sizes = {
+    sm: {
+      padding: SPACING.sm,
+      title: FONT_SIZE.xs,
+      value: FONT_SIZE.sm,
+      icon: ICON_SIZE.sm,
+    },
+
+    md: {
+      padding: SPACING.md,
+      title: FONT_SIZE.sm,
+      value: FONT_SIZE.md,
+      icon: ICON_SIZE.md,
+    },
+
+    lg: {
+      padding: SPACING.lg,
+      title: FONT_SIZE.md,
+      value: FONT_SIZE.xl,
+      icon: ICON_SIZE.lg,
+    },
+  };
+
+  const currentSize = sizes[size ?? "md"];
 
   async function handleCopy() {
     if (!value) return;
@@ -53,7 +79,7 @@ export default function AppCard({
       style={[
         {
           backgroundColor: colors.surface,
-          padding: SPACING.md,
+          padding: currentSize.padding,
           borderRadius: RADIUS.md,
         },
         style,
@@ -64,6 +90,7 @@ export default function AppCard({
           style={{
             color: colors.textSecondary,
             marginBottom: 4,
+            fontSize: currentSize.title,
           }}
         >
           {title}
@@ -80,7 +107,7 @@ export default function AppCard({
         >
           <Text
             style={{
-              fontSize: FONT_SIZE.md,
+              fontSize: currentSize.value,
               color: colors.text,
             }}
           >
@@ -90,7 +117,7 @@ export default function AppCard({
           {copyable && (
             <Ionicons
               name="copy-outline"
-              size={ICON_SIZE.sm}
+              size={currentSize.icon}
               color={colors.textSecondary}
             />
           )}

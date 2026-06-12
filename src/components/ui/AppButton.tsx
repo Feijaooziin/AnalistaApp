@@ -1,17 +1,17 @@
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE } from "@/src/theme/layout";
 import { Ionicons } from "@expo/vector-icons";
-import { ComponentProps } from "react";
 import {
   ActivityIndicator,
   Text,
   TouchableOpacity,
   TouchableOpacityProps,
 } from "react-native";
+import AppIcon, { CompanyIcon } from "../icons/AppIcon";
 
 type Variant = "primary" | "danger" | "outline";
 
-type IconName = ComponentProps<typeof Ionicons>["name"];
+type IconName = CompanyIcon | React.ComponentProps<typeof Ionicons>["name"];
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -19,6 +19,7 @@ interface ButtonProps extends TouchableOpacityProps {
   rightIcon?: IconName;
   loading?: boolean;
   disabled?: boolean;
+  size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
   variant?: Variant;
   onPress?: () => void;
@@ -31,6 +32,7 @@ export default function AppButton({
   loading = false,
   disabled = false,
   fullWidth = false,
+  size,
   variant = "primary",
   onPress,
   ...rest
@@ -53,6 +55,31 @@ export default function AppButton({
 
   const borderColor = isDanger ? colors.danger : colors.secondary;
 
+  const sizes = {
+    sm: {
+      paddingVertical: 10,
+      paddingHorizontal: 12,
+      fontSize: FONT_SIZE.lg,
+      icon: ICON_SIZE.sm,
+    },
+
+    md: {
+      paddingVertical: 14,
+      paddingHorizontal: 16,
+      fontSize: FONT_SIZE.xl,
+      icon: ICON_SIZE.md,
+    },
+
+    lg: {
+      paddingVertical: 18,
+      paddingHorizontal: 20,
+      fontSize: FONT_SIZE.xxl,
+      icon: ICON_SIZE.lg,
+    },
+  };
+
+  const currentSize = sizes[size ?? "md"];
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -61,8 +88,8 @@ export default function AppButton({
       {...rest}
       style={[
         {
-          paddingVertical: 14,
-          paddingHorizontal: 16,
+          paddingVertical: currentSize.paddingVertical,
+          paddingHorizontal: currentSize.paddingHorizontal,
           borderRadius: 12,
 
           flexDirection: "row",
@@ -86,7 +113,7 @@ export default function AppButton({
         <ActivityIndicator color={textColor} />
       ) : (
         leftIcon && (
-          <Ionicons name={leftIcon} size={ICON_SIZE.md} color={textColor} />
+          <AppIcon name={leftIcon} size={currentSize.icon} color={textColor} />
         )
       )}
 
@@ -94,7 +121,7 @@ export default function AppButton({
       <Text
         style={{
           color: textColor,
-          fontSize: FONT_SIZE.xl,
+          fontSize: currentSize.fontSize,
           fontWeight: "600",
         }}
       >
@@ -103,7 +130,7 @@ export default function AppButton({
 
       {/* RIGHT ICON */}
       {!loading && rightIcon && (
-        <Ionicons name={rightIcon} size={ICON_SIZE.md} color={textColor} />
+        <AppIcon name={rightIcon} size={currentSize.icon} color={textColor} />
       )}
     </TouchableOpacity>
   );

@@ -2,10 +2,10 @@ import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
 import { Alert } from "react-native";
 
-import DateTimeInput from "@/src/components/DateTimeInput";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
+import DateTimeInput from "@/src/components/ui/DateTimeInput";
 import { showInfo, showSuccess } from "@/src/utils/toast";
 
 export default function statusJBS() {
@@ -79,6 +79,7 @@ export default function statusJBS() {
         label="Data da operação"
         value={data as any}
         onChange={setData}
+        required
       />
 
       <AppInput

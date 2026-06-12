@@ -10,7 +10,7 @@ import {
   SearaLogo,
 } from "@/src/components/icons";
 
-type CompanyIcon =
+export type CompanyIcon =
   | "ecla-icon"
   | "ecla-pin"
   | "ecla-pin-circle"

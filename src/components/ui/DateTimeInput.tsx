@@ -4,17 +4,23 @@ import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
-import { FONT_SIZE, ICON_SIZE } from "@/src/theme/layout";
+import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
 
 type Variant = "date" | "time" | "datetime" | "month" | "year" | "range";
 
 interface Props {
   label: string;
   value?: Date | null;
-  onChange?: (date: Date) => void;
+  onChange?: (date: Date | null) => void;
+
   variant?: Variant;
   readonly?: boolean;
   format?: string;
+
+  required?: boolean;
+  error?: string;
+  clearable?: boolean;
+  size?: "sm" | "md" | "lg";
 }
 
 export default function DateTimeInput({
@@ -24,10 +30,35 @@ export default function DateTimeInput({
   variant = "date",
   readonly = false,
   format,
+  required,
+  error,
+  clearable = true,
+  size,
 }: Props) {
   const { colors } = useTheme();
-
   const [isOpen, setIsOpen] = useState(false);
+
+  const sizes = {
+    sm: {
+      padding: SPACING.sm,
+      fontSize: FONT_SIZE.sm,
+      icon: ICON_SIZE.sm,
+    },
+
+    md: {
+      padding: SPACING.md,
+      fontSize: FONT_SIZE.md,
+      icon: ICON_SIZE.md,
+    },
+
+    lg: {
+      padding: SPACING.lg,
+      fontSize: FONT_SIZE.xl,
+      icon: ICON_SIZE.lg,
+    },
+  };
+
+  const currentSize = sizes[size ?? "md"];
 
   function handleOpen() {
     if (readonly) return;
@@ -167,43 +198,54 @@ export default function DateTimeInput({
         }}
       >
         {label}
+
+        {required && <Text style={{ color: colors.error }}>{" *"}</Text>}
       </Text>
 
       <Pressable
         onPress={handleOpen}
         style={{
           borderWidth: 1,
-          borderColor: colors.border,
+          borderColor: error ? colors.error : colors.border,
           borderRadius: 10,
           backgroundColor: readonly ? colors.background : colors.surface,
 
-          padding: 12,
+          padding: currentSize.padding,
 
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "center",
-
-          gap: 10,
+          justifyContent: "space-between",
 
           opacity: readonly ? 0.8 : 1,
         }}
       >
-        <Ionicons
-          name={getIcon()}
-          size={ICON_SIZE.md}
-          color={colors.textSecondary}
-        />
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+          <Ionicons
+            name={getIcon()}
+            size={currentSize.icon}
+            color={value ? colors.text : colors.placeholder}
+          />
 
-        <Text
-          style={{
-            color: value ? colors.text : colors.placeholder,
+          <Text
+            style={{
+              color: value ? colors.text : colors.placeholder,
+              fontSize: currentSize.fontSize,
+              fontWeight: value ? "900" : "400",
+            }}
+          >
+            {formatValue()}
+          </Text>
+        </View>
 
-            fontSize: FONT_SIZE.xl,
-            fontWeight: "500",
-          }}
-        >
-          {formatValue()}
-        </Text>
+        {clearable && value && (
+          <Pressable onPress={() => onChange?.(null)}>
+            <Ionicons
+              name="close-circle-outline"
+              size={currentSize.icon}
+              color={colors.text}
+            />
+          </Pressable>
+        )}
       </Pressable>
 
       {isOpen && (
@@ -214,6 +256,18 @@ export default function DateTimeInput({
           onValueChange={handleChange}
           onDismiss={handleDismiss}
         />
+      )}
+
+      {error && (
+        <Text
+          style={{
+            color: colors.error,
+            marginTop: 4,
+            fontSize: 12,
+          }}
+        >
+          {error}
+        </Text>
       )}
     </View>
   );
