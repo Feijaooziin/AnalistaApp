@@ -6,39 +6,29 @@ import { Platform, Pressable, Text, View } from "react-native";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE } from "@/src/theme/layout";
 
-type Variant = "date" | "time" | "datetime" | "month" | "year" | "range";
+type Variant = "date" | "time";
 
 interface Props {
   label: string;
-
   value?: Date | null;
-
   onChange?: (date: Date) => void;
-
   variant?: Variant;
-
   readonly?: boolean;
-
-  format?: string;
+  placeholder?: string;
 }
 
 export default function DateTimeInput({
   label,
   value,
   onChange,
-
   variant = "date",
-
   readonly = false,
-
-  format,
+  placeholder,
 }: Props) {
   const { colors } = useTheme();
-
   const [isOpen, setIsOpen] = useState(false);
 
   function handleOpen() {
-    if (readonly) return;
     setIsOpen(true);
   }
 
@@ -46,123 +36,39 @@ export default function DateTimeInput({
     setIsOpen(false);
   }
 
-  function handleChange(_: any, selectedDate?: Date) {
+  function handleChange(_: unknown, selectedDate?: Date) {
     setIsOpen(false);
 
     if (selectedDate) {
-      onChange?.(selectedDate);
-    }
-  }
-
-  function getMode(): "date" | "time" {
-    switch (variant) {
-      case "time":
-        return "time";
-
-      default:
-        return "date";
+      if (onChange) {
+        onChange(selectedDate);
+      }
     }
   }
 
   function getIcon() {
-    switch (variant) {
-      case "time":
-        return "time-outline";
+    return variant === "time" ? "time-outline" : "calendar-outline";
+  }
 
-      case "datetime":
-        return "calendar-clear-outline";
+  function getPlaceholder() {
+    if (placeholder) return placeholder;
 
-      case "month":
-        return "calendar-number-outline";
-
-      case "year":
-        return "calendar-outline";
-
-      case "range":
-        return "swap-horizontal-outline";
-
-      default:
-        return "calendar-outline";
-    }
+    return variant === "time" ? "Selecionar horário" : "Selecionar data";
   }
 
   function formatValue() {
     if (!value) {
-      switch (variant) {
-        case "time":
-          return "Selecionar horário";
-
-        case "datetime":
-          return "Selecionar data e hora";
-
-        case "month":
-          return "Selecionar mês";
-
-        case "year":
-          return "Selecionar ano";
-
-        case "range":
-          return "Selecionar período";
-
-        default:
-          return "Selecionar data";
-      }
+      return getPlaceholder();
     }
 
-    if (format) {
-      switch (format) {
-        case "dd/MM/yyyy":
-          return value.toLocaleDateString("pt-BR");
-
-        case "HH:mm":
-          return value.toLocaleTimeString("pt-BR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          });
-
-        case "MMMM/yyyy":
-          return value.toLocaleDateString("pt-BR", {
-            month: "long",
-            year: "numeric",
-          });
-
-        case "yyyy":
-          return String(value.getFullYear());
-
-        default:
-          return value.toLocaleDateString("pt-BR");
-      }
+    if (variant === "time") {
+      return value.toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     }
 
-    switch (variant) {
-      case "time":
-        return value.toLocaleTimeString("pt-BR", {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
-
-      case "datetime":
-        return (
-          value.toLocaleDateString("pt-BR") +
-          " " +
-          value.toLocaleTimeString("pt-BR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })
-        );
-
-      case "month":
-        return value.toLocaleDateString("pt-BR", {
-          month: "long",
-          year: "numeric",
-        });
-
-      case "year":
-        return String(value.getFullYear());
-
-      default:
-        return value.toLocaleDateString("pt-BR");
-    }
+    return value.toLocaleDateString("pt-BR");
   }
 
   return (
@@ -179,34 +85,30 @@ export default function DateTimeInput({
       </Text>
 
       <Pressable
+        disabled={readonly}
         onPress={handleOpen}
         style={{
           borderWidth: 1,
           borderColor: colors.border,
           borderRadius: 10,
-          backgroundColor: readonly ? colors.background : colors.surface,
-
+          backgroundColor: readonly ? `${colors.surface}CC` : colors.surface,
           padding: 12,
-
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-
           gap: 10,
-
-          opacity: readonly ? 0.8 : 1,
+          opacity: readonly ? 0.6 : 1,
         }}
       >
         <Ionicons
           name={getIcon()}
           size={ICON_SIZE.md}
-          color={colors.textSecondary}
+          color={value ? colors.text : colors.placeholder}
         />
 
         <Text
           style={{
             color: value ? colors.text : colors.placeholder,
-
             fontSize: FONT_SIZE.xl,
             fontWeight: "500",
           }}
@@ -218,7 +120,7 @@ export default function DateTimeInput({
       {isOpen && (
         <DateTimePicker
           value={value ?? new Date()}
-          mode={getMode()}
+          mode={variant}
           display={Platform.OS === "ios" ? "spinner" : "default"}
           onValueChange={handleChange}
           onDismiss={handleDismiss}
