@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <ScreenContainer header={{ title: "ECLA Hub", toggleTheme: true }}>
       <View style={{ gap: 16 }}>
-        <PageContext title="Home" />
+        <PageContext title="Testes" subtitle="Estou testando algumas coisas" />
 
         <AppCard title="Teste" value={"Testando"} copyable size={size} />
 
