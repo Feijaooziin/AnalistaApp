@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "AnalistaApp",
-    "slug": "AnalistaApp",
+    "name": "ECLA Hub",
+    "slug": "ecla-hub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/adaptive-icon.png",

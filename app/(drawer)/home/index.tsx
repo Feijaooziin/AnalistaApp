@@ -3,7 +3,7 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
 export default function Home() {
   return (
-    <ScreenContainer header={{ title: "Home", toggleTheme: true }}>
+    <ScreenContainer header={{ title: "ECLA Hub", toggleTheme: true }}>
       <PageContext title="Home" />
     </ScreenContainer>
   );

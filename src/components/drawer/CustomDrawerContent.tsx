@@ -54,7 +54,7 @@ export default function CustomDrawerContent() {
             color: colors.text,
           }}
         >
-          Analista App
+          ECLA Hub
         </Text>
 
         <Text
@@ -63,7 +63,7 @@ export default function CustomDrawerContent() {
             marginTop: 4,
           }}
         >
-          Emergent Cold LATAM
+          Central de ferramentas operacionais
         </Text>
       </View>
 

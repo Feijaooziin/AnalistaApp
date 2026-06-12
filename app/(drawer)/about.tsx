@@ -13,7 +13,10 @@ export default function About() {
 
   return (
     <ScreenContainer header={{ title: "Sobre", toggleTheme: true }}>
-      <PageContext title="Analista App" />
+      <PageContext
+        title="ECLA Hub"
+        subtitle="Central de ferramentas operacionais desenvolvida pela ECLA."
+      />
       <View
         style={{
           gap: SPACING.md,
