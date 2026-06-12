@@ -1,7 +1,7 @@
 import { useTheme } from "@/src/contexts/ThemeContext";
+import { RADIUS } from "@/src/theme/layout";
 import { Picker } from "@react-native-picker/picker";
 import { Text, View } from "react-native";
-import { RADIUS } from "../theme/layout";
 
 interface PickerOption<T = string> {
   label: string;

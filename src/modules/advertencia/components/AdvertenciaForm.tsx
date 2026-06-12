@@ -4,8 +4,8 @@ import { ScrollView } from "react-native";
 import { motivosAdvertencia } from "../data/motivos";
 import { AdvertenciaData } from "../types/advertencia";
 
-import { DatePickerInput } from "@/src/components/DatePickerInput";
-import { PickerInput } from "@/src/components/PickerInput";
+import DatePickerInput from "@/src/components/DatePickerInput";
+import { PickerInput } from "@/src/components/ui/PickerInput";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { Input } from "./Input";
 import { MotivosSelector } from "./MotivosSelector";

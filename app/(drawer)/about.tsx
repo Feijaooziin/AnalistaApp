@@ -22,10 +22,6 @@ export default function About() {
           gap: SPACING.md,
         }}
       >
-        <AppCard title="Versão" value="1.0.0" />
-
-        <AppCard title="Desenvolvedor" value="Leonardo Victor" />
-
         <AppCard title="Descrição">
           <Text
             style={{
@@ -53,6 +49,8 @@ export default function About() {
           <Text style={{ color: colors.text }}>TypeScript</Text>
         </AppCard>
 
+        <AppCard title="Desenvolvedor" value="Leonardo Victor" />
+
         <AppCard
           title="Contato"
           value="leonardo.santos@emergentcold.com"
@@ -61,6 +59,8 @@ export default function About() {
             Linking.openURL("mailto:leonardo.santos@emergentcold.com")
           }
         />
+
+        <AppCard title="Versão do App" value="1.0.0" />
       </View>
     </ScreenContainer>
   );

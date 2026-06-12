@@ -132,7 +132,7 @@ export default function CustomDrawerContent() {
             color: colors.textMuted,
           }}
         >
-          Analista App • v1.0.0
+          ECLA Hub • v1.0.0
         </Text>
       </View>
     </View>
