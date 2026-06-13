@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
-import AppIcon from "./icons/AppIcon";
+import AppIcon from "../icons/AppIcon";
 
 type HeaderVariant = "menu" | "back" | "search" | "close";
 

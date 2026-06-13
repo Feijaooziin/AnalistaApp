@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { ScrollView, View } from "react-native";
 
-import Header from "@/src/components/Header";
+import Header from "@/src/components/layout/Header";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
 import { router } from "expo-router";

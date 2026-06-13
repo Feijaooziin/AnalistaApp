@@ -50,7 +50,6 @@ export default function Home() {
           title="Dados pessoais"
           subtitle="Dados do doidão"
           collapsible
-          defaultOpen
         >
           <AppInput label="Nome" />
           <AppInput label="Email" />
