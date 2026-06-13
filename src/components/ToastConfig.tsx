@@ -1,8 +1,8 @@
-import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import { BaseToastProps } from "react-native-toast-message";
 import { useTheme } from "../contexts/ThemeContext";
 import { ICON_SIZE } from "../theme/layout";
+import AppIcon from "./icons/AppIcon";
 
 function ToastContainer({
   icon,
@@ -84,7 +84,7 @@ export function useToastConfig() {
         borderColor={colors.success}
         backgroundColor={colors.primary}
         icon={
-          <Ionicons
+          <AppIcon
             name="checkmark-circle-outline"
             size={ICON_SIZE.xxl}
             color={colors.success}
@@ -100,7 +100,7 @@ export function useToastConfig() {
         borderColor={colors.danger}
         backgroundColor={colors.primary}
         icon={
-          <Ionicons
+          <AppIcon
             name="alert-circle-outline"
             size={ICON_SIZE.xxl}
             color={colors.danger}
@@ -116,7 +116,7 @@ export function useToastConfig() {
         borderColor={colors.warning}
         backgroundColor={colors.primary}
         icon={
-          <Ionicons
+          <AppIcon
             name="warning-outline"
             size={ICON_SIZE.xxl}
             color={colors.warning}
@@ -132,7 +132,7 @@ export function useToastConfig() {
         borderColor={colors.info}
         backgroundColor={colors.primary}
         icon={
-          <Ionicons
+          <AppIcon
             name="information-circle-outline"
             size={ICON_SIZE.xxl}
             color={colors.info}
@@ -148,7 +148,7 @@ export function useToastConfig() {
         borderColor={colors.danger}
         backgroundColor={colors.primary}
         icon={
-          <Ionicons
+          <AppIcon
             name="bug-outline"
             size={ICON_SIZE.xxl}
             color={colors.danger}

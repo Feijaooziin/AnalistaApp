@@ -1,8 +1,8 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable, Text, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
+import AppIcon from "./icons/AppIcon";
 
 interface PickerOption {
   label: string;
@@ -100,7 +100,7 @@ export default function PickerInput({
           {selectedOption?.label ?? placeholder}
         </Text>
 
-        <Ionicons
+        <AppIcon
           name="chevron-down"
           size={currentSize.icon}
           color={colors.textSecondary}

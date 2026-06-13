@@ -3,14 +3,12 @@ import { Text, TextInput, TextInputProps, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
-import { Ionicons } from "@expo/vector-icons";
 
 interface Props extends TextInputProps {
   label?: string;
 
   required?: boolean;
   error?: string;
-  clearable?: boolean;
   size?: "sm" | "md" | "lg";
 }
 
@@ -18,7 +16,6 @@ export default function AppInput({
   label,
   required,
   error,
-  clearable,
   size,
   ...rest
 }: Props) {
@@ -96,15 +93,6 @@ export default function AppInput({
             fontSize: currentSize.fontSize,
           }}
         />
-        {clearable && !!rest.value && (
-          <Ionicons
-            name="close-circle-outline"
-            size={currentSize.icon}
-            color={colors.textSecondary}
-            style={{ marginRight: SPACING.sm }}
-            onPress={() => rest.onChangeText?.("")}
-          />
-        )}
       </View>
       {!!error && (
         <Text

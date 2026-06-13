@@ -91,18 +91,14 @@ export default function AppButton({
           paddingVertical: currentSize.paddingVertical,
           paddingHorizontal: currentSize.paddingHorizontal,
           borderRadius: 12,
-
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
           gap: 10,
-
           backgroundColor,
           borderWidth: 1,
           borderColor,
-
           opacity: disabled ? 0.5 : 1,
-
           width: fullWidth ? "100%" : undefined,
         },
         rest.style,

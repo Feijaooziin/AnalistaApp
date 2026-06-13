@@ -1,10 +1,10 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
+import AppIcon from "./icons/AppIcon";
 
 type Variant = "date" | "time" | "datetime" | "month" | "year" | "range";
 
@@ -220,7 +220,7 @@ export default function DateTimeInput({
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <Ionicons
+          <AppIcon
             name={getIcon()}
             size={currentSize.icon}
             color={value ? colors.text : colors.placeholder}
@@ -239,7 +239,7 @@ export default function DateTimeInput({
 
         {clearable && value && (
           <Pressable onPress={() => onChange?.(null)}>
-            <Ionicons
+            <AppIcon
               name="close-circle-outline"
               size={currentSize.icon}
               color={colors.text}

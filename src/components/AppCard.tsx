@@ -8,10 +8,10 @@ import {
   ViewStyle,
 } from "react-native";
 
+import AppIcon from "@/src/components/icons/AppIcon";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
 import { showSuccess } from "@/src/utils/toast";
-import { Ionicons } from "@expo/vector-icons";
 
 interface Props {
   title?: string;
@@ -115,7 +115,7 @@ export default function AppCard({
           </Text>
 
           {copyable && (
-            <Ionicons
+            <AppIcon
               name="copy-outline"
               size={currentSize.icon}
               color={colors.textSecondary}
