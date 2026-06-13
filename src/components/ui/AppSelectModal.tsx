@@ -52,7 +52,7 @@ export default function AppSelectModal<T extends string | number>({
   );
 
   return (
-    <AppBottomSheet visible={visible} onClose={onClose} heightRatio={0.6}>
+    <AppBottomSheet visible={visible} onClose={onClose} heightRatio={0.5}>
       <Text
         style={{
           fontSize: 18,

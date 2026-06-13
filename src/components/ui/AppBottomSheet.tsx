@@ -24,7 +24,7 @@ export default function AppBottomSheet({
   visible,
   onClose,
   children,
-  heightRatio = 0.5,
+  heightRatio = 0.35,
 }: Props) {
   const { colors } = useTheme();
 
@@ -48,7 +48,7 @@ export default function AppBottomSheet({
       onMoveShouldSetPanResponder: (_, gesture) => gesture.dy > 10,
       onPanResponderMove: (_, gesture) => {
         if (gesture.dy > 0) {
-          translateY.setValue(height - sheetHeight + gesture.dy);
+          translateY.setValue(gesture.dy);
         }
       },
       onPanResponderRelease: (_, gesture) => {
@@ -56,7 +56,7 @@ export default function AppBottomSheet({
           onClose();
         } else {
           Animated.timing(translateY, {
-            toValue: height - sheetHeight,
+            toValue: 0,
             duration: 200,
             useNativeDriver: true,
           }).start();
@@ -80,13 +80,12 @@ export default function AppBottomSheet({
 
       {/* SHEET */}
       <Animated.View
-        {...panResponder.panHandlers}
         style={{
           position: "absolute",
           left: 0,
           right: 0,
           bottom: 0,
-          minHeight: sheetHeight,
+          height: sheetHeight,
           paddingBottom: SPACING.xl,
           backgroundColor: colors.surface,
           borderTopLeftRadius: RADIUS.lg,
@@ -97,15 +96,21 @@ export default function AppBottomSheet({
       >
         {/* HANDLE */}
         <View
+          {...panResponder.panHandlers}
           style={{
-            width: 40,
-            height: 5,
-            backgroundColor: colors.border,
-            borderRadius: 20,
-            alignSelf: "center",
-            marginBottom: SPACING.md,
+            paddingVertical: SPACING.sm,
+            alignItems: "center",
           }}
-        />
+        >
+          <View
+            style={{
+              width: 60,
+              height: 5,
+              backgroundColor: colors.border,
+              borderRadius: 20,
+            }}
+          />
+        </View>
 
         {children}
       </Animated.View>
