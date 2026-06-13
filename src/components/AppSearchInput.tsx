@@ -105,7 +105,7 @@ export default function AppSearchInput({
 
         {clearable && value.length > 0 && !readonly && (
           <AppIcon
-            name="close-circle"
+            name="close-circle-outline"
             size={currentSize.icon}
             color={colors.textSecondary}
             onPress={clear}

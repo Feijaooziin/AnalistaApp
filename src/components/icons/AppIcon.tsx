@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import {
   EclaIcon,
@@ -22,9 +22,15 @@ interface Props {
   name: CompanyIcon | React.ComponentProps<typeof Ionicons>["name"];
   size?: number;
   color?: string;
+  onPress?: () => void;
 }
 
-export default function AppIcon({ name, size = 24, color = "#000" }: Props) {
+export default function AppIcon({
+  name,
+  size = 24,
+  color = "#000",
+  onPress,
+}: Props) {
   const wrapperStyle = {
     width: size,
     height: size,
@@ -32,50 +38,68 @@ export default function AppIcon({ name, size = 24, color = "#000" }: Props) {
     alignItems: "center" as const,
   };
 
+  let icon: React.ReactNode;
+
   switch (name) {
     case "ecla-icon":
-      return (
+      icon = (
         <View style={wrapperStyle}>
           <EclaIcon width={size * 1.1} height={size * 1.1} fill={color} />
         </View>
       );
+      break;
 
     case "ecla-pin":
-      return (
+      icon = (
         <View style={wrapperStyle}>
           <EclaPin width={size * 1.1} height={size * 1.1} fill={color} />
         </View>
       );
+      break;
 
     case "ecla-pin-circle":
-      return (
+      icon = (
         <View style={wrapperStyle}>
           <EclaPinCircle width={size * 1.1} height={size * 1.1} fill={color} />
         </View>
       );
+      break;
 
     case "logo-ecla":
-      return (
+      icon = (
         <View style={wrapperStyle}>
           <EclaLogo width={size * 1.4} height={size} fill={color} />
         </View>
       );
+      break;
 
     case "logo-jbs":
-      return (
+      icon = (
         <View style={wrapperStyle}>
           <JbsLogo width={size * 1.5} height={size * 0.5} fill={color} />
         </View>
       );
+      break;
 
     case "logo-seara":
-      return (
+      icon = (
         <View style={wrapperStyle}>
           <SearaLogo width={size * 1.5} height={size * 0.8} fill={color} />
         </View>
       );
+      break;
 
     default:
-      return <Ionicons name={name as any} size={size} color={color} />;
+      icon = <Ionicons name={name as any} size={size} color={color} />;
   }
+
+  if (!onPress) {
+    return <>{icon}</>;
+  }
+
+  return (
+    <Pressable onPress={onPress} hitSlop={10}>
+      {icon}
+    </Pressable>
+  );
 }
