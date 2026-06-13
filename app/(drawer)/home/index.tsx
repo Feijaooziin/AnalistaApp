@@ -38,10 +38,9 @@ export default function Home() {
               title: "Cargo",
               value: cargo,
               options: JBS_CARGOS,
-              onSelect: (value) => setCargo(String(value)),
+              onSelect: setCargo,
             })
           }
-          required
         />
       </View>
     </ScreenContainer>

@@ -4,19 +4,16 @@ import { Pressable, Text, View } from "react-native";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
 
-interface PickerOption<T = string> {
+interface PickerOption {
   label: string;
-  value: T;
+  value: string;
 }
 
-interface PickerInputProps<T = string> {
+interface PickerInputProps {
   label: string;
-
-  value: T | null;
-  options: PickerOption<T>[];
-
-  onPress?: () => void;
-
+  value: string | null;
+  options: PickerOption[];
+  onPress: () => void;
   required?: boolean;
   readonly?: boolean;
   placeholder?: string;
@@ -24,7 +21,7 @@ interface PickerInputProps<T = string> {
   size?: "sm" | "md" | "lg";
 }
 
-export default function PickerInput<T extends string | number>({
+export default function PickerInput({
   label,
   value,
   options,
@@ -33,7 +30,7 @@ export default function PickerInput<T extends string | number>({
   readonly,
   placeholder = "Selecione uma opção",
   size = "md",
-}: PickerInputProps<T>) {
+}: PickerInputProps) {
   const { colors } = useTheme();
 
   const sizes = {

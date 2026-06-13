@@ -2,21 +2,21 @@ import { create } from "zustand";
 
 export interface PickerOption {
   label: string;
-  value: string | number;
+  value: string;
 }
 
 interface OpenPickerParams {
   title: string;
-  value: string | number | null;
+  value: string | null;
   options: PickerOption[];
-  onSelect: (value: string | number) => void;
+  onSelect: (value: string) => void;
 }
 
 interface PickerStore {
   title: string;
-  value: string | number | null;
+  value: string | null;
   options: PickerOption[];
-  onSelect?: (value: string | number) => void;
+  onSelect?: (value: string) => void;
   openPicker: (params: OpenPickerParams) => void;
   closePicker: () => void;
 }
@@ -26,6 +26,7 @@ export const usePickerStore = create<PickerStore>((set) => ({
   value: null,
   options: [],
   onSelect: undefined,
+
   openPicker: ({ title, value, options, onSelect }) =>
     set({
       title,

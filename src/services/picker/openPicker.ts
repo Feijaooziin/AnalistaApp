@@ -4,9 +4,9 @@ import { PickerOption, usePickerStore } from "@/src/store/pickerStore";
 
 interface Params {
   title: string;
-  value: string | number | null;
+  value: string | null;
   options: PickerOption[];
-  onSelect: (value: string | number) => void;
+  onSelect: (value: string) => void;
 }
 
 export function openPicker({ title, value, options, onSelect }: Params) {
