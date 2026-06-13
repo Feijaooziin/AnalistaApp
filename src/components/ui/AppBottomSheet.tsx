@@ -28,14 +28,13 @@ export default function AppBottomSheet({
 }: Props) {
   const { colors } = useTheme();
 
-  const translateY = useRef(new Animated.Value(height)).current;
-
   const sheetHeight = height * heightRatio;
+  const translateY = useRef(new Animated.Value(sheetHeight)).current;
 
   useEffect(() => {
     if (visible) {
       Animated.timing(translateY, {
-        toValue: height - sheetHeight,
+        toValue: 0,
         duration: 500,
         useNativeDriver: true,
       }).start();
@@ -84,10 +83,11 @@ export default function AppBottomSheet({
         {...panResponder.panHandlers}
         style={{
           position: "absolute",
-          top: 0,
           left: 0,
           right: 0,
-          height: sheetHeight,
+          bottom: 0,
+          minHeight: sheetHeight,
+          paddingBottom: SPACING.xl,
           backgroundColor: colors.surface,
           borderTopLeftRadius: RADIUS.lg,
           borderTopRightRadius: RADIUS.lg,

@@ -16,7 +16,9 @@ export default function ModalPlayground() {
   const [selectOpen, setSelectOpen] = useState(false);
 
   return (
-    <ScreenContainer header={{ title: "Modal Playground", variant: "back" }}>
+    <ScreenContainer
+      header={{ title: "Modal Playground", variant: "back", toggleTheme: true }}
+    >
       <View style={{ gap: 12 }}>
         <PageContext
           title="Testes de Modais"
@@ -59,7 +61,6 @@ export default function ModalPlayground() {
       <AppSelectModal
         title="Selecionar opção"
         visible={selectOpen}
-        value={null}
         onClose={() => setSelectOpen(false)}
         options={[
           { label: "Opção 1", value: "1" },
