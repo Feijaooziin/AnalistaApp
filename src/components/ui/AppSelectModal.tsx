@@ -53,84 +53,91 @@ export default function AppSelectModal<T extends string | number>({
 
   return (
     <AppBottomSheet visible={visible} onClose={onClose} heightRatio={0.5}>
-      <Text
-        style={{
-          fontSize: 18,
-          fontWeight: "700",
-          color: colors.text,
-          marginBottom: SPACING.md,
-        }}
-      >
-        {title ?? "Selecionar opção"}
-      </Text>
-
-      {showSearch && (
+      {(close) => (
         <>
-          <AppSearchInput
-            placeholder="Pesquisar..."
-            value={search}
-            onChangeText={setSearch}
-          />
-
           <Text
             style={{
-              color: colors.textSecondary,
-              marginTop: -10,
-              marginBottom: SPACING.sm,
+              fontSize: 18,
+              fontWeight: "700",
+              color: colors.text,
+              marginBottom: SPACING.md,
             }}
           >
-            {filteredOptions.length} opções
+            {title ?? "Selecionar opção"}
           </Text>
-        </>
-      )}
 
-      <FlatList
-        data={filteredOptions}
-        keyExtractor={(item) => String(item.value)}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => {
-          const selected = item.value === value;
+          {showSearch && (
+            <>
+              <AppSearchInput
+                placeholder="Pesquisar..."
+                value={search}
+                onChangeText={setSearch}
+              />
 
-          return (
-            <Pressable
-              onPress={() => handleSelect(item.value)}
-              style={{
-                padding: SPACING.md,
-                borderWidth: 1,
-                borderRadius: RADIUS.md,
-                marginBottom: SPACING.sm,
-                borderColor: selected
-                  ? colors.inputBorderFocused
-                  : colors.border,
-                backgroundColor: selected
-                  ? colors.primary + "15"
-                  : colors.surface,
-              }}
-            >
               <Text
                 style={{
-                  color: selected ? colors.text : colors.textSecondary,
-                  fontWeight: selected ? "700" : "400",
+                  color: colors.textSecondary,
+                  marginTop: -10,
+                  marginBottom: SPACING.sm,
                 }}
               >
-                {item.label}
+                {filteredOptions.length} opções
               </Text>
-            </Pressable>
-          );
-        }}
-      />
+            </>
+          )}
 
-      {filteredOptions.length === 0 && (
-        <Text
-          style={{
-            textAlign: "center",
-            color: colors.textSecondary,
-            marginTop: SPACING.lg,
-          }}
-        >
-          Nenhum resultado encontrado
-        </Text>
+          <FlatList
+            data={filteredOptions}
+            keyExtractor={(item) => String(item.value)}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => {
+              const selected = item.value === value;
+
+              return (
+                <Pressable
+                  onPress={() => {
+                    handleSelect(item.value);
+                    close();
+                  }}
+                  style={{
+                    padding: SPACING.md,
+                    borderWidth: 1,
+                    borderRadius: RADIUS.md,
+                    marginBottom: SPACING.sm,
+                    borderColor: selected
+                      ? colors.inputBorderFocused
+                      : colors.border,
+                    backgroundColor: selected
+                      ? colors.primary + "15"
+                      : colors.surface,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: selected ? colors.text : colors.textSecondary,
+                      fontWeight: selected ? "700" : "400",
+                    }}
+                  >
+                    {item.label}
+                  </Text>
+                </Pressable>
+              );
+            }}
+          />
+
+          {filteredOptions.length === 0 && (
+            <Text
+              style={{
+                textAlign: "center",
+                color: colors.textSecondary,
+                marginTop: SPACING.lg,
+              }}
+            >
+              Nenhum resultado encontrado
+            </Text>
+          )}
+        </>
       )}
     </AppBottomSheet>
   );

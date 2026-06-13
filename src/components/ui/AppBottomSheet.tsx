@@ -14,8 +14,8 @@ import { RADIUS, SPACING } from "@/src/theme/layout";
 interface Props {
   visible: boolean;
   onClose: () => void;
-  heightRatio?: number;
   children: ReactNode | ((close: () => void) => ReactNode);
+  heightRatio?: number;
 }
 
 const { height } = Dimensions.get("window");
