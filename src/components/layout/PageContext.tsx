@@ -7,7 +7,6 @@ import { FONT_SIZE, SPACING } from "@/src/theme/layout";
 interface Props {
   title: string;
   subtitle?: string;
-
   rightComponent?: ReactNode;
 }
 

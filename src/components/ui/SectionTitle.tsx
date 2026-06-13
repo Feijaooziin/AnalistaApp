@@ -1,26 +1,63 @@
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
+import { FONT_SIZE, SPACING } from "@/src/theme/layout";
 
 interface Props {
   title: string;
+  subtitle?: string;
+  size?: "sm" | "md" | "lg";
 }
 
-export default function SectionTitle({ title }: Props) {
+export default function SectionTitle({ title, subtitle, size = "md" }: Props) {
   const { colors } = useTheme();
 
+  const sizes = {
+    sm: {
+      title: FONT_SIZE.lg,
+      subtitle: FONT_SIZE.sm,
+    },
+
+    md: {
+      title: FONT_SIZE.xl,
+      subtitle: FONT_SIZE.md,
+    },
+
+    lg: {
+      title: FONT_SIZE.xxl,
+      subtitle: FONT_SIZE.lg,
+    },
+  };
+
+  const currentSize = sizes[size];
+
   return (
-    <Text
+    <View
       style={{
-        fontSize: 20,
-        fontWeight: "700",
-
-        color: colors.text,
-
-        marginBottom: 12,
+        marginBottom: SPACING.md,
       }}
     >
-      {title}
-    </Text>
+      <Text
+        style={{
+          fontSize: currentSize.title,
+          fontWeight: "700",
+          color: colors.text,
+        }}
+      >
+        {title}
+      </Text>
+
+      {subtitle && (
+        <Text
+          style={{
+            marginTop: 4,
+            fontSize: currentSize.subtitle,
+            color: colors.textSecondary,
+          }}
+        >
+          {subtitle}
+        </Text>
+      )}
+    </View>
   );
 }
