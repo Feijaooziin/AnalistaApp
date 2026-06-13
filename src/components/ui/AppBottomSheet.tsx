@@ -69,7 +69,7 @@ export default function AppBottomSheet({
   if (!visible) return null;
 
   return (
-    <Modal transparent animationType="none" visible={visible}>
+    <Modal animationType="none" visible={visible} transparent>
       {/* BACKDROP */}
       <Pressable
         onPress={onClose}

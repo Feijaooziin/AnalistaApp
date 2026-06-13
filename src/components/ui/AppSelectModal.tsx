@@ -6,6 +6,7 @@ import {
   Modal,
   Pressable,
   Text,
+  View,
 } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
@@ -47,7 +48,7 @@ function SelectItem<T>({
         borderWidth: 1,
         borderRadius: RADIUS.md,
         marginBottom: SPACING.sm,
-        borderColor: selected ? colors.inputBorderFocused : colors.border,
+        borderColor: selected ? colors.primary : colors.border,
         backgroundColor: selected ? colors.primary + "15" : colors.surface,
       }}
     >
@@ -76,6 +77,7 @@ export default function AppSelectModal<T extends string | number>({
 
   const translateY = useRef(new Animated.Value(height)).current;
 
+  const sheetHeight = height * 0.5;
   const showSearch = options.length > 3;
 
   const filteredOptions = useMemo(() => {
@@ -88,13 +90,19 @@ export default function AppSelectModal<T extends string | number>({
 
   useEffect(() => {
     if (visible) {
+      translateY.setValue(height);
+
       Animated.timing(translateY, {
-        toValue: height * 0.5,
+        toValue: height - sheetHeight,
         duration: 250,
         useNativeDriver: true,
       }).start();
     } else {
-      translateY.setValue(height);
+      Animated.timing(translateY, {
+        toValue: height,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
     }
   }, [visible]);
 
@@ -122,16 +130,14 @@ export default function AppSelectModal<T extends string | number>({
     [value, colors, handleSelect],
   );
 
-  if (!visible) return null;
-
   return (
-    <Modal visible={visible} animationType="none" transparent>
+    <Modal visible={visible} transparent animationType="none">
       {/* BACKDROP */}
       <Pressable
         onPress={onClose}
         style={{
           flex: 1,
-          backgroundColor: "#00000060",
+          backgroundColor: "rgba(0,0,0,0.5)",
         }}
       />
 
@@ -142,18 +148,27 @@ export default function AppSelectModal<T extends string | number>({
           left: 0,
           right: 0,
           bottom: 0,
-
-          height: height * 0.5,
-
+          height: sheetHeight,
           backgroundColor: colors.background,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
+          borderTopLeftRadius: RADIUS.lg,
+          borderTopRightRadius: RADIUS.lg,
           padding: SPACING.md,
-
           transform: [{ translateY }],
         }}
       >
-        {/* HEADER */}
+        {/* HANDLE */}
+        <View
+          style={{
+            width: 40,
+            height: 5,
+            backgroundColor: colors.border,
+            borderRadius: 20,
+            alignSelf: "center",
+            marginBottom: SPACING.md,
+          }}
+        />
+
+        {/* TITLE */}
         <Text
           style={{
             fontSize: 18,
