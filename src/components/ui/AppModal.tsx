@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Animated, Dimensions, Modal, Pressable, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
@@ -14,30 +14,55 @@ const { height } = Dimensions.get("window");
 
 export default function AppModal({ visible, onClose, children }: Props) {
   const { colors } = useTheme();
-  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const [mounted, setMounted] = useState(visible);
+
+  const backdropOpacity = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.95)).current;
 
   useEffect(() => {
     if (visible) {
+      setMounted(true);
+
+      backdropOpacity.setValue(0);
+      scaleAnim.setValue(0.95);
+
       Animated.parallel([
-        Animated.timing(fadeAnim, {
+        Animated.timing(backdropOpacity, {
           toValue: 1,
-          duration: 180,
+          duration: 250,
           useNativeDriver: true,
         }),
+
         Animated.timing(scaleAnim, {
           toValue: 1,
-          duration: 500,
+          duration: 200,
           useNativeDriver: true,
         }),
       ]).start();
-    } else {
-      fadeAnim.setValue(0);
-      scaleAnim.setValue(0.95);
     }
   }, [visible]);
 
-  if (!visible) return null;
+  function animateClose() {
+    Animated.parallel([
+      Animated.timing(backdropOpacity, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+
+      Animated.timing(scaleAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      setMounted(false);
+      onClose();
+    });
+  }
+
+  if (!mounted) return null;
 
   return (
     <Modal animationType="none" visible={visible} transparent>
@@ -49,15 +74,25 @@ export default function AppModal({ visible, onClose, children }: Props) {
         }}
       >
         {/* BACKDROP */}
-        <Pressable
-          onPress={onClose}
+        <Animated.View
           style={{
             position: "absolute",
             width: "100%",
             height: "100%",
-            backgroundColor: "rgba(0,0,0,0.5)",
+            backgroundColor: "#000",
+            opacity: backdropOpacity.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.5],
+            }),
           }}
-        />
+        >
+          <Pressable
+            onPress={animateClose}
+            style={{
+              flex: 1,
+            }}
+          />
+        </Animated.View>
 
         {/* CONTENT */}
         <Animated.View
@@ -67,7 +102,6 @@ export default function AppModal({ visible, onClose, children }: Props) {
             backgroundColor: colors.surface,
             borderRadius: RADIUS.lg,
             padding: SPACING.md,
-            opacity: fadeAnim,
             transform: [{ scale: scaleAnim }],
           }}
         >
