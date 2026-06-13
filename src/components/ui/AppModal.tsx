@@ -25,18 +25,18 @@ export default function AppModal({ visible, onClose, children }: Props) {
       setMounted(true);
 
       backdropOpacity.setValue(0);
-      scaleAnim.setValue(0.95);
+      scaleAnim.setValue(0);
 
       Animated.parallel([
         Animated.timing(backdropOpacity, {
           toValue: 1,
-          duration: 250,
+          duration: 100,
           useNativeDriver: true,
         }),
 
         Animated.timing(scaleAnim, {
           toValue: 1,
-          duration: 200,
+          duration: 400,
           useNativeDriver: true,
         }),
       ]).start();
@@ -47,13 +47,13 @@ export default function AppModal({ visible, onClose, children }: Props) {
     Animated.parallel([
       Animated.timing(backdropOpacity, {
         toValue: 0,
-        duration: 200,
+        duration: 100,
         useNativeDriver: true,
       }),
 
       Animated.timing(scaleAnim, {
         toValue: 0,
-        duration: 200,
+        duration: 400,
         useNativeDriver: true,
       }),
     ]).start(() => {
@@ -102,7 +102,15 @@ export default function AppModal({ visible, onClose, children }: Props) {
             backgroundColor: colors.surface,
             borderRadius: RADIUS.lg,
             padding: SPACING.md,
-            transform: [{ scale: scaleAnim }],
+            transform: [
+              { scale: scaleAnim },
+              {
+                translateY: scaleAnim.interpolate({
+                  inputRange: [0.97, 1],
+                  outputRange: [10, 0],
+                }),
+              },
+            ],
           }}
         >
           {children}
