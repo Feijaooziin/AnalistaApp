@@ -1,7 +1,9 @@
 import { router } from "expo-router";
+import { useMemo, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import AppInput from "@/src/components/ui/AppInput";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { usePickerStore } from "@/src/store/pickerStore";
 import { RADIUS, SPACING } from "@/src/theme/layout";
@@ -9,6 +11,18 @@ import { RADIUS, SPACING } from "@/src/theme/layout";
 export default function PickerScreen() {
   const { colors } = useTheme();
   const { title, value, options, onSelect, closePicker } = usePickerStore();
+  const [search, setSearch] = useState("");
+  const showSearch = options.length > 3;
+
+  const filteredOptions = useMemo(() => {
+    if (!search.trim()) {
+      return options;
+    }
+
+    return options.filter((item) =>
+      item.label.toLowerCase().includes(search.toLowerCase()),
+    );
+  }, [options, search]);
 
   function handleSelect(selectedValue: string) {
     onSelect?.(selectedValue);
@@ -28,7 +42,27 @@ export default function PickerScreen() {
           gap: SPACING.sm,
         }}
       >
-        {options.map((option) => {
+        {showSearch && (
+          <>
+            <AppInput
+              placeholder="Pesquisar..."
+              value={search}
+              onChangeText={setSearch}
+              clearable
+            />
+            <Text
+              style={{
+                color: colors.textMuted,
+                marginTop: -18,
+                marginBottom: 6,
+              }}
+            >
+              {filteredOptions.length} opções
+            </Text>
+          </>
+        )}
+
+        {filteredOptions.map((option) => {
           const selected = option.value === value;
 
           return (
@@ -58,6 +92,18 @@ export default function PickerScreen() {
             </Pressable>
           );
         })}
+
+        {filteredOptions.length === 0 && (
+          <Text
+            style={{
+              textAlign: "center",
+              color: colors.textSecondary,
+              marginTop: SPACING.lg,
+            }}
+          >
+            Nenhum resultado encontrado
+          </Text>
+        )}
       </View>
     </ScreenContainer>
   );

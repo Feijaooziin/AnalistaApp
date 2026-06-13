@@ -22,7 +22,7 @@ function AppContent() {
           name="(modals)/picker"
           options={{
             presentation: "formSheet",
-            sheetAllowedDetents: [0.5, 1],
+            sheetAllowedDetents: [0.65, 1],
             sheetGrabberVisible: true,
             sheetExpandsWhenScrolledToEdge: true,
             sheetCornerRadius: 24,
