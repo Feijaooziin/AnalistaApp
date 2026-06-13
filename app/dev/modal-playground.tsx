@@ -43,9 +43,11 @@ export default function ModalPlayground() {
 
       {/* AppModal */}
       <AppModal visible={modalOpen} onClose={() => setModalOpen(false)}>
-        <View style={{ padding: 20 }}>
-          <AppButton title="Fechar Modal" onPress={() => setModalOpen(false)} />
-        </View>
+        {(close) => (
+          <View style={{ padding: 20 }}>
+            <AppButton title="Fechar Modal" onPress={() => close()} />
+          </View>
+        )}
       </AppModal>
 
       {/* BottomSheet */}

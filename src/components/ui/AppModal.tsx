@@ -7,7 +7,7 @@ import { RADIUS, SPACING } from "@/src/theme/layout";
 interface Props {
   visible: boolean;
   onClose: () => void;
-  children: ReactNode;
+  children: ReactNode | ((close: () => void) => ReactNode);
 }
 
 const { height } = Dimensions.get("window");
@@ -106,14 +106,14 @@ export default function AppModal({ visible, onClose, children }: Props) {
               { scale: scaleAnim },
               {
                 translateY: scaleAnim.interpolate({
-                  inputRange: [0.97, 1],
-                  outputRange: [10, 0],
+                  inputRange: [0.95, 1],
+                  outputRange: [15, 0],
                 }),
               },
             ],
           }}
         >
-          {children}
+          {typeof children === "function" ? children(animateClose) : children}
         </Animated.View>
       </View>
     </Modal>
