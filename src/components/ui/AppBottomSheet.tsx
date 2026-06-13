@@ -35,17 +35,24 @@ export default function AppBottomSheet({
     if (visible) {
       Animated.timing(translateY, {
         toValue: 0,
-        duration: 500,
+        duration: 300,
         useNativeDriver: true,
       }).start();
     } else {
-      translateY.setValue(height);
+      Animated.timing(translateY, {
+        toValue: sheetHeight,
+        duration: 250,
+        useNativeDriver: true,
+      }).start(() => {
+        onClose();
+      });
     }
   }, [visible]);
 
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: (_, gesture) => gesture.dy > 10,
+      onMoveShouldSetPanResponder: (_, gesture) =>
+        gesture.moveY > height - sheetHeight + 50,
       onPanResponderMove: (_, gesture) => {
         if (gesture.dy > 0) {
           translateY.setValue(gesture.dy);
@@ -80,23 +87,24 @@ export default function AppBottomSheet({
 
       {/* SHEET */}
       <Animated.View
+        {...panResponder.panHandlers}
         style={{
           position: "absolute",
           left: 0,
           right: 0,
           bottom: 0,
           height: sheetHeight,
-          paddingBottom: SPACING.xl,
           backgroundColor: colors.surface,
           borderTopLeftRadius: RADIUS.lg,
           borderTopRightRadius: RADIUS.lg,
-          padding: SPACING.md,
+          paddingHorizontal: SPACING.md,
+          paddingTop: SPACING.md,
+          paddingBottom: SPACING.xl,
           transform: [{ translateY }],
         }}
       >
         {/* HANDLE */}
         <Pressable
-          {...panResponder.panHandlers}
           style={{
             height: 40,
             justifyContent: "center",
