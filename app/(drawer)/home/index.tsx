@@ -1,6 +1,8 @@
 import AppBadge from "@/src/components/AppBadge";
+import AppInput from "@/src/components/AppInput";
 import AppListItem from "@/src/components/AppListItem";
 import AppSearchInput from "@/src/components/AppSearchInput";
+import AppSectionCard from "@/src/components/AppSectionCard";
 import AppIcon from "@/src/components/icons/AppIcon";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
@@ -50,6 +52,16 @@ export default function Home() {
           subtitle="Escuro"
           leftComponent={<AppIcon name="moon-outline" />}
         />
+
+        <AppSectionCard title="Dados pessoais" subtitle="Informações básicas">
+          <AppInput label="Nome" />
+          <AppInput label="Email" size="lg" />
+        </AppSectionCard>
+
+        <AppSectionCard title="Configurações">
+          <AppListItem title="Tema" />
+          <AppListItem title="Notificações" />
+        </AppSectionCard>
       </View>
     </ScreenContainer>
   );
