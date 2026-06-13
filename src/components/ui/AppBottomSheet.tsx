@@ -95,10 +95,11 @@ export default function AppBottomSheet({
         }}
       >
         {/* HANDLE */}
-        <View
+        <Pressable
           {...panResponder.panHandlers}
           style={{
-            paddingVertical: SPACING.sm,
+            height: 40,
+            justifyContent: "center",
             alignItems: "center",
           }}
         >
@@ -110,9 +111,9 @@ export default function AppBottomSheet({
               borderRadius: 20,
             }}
           />
-        </View>
+        </Pressable>
 
-        {children}
+        <View style={{ flex: 1 }}>{children}</View>
       </Animated.View>
     </Modal>
   );
