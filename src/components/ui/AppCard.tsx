@@ -40,21 +40,21 @@ export default function AppCard({
     sm: {
       padding: SPACING.sm,
       title: FONT_SIZE.xs,
-      value: FONT_SIZE.sm,
+      valueFontSize: FONT_SIZE.sm,
       icon: ICON_SIZE.sm,
     },
 
     md: {
       padding: SPACING.md,
       title: FONT_SIZE.sm,
-      value: FONT_SIZE.md,
+      valueFontSize: FONT_SIZE.md,
       icon: ICON_SIZE.md,
     },
 
     lg: {
       padding: SPACING.lg,
       title: FONT_SIZE.md,
-      value: FONT_SIZE.xl,
+      valueFontSize: FONT_SIZE.xl,
       icon: ICON_SIZE.lg,
     },
   };
@@ -107,7 +107,7 @@ export default function AppCard({
         >
           <Text
             style={{
-              fontSize: currentSize.value,
+              fontSize: currentSize.valueFontSize,
               color: colors.text,
             }}
           >

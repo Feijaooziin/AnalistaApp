@@ -1,6 +1,7 @@
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
+import AppCard from "@/src/components/ui/AppCard";
 import AppInput from "@/src/components/ui/AppInput";
 import DateTimeInput from "@/src/components/ui/DateTimeInput";
 import PickerInput from "@/src/components/ui/PickerInput";
@@ -16,7 +17,7 @@ export default function Home() {
       <View style={{ gap: 16 }}>
         <PageContext title="Testes" subtitle="Estou testando algumas coisas" />
 
-        {/* <AppCard title="Teste" value="Testando" copyable /> */}
+        <AppCard title="Teste" value="Teste" />
 
         <AppButton title="Teste" leftIcon="ecla-icon" rightIcon="ecla-icon" />
         <AppButton

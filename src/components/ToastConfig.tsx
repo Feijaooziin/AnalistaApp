@@ -17,8 +17,6 @@ function ToastContainer({
   title?: string;
   message?: string;
 }) {
-  const { colors } = useTheme();
-
   return (
     <View
       style={{
