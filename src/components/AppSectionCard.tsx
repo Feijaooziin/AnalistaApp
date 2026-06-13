@@ -1,76 +1,112 @@
-import { ReactNode } from "react";
-import { Text, View } from "react-native";
+import { ReactNode, useState } from "react";
+import {
+  LayoutAnimation,
+  Platform,
+  Pressable,
+  Text,
+  UIManager,
+  View,
+} from "react-native";
 
+import AppIcon from "@/src/components/icons/AppIcon";
 import { useTheme } from "@/src/contexts/ThemeContext";
-import { FONT_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
+import { FONT_SIZE, ICON_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
+
+type Size = "sm" | "md" | "lg";
 
 interface Props {
-  title?: string;
+  title: string;
   subtitle?: string;
   children: ReactNode;
-  size?: "sm" | "md" | "lg";
+
+  defaultOpen?: boolean;
+  collapsible?: boolean;
+
+  size?: Size;
+}
+
+if (Platform.OS === "android") {
+  UIManager.setLayoutAnimationEnabledExperimental?.(true);
 }
 
 export default function AppSectionCard({
   title,
   subtitle,
   children,
+  defaultOpen = true,
+  collapsible,
   size = "md",
 }: Props) {
   const { colors } = useTheme();
+  const [open, setOpen] = useState(defaultOpen);
 
   const sizes = {
     sm: {
-      padding: SPACING.sm,
       title: FONT_SIZE.md,
       subtitle: FONT_SIZE.sm,
+      icon: ICON_SIZE.sm,
+      padding: SPACING.sm,
     },
-
     md: {
-      padding: SPACING.md,
       title: FONT_SIZE.lg,
       subtitle: FONT_SIZE.md,
+      icon: ICON_SIZE.md,
+      padding: SPACING.md,
     },
-
     lg: {
-      padding: SPACING.lg,
       title: FONT_SIZE.xl,
       subtitle: FONT_SIZE.lg,
+      icon: ICON_SIZE.lg,
+      padding: SPACING.lg,
     },
   };
 
-  const currentSize = sizes[size];
+  const current = sizes[size];
 
-  const childrenArray = Array.isArray(children) ? children : [children];
+  function toggle() {
+    if (!collapsible) return;
+
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setOpen((prev) => !prev);
+  }
 
   return (
     <View
       style={{
         backgroundColor: colors.surface,
         borderRadius: RADIUS.md,
-        padding: currentSize.padding,
+        borderWidth: 1,
+        borderColor: colors.border,
+        overflow: "hidden",
         marginBottom: SPACING.md,
       }}
     >
-      {(title || subtitle) && (
-        <View style={{ marginBottom: SPACING.sm }}>
-          {title && (
-            <Text
-              style={{
-                fontSize: currentSize.title,
-                fontWeight: "700",
-                color: colors.text,
-              }}
-            >
-              {title}
-            </Text>
-          )}
+      {/* HEADER */}
+      <Pressable
+        onPress={toggle}
+        style={{
+          padding: current.padding,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{
+              fontSize: current.title,
+              fontWeight: "700",
+              color: colors.text,
+            }}
+          >
+            {title}
+          </Text>
 
           {subtitle && (
             <Text
               style={{
                 marginTop: 2,
-                fontSize: currentSize.subtitle,
+                fontSize: current.subtitle,
                 color: colors.textSecondary,
               }}
             >
@@ -78,26 +114,27 @@ export default function AppSectionCard({
             </Text>
           )}
         </View>
+
+        {collapsible && (
+          <AppIcon
+            name={open ? "chevron-up" : "chevron-down"}
+            size={current.icon}
+            color={colors.textSecondary}
+          />
+        )}
+      </Pressable>
+
+      {/* CONTENT */}
+      {open && (
+        <View
+          style={{
+            paddingHorizontal: current.padding,
+            paddingBottom: current.padding,
+          }}
+        >
+          {children}
+        </View>
       )}
-
-      <View>
-        {childrenArray.map((child, index) => {
-          const isLast = index === childrenArray.length - 1;
-
-          return (
-            <View
-              key={index}
-              style={{
-                paddingVertical: SPACING.sm,
-                borderBottomWidth: isLast ? 0 : 1,
-                borderBottomColor: colors.border,
-              }}
-            >
-              {child}
-            </View>
-          );
-        })}
-      </View>
     </View>
   );
 }
