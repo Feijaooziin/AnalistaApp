@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import { router, useNavigation } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -40,22 +39,20 @@ export default function Header({
   function renderLeftIcon() {
     switch (variant) {
       case "menu":
-        return <Ionicons name="menu" size={ICON_SIZE.xl} color={colors.text} />;
+        return <AppIcon name="menu" size={ICON_SIZE.xl} color={colors.text} />;
 
       case "back":
         return (
-          <Ionicons name="arrow-back" size={ICON_SIZE.xl} color={colors.text} />
+          <AppIcon name="arrow-back" size={ICON_SIZE.xl} color={colors.text} />
         );
 
       case "search":
         return (
-          <Ionicons name="search" size={ICON_SIZE.xl} color={colors.text} />
+          <AppIcon name="search" size={ICON_SIZE.xl} color={colors.text} />
         );
 
       case "close":
-        return (
-          <Ionicons name="close" size={ICON_SIZE.xl} color={colors.text} />
-        );
+        return <AppIcon name="close" size={ICON_SIZE.xl} color={colors.text} />;
 
       default:
         return null;
@@ -96,7 +93,6 @@ export default function Header({
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-
           paddingHorizontal: SPACING.lg,
           paddingVertical: SPACING.md,
         }}
@@ -144,7 +140,7 @@ export default function Header({
             <>
               {toggleTheme && (
                 <TouchableOpacity onPress={handleToggleTheme} hitSlop={10}>
-                  <Ionicons
+                  <AppIcon
                     name={isDark ? "sunny-outline" : "moon-outline"}
                     size={ICON_SIZE.lg}
                     color={colors.text}

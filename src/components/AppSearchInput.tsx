@@ -1,6 +1,6 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { Text, TextInput, View } from "react-native";
 
+import AppIcon from "@/src/components/icons/AppIcon";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
 
@@ -82,7 +82,7 @@ export default function AppSearchInput({
           opacity: readonly ? 0.8 : 1,
         }}
       >
-        <Ionicons
+        <AppIcon
           name="search-outline"
           size={currentSize.icon}
           color={colors.textSecondary}
@@ -104,7 +104,7 @@ export default function AppSearchInput({
         />
 
         {clearable && value.length > 0 && !readonly && (
-          <Ionicons
+          <AppIcon
             name="close-circle"
             size={currentSize.icon}
             color={colors.textSecondary}
