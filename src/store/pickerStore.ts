@@ -1,22 +1,22 @@
 import { create } from "zustand";
 
-export interface PickerOption<T = string> {
+export interface PickerOption {
   label: string;
-  value: T;
+  value: string | number;
 }
 
-interface OpenPickerParams<T = string | number> {
+interface OpenPickerParams {
   title: string;
-  value: T | null;
-  options: PickerOption<T>[];
-  onSelect: (value: T) => void;
+  value: string | number | null;
+  options: PickerOption[];
+  onSelect: (value: string | number) => void;
 }
 
 interface PickerStore {
   title: string;
   value: string | number | null;
   options: PickerOption[];
-  onSelect?: (value: any) => void;
+  onSelect?: (value: string | number) => void;
   openPicker: (params: OpenPickerParams) => void;
   closePicker: () => void;
 }

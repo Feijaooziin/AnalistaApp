@@ -2,19 +2,14 @@ import { router } from "expo-router";
 
 import { PickerOption, usePickerStore } from "@/src/store/pickerStore";
 
-interface Params<T = string | number> {
+interface Params {
   title: string;
-  value: T | null;
-  options: PickerOption<T>[];
-  onSelect: (value: T) => void;
+  value: string | number | null;
+  options: PickerOption[];
+  onSelect: (value: string | number) => void;
 }
 
-export function openPicker<T extends string | number>({
-  title,
-  value,
-  options,
-  onSelect,
-}: Params<T>) {
+export function openPicker({ title, value, options, onSelect }: Params) {
   usePickerStore.getState().openPicker({
     title,
     value,
