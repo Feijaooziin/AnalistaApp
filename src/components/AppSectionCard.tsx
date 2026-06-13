@@ -1,12 +1,5 @@
 import { ReactNode, useState } from "react";
-import {
-  LayoutAnimation,
-  Platform,
-  Pressable,
-  Text,
-  UIManager,
-  View,
-} from "react-native";
+import { LayoutAnimation, Pressable, Text, View } from "react-native";
 
 import AppIcon from "@/src/components/icons/AppIcon";
 import { useTheme } from "@/src/contexts/ThemeContext";
@@ -19,10 +12,6 @@ interface Props {
   defaultOpen?: boolean;
   collapsible?: boolean;
   size?: "sm" | "md" | "lg";
-}
-
-if (Platform.OS === "android") {
-  UIManager.setLayoutAnimationEnabledExperimental?.(true);
 }
 
 export default function AppSectionCard({
