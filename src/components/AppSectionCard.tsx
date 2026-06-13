@@ -41,6 +41,8 @@ export default function AppSectionCard({
 
   const currentSize = sizes[size];
 
+  const childrenArray = Array.isArray(children) ? children : [children];
+
   return (
     <View
       style={{
@@ -78,7 +80,24 @@ export default function AppSectionCard({
         </View>
       )}
 
-      {children}
+      <View>
+        {childrenArray.map((child, index) => {
+          const isLast = index === childrenArray.length - 1;
+
+          return (
+            <View
+              key={index}
+              style={{
+                paddingVertical: SPACING.sm,
+                borderBottomWidth: isLast ? 0 : 1,
+                borderBottomColor: colors.border,
+              }}
+            >
+              {child}
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 }
