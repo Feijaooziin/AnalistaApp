@@ -48,7 +48,6 @@ export default function PickerScreen() {
               placeholder="Pesquisar..."
               value={search}
               onChangeText={setSearch}
-              clearable
             />
             <Text
               style={{

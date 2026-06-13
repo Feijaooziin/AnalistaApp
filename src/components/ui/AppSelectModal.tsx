@@ -1,38 +1,36 @@
 import { useMemo, useState } from "react";
-import { FlatList, Text, TouchableOpacity } from "react-native";
+import { Modal, Pressable, Text, View } from "react-native";
 
-import AppBottomSheet from "./AppBottomSheet";
-import AppSearchInput from "./AppSearchInput";
-
+import AppInput from "@/src/components/ui/AppInput";
 import { useTheme } from "@/src/contexts/ThemeContext";
-import { FONT_SIZE, SPACING } from "@/src/theme/layout";
+import { RADIUS, SPACING } from "@/src/theme/layout";
 
-export interface SelectOption<T = string> {
+interface SelectOption<T = string> {
   label: string;
   value: T;
 }
 
 interface Props<T = string> {
   visible: boolean;
-  title: string;
+  title?: string;
+  value?: T | null;
   options: SelectOption<T>[];
-  value: T | null;
-  onSelect: (value: T) => void;
+  onSelect?: (value: T) => void;
   onClose: () => void;
-  searchable?: boolean;
 }
 
 export default function AppSelectModal<T extends string | number>({
   visible,
   title,
-  options,
   value,
+  options,
   onSelect,
   onClose,
-  searchable = true,
 }: Props<T>) {
   const { colors } = useTheme();
   const [search, setSearch] = useState("");
+
+  const showSearch = options.length > 3;
 
   const filteredOptions = useMemo(() => {
     if (!search.trim()) return options;
@@ -40,83 +38,112 @@ export default function AppSelectModal<T extends string | number>({
     return options.filter((item) =>
       item.label.toLowerCase().includes(search.toLowerCase()),
     );
-  }, [search, options]);
+  }, [options, search]);
 
-  function handleSelect(item: SelectOption<T>) {
-    onSelect(item.value);
+  function handleSelect(selectedValue: T) {
+    onSelect?.(selectedValue);
     onClose();
-    setSearch("");
   }
 
   return (
-    <AppBottomSheet visible={visible} onClose={onClose} heightRatio={0.7}>
-      {/* HEADER */}
-      <Text
+    <Modal visible={visible} animationType="slide" transparent>
+      <View
         style={{
-          fontSize: FONT_SIZE.lg,
-          fontWeight: "700",
-          color: colors.text,
-          marginBottom: SPACING.sm,
+          flex: 1,
+          backgroundColor: "#00000060",
+          justifyContent: "flex-end",
         }}
       >
-        {title}
-      </Text>
+        <View
+          style={{
+            backgroundColor: colors.background,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            padding: SPACING.md,
+            maxHeight: "85%",
+          }}
+        >
+          {/* HEADER */}
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "700",
+              color: colors.text,
+              marginBottom: SPACING.sm,
+            }}
+          >
+            {title ?? "Selecionar opção"}
+          </Text>
 
-      {/* SEARCH */}
-      {searchable && (
-        <AppSearchInput
-          value={search}
-          onChangeText={setSearch}
-          placeholder="Buscar..."
-        />
-      )}
+          {/* SEARCH */}
+          {showSearch && (
+            <AppInput
+              placeholder="Pesquisar..."
+              value={search}
+              onChangeText={setSearch}
+            />
+          )}
 
-      {/* LIST */}
-      <FlatList
-        data={filteredOptions}
-        keyExtractor={(item) => String(item.value)}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 40 }}
-        renderItem={({ item }) => {
-          const isSelected = item.value === value;
-
-          return (
-            <TouchableOpacity
-              onPress={() => handleSelect(item)}
+          {showSearch && (
+            <Text
               style={{
-                paddingVertical: SPACING.md,
-                paddingHorizontal: SPACING.sm,
-                borderBottomWidth: 1,
-                borderBottomColor: colors.border,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
+                color: colors.textSecondary,
+                marginTop: -10,
+                marginBottom: 10,
               }}
             >
-              <Text
-                style={{
-                  fontSize: FONT_SIZE.md,
-                  color: colors.text,
-                  fontWeight: isSelected ? "700" : "400",
-                }}
-              >
-                {item.label}
-              </Text>
+              {filteredOptions.length} opções
+            </Text>
+          )}
 
-              {isSelected && (
-                <Text
+          {/* LIST */}
+          <View style={{ gap: SPACING.sm }}>
+            {filteredOptions.map((option) => {
+              const selected = option.value === value;
+
+              return (
+                <Pressable
+                  key={String(option.value)}
+                  onPress={() => handleSelect(option.value)}
                   style={{
-                    color: colors.primary,
-                    fontWeight: "700",
+                    padding: SPACING.md,
+                    borderWidth: 1,
+                    borderRadius: RADIUS.md,
+                    borderColor: selected
+                      ? colors.inputBorderFocused
+                      : colors.border,
+                    backgroundColor: selected
+                      ? colors.primary + "15"
+                      : colors.surface,
                   }}
                 >
-                  ✓
-                </Text>
-              )}
-            </TouchableOpacity>
-          );
-        }}
-      />
-    </AppBottomSheet>
+                  <Text
+                    style={{
+                      color: selected ? colors.text : colors.textSecondary,
+                      fontWeight: selected ? "700" : "400",
+                    }}
+                  >
+                    {option.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+
+            {/* EMPTY STATE */}
+            {filteredOptions.length === 0 && (
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: colors.textSecondary,
+                  marginTop: SPACING.lg,
+                }}
+              >
+                Nenhum resultado encontrado
+              </Text>
+            )}
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 }

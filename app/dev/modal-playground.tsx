@@ -57,7 +57,9 @@ export default function ModalPlayground() {
 
       {/* SelectModal */}
       <AppSelectModal
+        title="Selecionar opção"
         visible={selectOpen}
+        value={null}
         onClose={() => setSelectOpen(false)}
         options={[
           { label: "Opção 1", value: "1" },
