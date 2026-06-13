@@ -18,6 +18,11 @@ export default function Home() {
     { label: "Abacaxi", value: "Abacaxi" },
     { label: "Melancia", value: "Melancia" },
   ];
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [selectOpen, setSelectOpen] = useState(false);
+
   return (
     <ScreenContainer header={{ title: "ECLA Hub", toggleTheme: true }}>
       <PageContext title="Testes" subtitle="Tela temporária para testes" />

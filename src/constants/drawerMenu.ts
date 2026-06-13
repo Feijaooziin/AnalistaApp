@@ -104,6 +104,19 @@ export const drawerMenu: DrawerMenuItem[] = [
   },
 
   {
+    label: "Dev",
+    icon: "flask",
+    children: [
+      {
+        label: "Modais",
+        title: "Modais",
+        route: "dev/modal-playground",
+        icon: "tv-outline",
+      },
+    ],
+  },
+
+  {
     label: "Sobre",
     title: "Sobre",
     route: "about",
