@@ -1,4 +1,4 @@
-import { Slot } from "expo-router";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 
@@ -13,7 +13,23 @@ function AppContent() {
   return (
     <>
       <StatusBar style="dark" />
-      <Slot />
+
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(drawer)" />
+
+        <Stack.Screen
+          name="(modals)/picker"
+          options={{
+            presentation: "formSheet",
+            sheetAllowedDetents: [0.5, 1],
+            sheetGrabberVisible: true,
+            sheetExpandsWhenScrolledToEdge: true,
+            sheetCornerRadius: 24,
+          }}
+        />
+      </Stack>
+
       <Toast config={toastConfig} visibilityTime={2500} topOffset={110} />
     </>
   );

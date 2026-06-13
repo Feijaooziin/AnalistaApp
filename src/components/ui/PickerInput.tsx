@@ -15,7 +15,7 @@ interface PickerInputProps<T = string> {
   value: T | null;
   options: PickerOption<T>[];
 
-  onPress: () => void;
+  onPress?: () => void;
 
   required?: boolean;
   readonly?: boolean;
