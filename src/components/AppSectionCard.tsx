@@ -12,17 +12,13 @@ import AppIcon from "@/src/components/icons/AppIcon";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
 
-type Size = "sm" | "md" | "lg";
-
 interface Props {
   title: string;
   subtitle?: string;
   children: ReactNode;
-
   defaultOpen?: boolean;
   collapsible?: boolean;
-
-  size?: Size;
+  size?: "sm" | "md" | "lg";
 }
 
 if (Platform.OS === "android") {
@@ -33,8 +29,8 @@ export default function AppSectionCard({
   title,
   subtitle,
   children,
-  defaultOpen = true,
   collapsible,
+  defaultOpen,
   size = "md",
 }: Props) {
   const { colors } = useTheme();
@@ -63,6 +59,8 @@ export default function AppSectionCard({
 
   const current = sizes[size];
 
+  const childrenArray = Array.isArray(children) ? children : [children];
+
   function toggle() {
     if (!collapsible) return;
 
@@ -74,9 +72,9 @@ export default function AppSectionCard({
     <View
       style={{
         backgroundColor: colors.surface,
-        borderRadius: RADIUS.md,
         borderWidth: 1,
         borderColor: colors.border,
+        borderRadius: RADIUS.md,
         overflow: "hidden",
         marginBottom: SPACING.md,
       }}
@@ -124,15 +122,28 @@ export default function AppSectionCard({
         )}
       </Pressable>
 
-      {/* CONTENT */}
+      {/* CONTENT WITH DIVIDERS */}
       {open && (
-        <View
-          style={{
-            paddingHorizontal: current.padding,
-            paddingBottom: current.padding,
-          }}
-        >
-          {children}
+        <View>
+          {childrenArray.map((child, index) => {
+            const isLast = index === childrenArray.length - 1;
+
+            return (
+              <View
+                key={index}
+                style={{
+                  paddingHorizontal: current.padding,
+                  paddingVertical: SPACING.sm,
+                  borderTopWidth: index === 0 ? 0.5 : 0,
+                  borderTopColor: colors.border,
+                  borderBottomWidth: isLast ? 0 : 1,
+                  borderBottomColor: colors.border,
+                }}
+              >
+                {child}
+              </View>
+            );
+          })}
         </View>
       )}
     </View>

@@ -3,6 +3,7 @@ import AppInput from "@/src/components/AppInput";
 import AppListItem from "@/src/components/AppListItem";
 import AppSearchInput from "@/src/components/AppSearchInput";
 import AppSectionCard from "@/src/components/AppSectionCard";
+import DateTimeInput from "@/src/components/DateTimeInput";
 import AppIcon from "@/src/components/icons/AppIcon";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
@@ -53,14 +54,15 @@ export default function Home() {
           leftComponent={<AppIcon name="moon-outline" />}
         />
 
-        <AppSectionCard title="Dados pessoais" subtitle="Informações básicas">
+        <AppSectionCard
+          title="Dados pessoais"
+          subtitle="Dados do doidão"
+          collapsible
+          defaultOpen
+        >
           <AppInput label="Nome" />
-          <AppInput label="Email" size="lg" />
-        </AppSectionCard>
-
-        <AppSectionCard title="Configurações">
-          <AppListItem title="Tema" />
-          <AppListItem title="Notificações" />
+          <AppInput label="Email" />
+          <DateTimeInput label="Data de nascimento" />
         </AppSectionCard>
       </View>
     </ScreenContainer>
