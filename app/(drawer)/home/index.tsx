@@ -1,10 +1,10 @@
+import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 import AppCard from "@/src/components/ui/AppCard";
 import AppInput from "@/src/components/ui/AppInput";
 import DateTimeInput from "@/src/components/ui/DateTimeInput";
 import PickerInput from "@/src/components/ui/PickerInput";
-import SectionTitle from "@/src/components/ui/SectionTitle";
 import { JBS_CARGOS } from "@/src/modules/jbs/constants/jbs";
 import { openPicker } from "@/src/services/picker/openPicker";
 import { useState } from "react";
@@ -15,7 +15,11 @@ export default function Home() {
   return (
     <ScreenContainer header={{ title: "ECLA Hub", toggleTheme: true }}>
       <View style={{ gap: 16 }}>
-        <SectionTitle title="Testes" subtitle="Estou testando algumas coisas" />
+        <PageContext
+          title="Filtros"
+          subtitle="Testando isso também"
+          rightComponent={<AppButton title="Limpar" size="sm" />}
+        />
 
         <AppCard title="Teste" value="Teste" />
         <AppButton title="Teste" leftIcon="ecla-icon" rightIcon="ecla-icon" />

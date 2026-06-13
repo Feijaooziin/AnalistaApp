@@ -50,7 +50,6 @@ export default function SectionTitle({ title, subtitle, size = "md" }: Props) {
       {subtitle && (
         <Text
           style={{
-            marginTop: 4,
             fontSize: currentSize.subtitle,
             color: colors.textSecondary,
           }}

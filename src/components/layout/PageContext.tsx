@@ -8,14 +8,35 @@ interface Props {
   title: string;
   subtitle?: string;
   rightComponent?: ReactNode;
+  size?: "sm" | "md" | "lg";
 }
 
 export default function PageContext({
   title,
   subtitle,
   rightComponent,
+  size = "md",
 }: Props) {
   const { colors } = useTheme();
+
+  const sizes = {
+    sm: {
+      title: FONT_SIZE.lg,
+      subtitle: FONT_SIZE.sm,
+    },
+
+    md: {
+      title: FONT_SIZE.xl,
+      subtitle: FONT_SIZE.md,
+    },
+
+    lg: {
+      title: FONT_SIZE.xxl,
+      subtitle: FONT_SIZE.lg,
+    },
+  };
+
+  const currentSize = sizes[size];
 
   return (
     <View
@@ -26,12 +47,11 @@ export default function PageContext({
         justifyContent: "space-between",
       }}
     >
-      {/* LEFT */}
       <View style={{ flex: 1 }}>
         <Text
           style={{
-            fontSize: FONT_SIZE.xl,
-            fontWeight: "bold",
+            fontSize: currentSize.title,
+            fontWeight: "700",
             color: colors.text,
           }}
         >
@@ -41,8 +61,7 @@ export default function PageContext({
         {!!subtitle && (
           <Text
             style={{
-              marginTop: 2,
-              fontSize: FONT_SIZE.sm,
+              fontSize: currentSize.subtitle,
               color: colors.textSecondary,
             }}
           >
@@ -51,7 +70,6 @@ export default function PageContext({
         )}
       </View>
 
-      {/* RIGHT */}
       {rightComponent && <View>{rightComponent}</View>}
     </View>
   );
