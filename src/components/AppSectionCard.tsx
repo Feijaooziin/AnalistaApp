@@ -123,7 +123,7 @@ export default function AppSectionCard({
                 style={{
                   paddingHorizontal: current.padding,
                   paddingVertical: SPACING.sm,
-                  borderTopWidth: index === 0 ? 0.5 : 0,
+                  borderTopWidth: index === 0 ? 1 : 0,
                   borderTopColor: colors.border,
                   borderBottomWidth: isLast ? 0 : 1,
                   borderBottomColor: colors.border,

@@ -1,10 +1,8 @@
 import AppBadge from "@/src/components/AppBadge";
 import AppInput from "@/src/components/AppInput";
-import AppListItem from "@/src/components/AppListItem";
 import AppSearchInput from "@/src/components/AppSearchInput";
 import AppSectionCard from "@/src/components/AppSectionCard";
 import DateTimeInput from "@/src/components/DateTimeInput";
-import AppIcon from "@/src/components/icons/AppIcon";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import PickerInput from "@/src/components/PickerInput";
@@ -47,12 +45,6 @@ export default function Home() {
         <AppBadge label="Ativo" variant="success" />
         <AppBadge label="Desligado" variant="danger" size="lg" />
         <AppBadge label="JBS" variant="primary" size="sm" />
-
-        <AppListItem
-          title="Tema"
-          subtitle="Escuro"
-          leftComponent={<AppIcon name="moon-outline" />}
-        />
 
         <AppSectionCard
           title="Dados pessoais"
