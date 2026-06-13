@@ -1,9 +1,18 @@
-import { useCallback, useMemo, useState } from "react";
-import { FlatList, Modal, Pressable, Text } from "react-native";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Animated,
+  Dimensions,
+  FlatList,
+  Modal,
+  Pressable,
+  Text,
+} from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
 import AppSearchInput from "./AppSearchInput";
+
+const { height } = Dimensions.get("window");
 
 interface SelectOption<T = string> {
   label: string;
@@ -65,6 +74,8 @@ export default function AppSelectModal<T extends string | number>({
   const { colors } = useTheme();
   const [search, setSearch] = useState("");
 
+  const translateY = useRef(new Animated.Value(height)).current;
+
   const showSearch = options.length > 3;
 
   const filteredOptions = useMemo(() => {
@@ -74,6 +85,18 @@ export default function AppSelectModal<T extends string | number>({
 
     return options.filter((item) => item.label.toLowerCase().includes(lower));
   }, [options, search]);
+
+  useEffect(() => {
+    if (visible) {
+      Animated.timing(translateY, {
+        toValue: height * 0.5,
+        duration: 250,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      translateY.setValue(height);
+    }
+  }, [visible]);
 
   const handleSelect = useCallback(
     (selectedValue: T) => {
@@ -99,89 +122,93 @@ export default function AppSelectModal<T extends string | number>({
     [value, colors, handleSelect],
   );
 
+  if (!visible) return null;
+
   return (
-    <Modal visible={visible} animationType="slide" transparent>
+    <Modal visible={visible} animationType="none" transparent>
       {/* BACKDROP */}
       <Pressable
         onPress={onClose}
         style={{
           flex: 1,
-          backgroundColor: "rgba(0,0,0,0.5)",
-          justifyContent: "flex-end",
+          backgroundColor: "#00000060",
+        }}
+      />
+
+      {/* SHEET */}
+      <Animated.View
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+
+          height: height * 0.5,
+
+          backgroundColor: colors.background,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          padding: SPACING.md,
+
+          transform: [{ translateY }],
         }}
       >
-        {/* CONTAINER */}
-        <Pressable
-          onPress={() => {}}
+        {/* HEADER */}
+        <Text
           style={{
-            backgroundColor: colors.background,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            padding: SPACING.md,
-            maxHeight: "50%",
+            fontSize: 18,
+            fontWeight: "700",
+            color: colors.text,
+            marginBottom: SPACING.sm,
           }}
         >
-          {/* HEADER */}
+          {title ?? "Selecionar opção"}
+        </Text>
+
+        {/* SEARCH */}
+        {showSearch && (
+          <AppSearchInput
+            placeholder="Pesquisar..."
+            value={search}
+            onChangeText={setSearch}
+          />
+        )}
+
+        {/* COUNT */}
+        {showSearch && (
           <Text
             style={{
-              fontSize: 18,
-              fontWeight: "700",
-              color: colors.text,
-              marginBottom: SPACING.sm,
+              color: colors.textSecondary,
+              marginTop: -10,
+              marginBottom: 10,
             }}
           >
-            {title ?? "Selecionar opção"}
+            {filteredOptions.length} opções
           </Text>
+        )}
 
-          {/* SEARCH */}
-          {showSearch && (
-            <AppSearchInput
-              placeholder="Pesquisar..."
-              value={search}
-              onChangeText={setSearch}
-            />
-          )}
+        {/* LIST */}
+        <FlatList
+          data={filteredOptions}
+          keyExtractor={(item) => String(item.value)}
+          renderItem={renderItem}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        />
 
-          {/* COUNT */}
-          {showSearch && (
-            <Text
-              style={{
-                color: colors.textSecondary,
-                marginTop: -10,
-                marginBottom: 10,
-              }}
-            >
-              {filteredOptions.length} opções
-            </Text>
-          )}
-
-          {/* LIST */}
-          <FlatList
-            data={filteredOptions}
-            keyExtractor={(item) => String(item.value)}
-            renderItem={renderItem}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-            initialNumToRender={12}
-            maxToRenderPerBatch={12}
-            windowSize={7}
-            removeClippedSubviews
-          />
-
-          {/* EMPTY STATE */}
-          {filteredOptions.length === 0 && (
-            <Text
-              style={{
-                textAlign: "center",
-                color: colors.textSecondary,
-                marginTop: SPACING.lg,
-              }}
-            >
-              Nenhum resultado encontrado
-            </Text>
-          )}
-        </Pressable>
-      </Pressable>
+        {/* EMPTY */}
+        {filteredOptions.length === 0 && (
+          <Text
+            style={{
+              textAlign: "center",
+              color: colors.textSecondary,
+              marginTop: SPACING.lg,
+            }}
+          >
+            Nenhum resultado encontrado
+          </Text>
+        )}
+      </Animated.View>
     </Modal>
   );
 }
