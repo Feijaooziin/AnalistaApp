@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { FlatList, Modal, Pressable, Text, View } from "react-native";
+import { FlatList, Modal, Pressable, Text } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
@@ -101,14 +101,18 @@ export default function AppSelectModal<T extends string | number>({
 
   return (
     <Modal visible={visible} animationType="slide" transparent>
-      <View
+      {/* BACKDROP */}
+      <Pressable
+        onPress={onClose}
         style={{
           flex: 1,
-          backgroundColor: "#00000060",
+          backgroundColor: "rgba(0,0,0,0.5)",
           justifyContent: "flex-end",
         }}
       >
-        <View
+        {/* CONTAINER */}
+        <Pressable
+          onPress={() => {}}
           style={{
             backgroundColor: colors.background,
             borderTopLeftRadius: 20,
@@ -151,7 +155,7 @@ export default function AppSelectModal<T extends string | number>({
             </Text>
           )}
 
-          {/* LIST (PERFORMANCE CORE) */}
+          {/* LIST */}
           <FlatList
             data={filteredOptions}
             keyExtractor={(item) => String(item.value)}
@@ -176,8 +180,8 @@ export default function AppSelectModal<T extends string | number>({
               Nenhum resultado encontrado
             </Text>
           )}
-        </View>
-      </View>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 }
