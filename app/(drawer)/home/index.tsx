@@ -12,8 +12,8 @@ import { View } from "react-native";
 
 export default function Home() {
   const [search, setSearch] = useState("");
-  const [size, setSize] = useState("" as any);
-  const sizes = [
+  const [fruit, setFruit] = useState("" as any);
+  const fruits = [
     { label: "Maçã", value: "Maçã" },
     { label: "Abacaxi", value: "Abacaxi" },
     { label: "Melancia", value: "Melancia" },
@@ -28,23 +28,25 @@ export default function Home() {
           onChangeText={setSearch}
         />
 
+        <View style={{ flexDirection: "row", gap: 6, marginBottom: 6 }}>
+          <AppBadge label="Ativo" variant="success" />
+          <AppBadge label="Desligado" variant="danger" />
+          <AppBadge label="JBS" variant="primary" />
+        </View>
+
         <PickerInput
-          label="Teste"
-          value={size}
-          options={sizes}
+          label="Melhor Fruta"
+          value={fruit}
+          options={fruits}
           onPress={() =>
             openPicker({
-              title: "Tamanho",
-              value: size,
-              options: sizes,
-              onSelect: setSize,
+              title: "Fruta",
+              value: fruit,
+              options: fruits,
+              onSelect: setFruit,
             })
           }
         />
-
-        <AppBadge label="Ativo" variant="success" />
-        <AppBadge label="Desligado" variant="danger" size="lg" />
-        <AppBadge label="JBS" variant="primary" size="sm" />
 
         <AppSectionCard
           title="Dados pessoais"
