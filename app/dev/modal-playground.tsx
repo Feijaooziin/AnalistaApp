@@ -9,6 +9,7 @@ import AppButton from "@/src/components/ui/AppButton";
 import AppBottomSheet from "@/src/components/ui/AppBottomSheet";
 import AppModal from "@/src/components/ui/AppModal";
 import AppSelectModal from "@/src/components/ui/AppSelectModal";
+import { showInfo } from "@/src/utils/toast";
 
 export default function ModalPlayground() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -73,7 +74,7 @@ export default function ModalPlayground() {
           { label: "Opção 9", value: "9" },
         ]}
         onSelect={(v) => {
-          console.log("selected:", v);
+          showInfo(`Selecionado opção ${v}`);
           setSelectOpen(false);
         }}
       />

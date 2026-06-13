@@ -46,9 +46,8 @@ export default function AppSelectModal<T extends string | number>({
   const handleSelect = useCallback(
     (selectedValue: T) => {
       onSelect?.(selectedValue);
-      onClose();
     },
-    [onSelect, onClose],
+    [onSelect],
   );
 
   return (
