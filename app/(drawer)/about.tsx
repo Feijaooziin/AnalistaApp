@@ -3,7 +3,7 @@ import { Linking, Text, View } from "react-native";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
-import AppCard from "@/src/components/AppCard";
+import AppCard from "@/src/components/ui/AppCard";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";

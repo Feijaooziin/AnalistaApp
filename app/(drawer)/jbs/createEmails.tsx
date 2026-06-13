@@ -2,10 +2,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { Linking, Text, View } from "react-native";
 
-import AppButton from "@/src/components/AppButton";
-import AppCard from "@/src/components/AppCard";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import AppButton from "@/src/components/ui/AppButton";
+import AppCard from "@/src/components/ui/AppCard";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import {
   EMAIL_OPTIONS,

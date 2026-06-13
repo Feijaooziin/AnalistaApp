@@ -3,9 +3,9 @@ import { useRef, useState } from "react";
 import { Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import AppButton from "@/src/components/AppButton";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import AppButton from "@/src/components/ui/AppButton";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { AdvertenciaForm } from "@/src/modules/advertencia/components/AdvertenciaForm";
 import { gerarPDF } from "@/src/modules/advertencia/services/pdfService";

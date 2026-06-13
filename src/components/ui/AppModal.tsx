@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { Animated, Dimensions, Modal, Pressable, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
@@ -14,8 +14,8 @@ const { height } = Dimensions.get("window");
 
 export default function AppModal({ visible, onClose, children }: Props) {
   const { colors } = useTheme();
-  const fadeAnim = new Animated.Value(0);
-  const scaleAnim = new Animated.Value(0.95);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const scaleAnim = useRef(new Animated.Value(0.95)).current;
 
   useEffect(() => {
     if (visible) {
@@ -67,8 +67,8 @@ export default function AppModal({ visible, onClose, children }: Props) {
             backgroundColor: colors.surface,
             borderRadius: RADIUS.lg,
             padding: SPACING.md,
-            transform: [{ scale: scaleAnim }],
             opacity: fadeAnim,
+            transform: [{ scale: scaleAnim }],
           }}
         >
           {children}

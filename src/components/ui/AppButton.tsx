@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
 } from "react-native";
-import AppIcon, { CompanyIcon } from "./icons/AppIcon";
+import AppIcon, { CompanyIcon } from "../icons/AppIcon";
 
 type Variant = "primary" | "danger" | "outline";
 

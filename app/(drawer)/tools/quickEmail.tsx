@@ -4,8 +4,8 @@ import { Linking, Text, View } from "react-native";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
-import AppButton from "@/src/components/AppButton";
-import AppInput from "@/src/components/AppInput";
+import AppButton from "@/src/components/ui/AppButton";
+import AppInput from "@/src/components/ui/AppInput";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
 import { showWarning } from "@/src/utils/toast";

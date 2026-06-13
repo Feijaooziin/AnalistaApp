@@ -4,7 +4,7 @@ import { Platform, Pressable, Text, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
-import AppIcon from "./icons/AppIcon";
+import AppIcon from "../icons/AppIcon";
 
 type Variant = "date" | "time" | "datetime" | "month" | "year" | "range";
 

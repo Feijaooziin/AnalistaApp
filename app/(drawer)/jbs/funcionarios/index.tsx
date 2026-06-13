@@ -9,10 +9,10 @@ import { User } from "@/src/types/user";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
 
-import AppButton from "@/src/components/AppButton";
-import AppInput from "@/src/components/AppInput";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
-import { PickerInput } from "@/src/components/PickerInput";
+import AppButton from "@/src/components/ui/AppButton";
+import AppInput from "@/src/components/ui/AppInput";
+import { PickerInput } from "@/src/components/ui/PickerInput";
 import { useRefresh } from "@/src/hooks/useRefresh";
 import FuncionarioCard from "@/src/modules/jbs/components/FuncionarioCard";
 import { JBS_CARGOS_FILTER } from "@/src/modules/jbs/constants/jbs";
