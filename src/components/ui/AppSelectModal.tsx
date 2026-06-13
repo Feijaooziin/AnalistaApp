@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { useCallback, useMemo, useState } from "react";
+import { FlatList, Modal, Pressable, Text, View } from "react-native";
 
-import AppInput from "@/src/components/ui/AppInput";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
+import AppSearchInput from "./AppSearchInput";
 
 interface SelectOption<T = string> {
   label: string;
@@ -17,6 +17,41 @@ interface Props<T = string> {
   options: SelectOption<T>[];
   onSelect?: (value: T) => void;
   onClose: () => void;
+}
+
+function SelectItem<T>({
+  item,
+  selected,
+  onPress,
+  colors,
+}: {
+  item: SelectOption<T>;
+  selected: boolean;
+  onPress: () => void;
+  colors: any;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={{
+        padding: SPACING.md,
+        borderWidth: 1,
+        borderRadius: RADIUS.md,
+        marginBottom: SPACING.sm,
+        borderColor: selected ? colors.inputBorderFocused : colors.border,
+        backgroundColor: selected ? colors.primary + "15" : colors.surface,
+      }}
+    >
+      <Text
+        style={{
+          color: selected ? colors.text : colors.textSecondary,
+          fontWeight: selected ? "700" : "400",
+        }}
+      >
+        {item.label}
+      </Text>
+    </Pressable>
+  );
 }
 
 export default function AppSelectModal<T extends string | number>({
@@ -35,15 +70,34 @@ export default function AppSelectModal<T extends string | number>({
   const filteredOptions = useMemo(() => {
     if (!search.trim()) return options;
 
-    return options.filter((item) =>
-      item.label.toLowerCase().includes(search.toLowerCase()),
-    );
+    const lower = search.toLowerCase();
+
+    return options.filter((item) => item.label.toLowerCase().includes(lower));
   }, [options, search]);
 
-  function handleSelect(selectedValue: T) {
-    onSelect?.(selectedValue);
-    onClose();
-  }
+  const handleSelect = useCallback(
+    (selectedValue: T) => {
+      onSelect?.(selectedValue);
+      onClose();
+    },
+    [onSelect, onClose],
+  );
+
+  const renderItem = useCallback(
+    ({ item }: { item: SelectOption<T> }) => {
+      const selected = item.value === value;
+
+      return (
+        <SelectItem
+          item={item}
+          selected={selected}
+          colors={colors}
+          onPress={() => handleSelect(item.value)}
+        />
+      );
+    },
+    [value, colors, handleSelect],
+  );
 
   return (
     <Modal visible={visible} animationType="slide" transparent>
@@ -60,7 +114,7 @@ export default function AppSelectModal<T extends string | number>({
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
             padding: SPACING.md,
-            maxHeight: "85%",
+            maxHeight: "50%",
           }}
         >
           {/* HEADER */}
@@ -77,13 +131,14 @@ export default function AppSelectModal<T extends string | number>({
 
           {/* SEARCH */}
           {showSearch && (
-            <AppInput
+            <AppSearchInput
               placeholder="Pesquisar..."
               value={search}
               onChangeText={setSearch}
             />
           )}
 
+          {/* COUNT */}
           {showSearch && (
             <Text
               style={{
@@ -96,52 +151,31 @@ export default function AppSelectModal<T extends string | number>({
             </Text>
           )}
 
-          {/* LIST */}
-          <View style={{ gap: SPACING.sm }}>
-            {filteredOptions.map((option) => {
-              const selected = option.value === value;
+          {/* LIST (PERFORMANCE CORE) */}
+          <FlatList
+            data={filteredOptions}
+            keyExtractor={(item) => String(item.value)}
+            renderItem={renderItem}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            initialNumToRender={12}
+            maxToRenderPerBatch={12}
+            windowSize={7}
+            removeClippedSubviews
+          />
 
-              return (
-                <Pressable
-                  key={String(option.value)}
-                  onPress={() => handleSelect(option.value)}
-                  style={{
-                    padding: SPACING.md,
-                    borderWidth: 1,
-                    borderRadius: RADIUS.md,
-                    borderColor: selected
-                      ? colors.inputBorderFocused
-                      : colors.border,
-                    backgroundColor: selected
-                      ? colors.primary + "15"
-                      : colors.surface,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: selected ? colors.text : colors.textSecondary,
-                      fontWeight: selected ? "700" : "400",
-                    }}
-                  >
-                    {option.label}
-                  </Text>
-                </Pressable>
-              );
-            })}
-
-            {/* EMPTY STATE */}
-            {filteredOptions.length === 0 && (
-              <Text
-                style={{
-                  textAlign: "center",
-                  color: colors.textSecondary,
-                  marginTop: SPACING.lg,
-                }}
-              >
-                Nenhum resultado encontrado
-              </Text>
-            )}
-          </View>
+          {/* EMPTY STATE */}
+          {filteredOptions.length === 0 && (
+            <Text
+              style={{
+                textAlign: "center",
+                color: colors.textSecondary,
+                marginTop: SPACING.lg,
+              }}
+            >
+              Nenhum resultado encontrado
+            </Text>
+          )}
         </View>
       </View>
     </Modal>
