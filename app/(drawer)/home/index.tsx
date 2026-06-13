@@ -1,3 +1,4 @@
+import AppBadge from "@/src/components/AppBadge";
 import AppSearchInput from "@/src/components/AppSearchInput";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
@@ -26,6 +27,10 @@ export default function Home() {
           onChangeText={setSearch}
           size={size}
         />
+
+        <AppBadge label="Ativo" variant="success" />
+        <AppBadge label="Desligado" variant="danger" size="lg" />
+        <AppBadge label="JBS" variant="primary" size="sm" />
       </View>
     </ScreenContainer>
   );
