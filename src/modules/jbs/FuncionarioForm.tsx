@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { View } from "react-native";
 
-import AppButton from "@/src/components/ui/AppButton";
-import AppInput from "@/src/components/ui/AppInput";
-import { PickerInput } from "@/src/components/ui/PickerInput";
+import AppButton from "@/src/components/AppButton";
+import AppInput from "@/src/components/AppInput";
+import { PickerInput } from "@/src/components/PickerInput";
 
 import { JBS_CARGOS, JBS_ESCALAS } from "@/src/modules/jbs/constants/jbs";
 import { FuncionarioFormData } from "@/src/modules/jbs/types/funcionarioForm";

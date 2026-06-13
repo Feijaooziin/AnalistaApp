@@ -1,50 +1,30 @@
+import AppSearchInput from "@/src/components/AppSearchInput";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
-import AppButton from "@/src/components/ui/AppButton";
-import AppCard from "@/src/components/ui/AppCard";
-import AppInput from "@/src/components/ui/AppInput";
-import DateTimeInput from "@/src/components/ui/DateTimeInput";
-import PickerInput from "@/src/components/ui/PickerInput";
-import { JBS_CARGOS } from "@/src/modules/jbs/constants/jbs";
-import { openPicker } from "@/src/services/picker/openPicker";
 import { useState } from "react";
 import { View } from "react-native";
 
 export default function Home() {
-  const [cargo, setCargo] = useState("a");
+  const [search, setSearch] = useState("");
+  const [size, setSize] = useState("md" as any);
+  const sizes = [
+    { label: "Pequeno", value: "sm", gap: 12 },
+    { label: "Médio", value: "md", gap: 12 },
+    { label: "Grande", value: "lg", gap: 12 },
+  ];
   return (
     <ScreenContainer header={{ title: "ECLA Hub", toggleTheme: true }}>
-      <View style={{ gap: 16 }}>
-        <PageContext
-          title="Filtros"
-          subtitle="Testando isso também"
-          rightComponent={<AppButton title="Limpar" size="sm" />}
-        />
-
-        <AppCard title="Teste" value="Teste" />
-        <AppButton title="Teste" leftIcon="ecla-icon" rightIcon="ecla-icon" />
-        <AppButton
-          title="Remove"
-          leftIcon="logo-jbs"
-          rightIcon="logo-seara"
-          variant="danger"
-        />
-
-        <AppInput label="Teste" clearable />
-
-        <DateTimeInput label="Data" />
-        <PickerInput
-          label="Cargo"
-          value={cargo}
-          options={JBS_CARGOS}
-          onPress={() =>
-            openPicker({
-              title: "Cargo",
-              value: cargo,
-              options: JBS_CARGOS,
-              onSelect: setCargo,
-            })
-          }
+      <PageContext
+        title="Testes"
+        subtitle="Tela temporária para testes"
+        size={size}
+      />
+      <View style={{ gap: size === "sm" ? 8 : 16 }}>
+        <AppSearchInput
+          label="Buscar colaborador"
+          value={search}
+          onChangeText={setSearch}
+          size={size}
         />
       </View>
     </ScreenContainer>

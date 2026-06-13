@@ -8,8 +8,8 @@ import { User } from "@/src/types/user";
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
-import AppButton from "@/src/components/ui/AppButton";
-import AppCard from "@/src/components/ui/AppCard";
+import AppButton from "@/src/components/AppButton";
+import AppCard from "@/src/components/AppCard";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { triggerRefresh } from "@/src/hooks/useRefresh";
 import { SPACING } from "@/src/theme/layout";

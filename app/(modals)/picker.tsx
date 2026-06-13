@@ -2,8 +2,8 @@ import { router } from "expo-router";
 import { useMemo, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
+import AppInput from "@/src/components/AppInput";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
-import AppInput from "@/src/components/ui/AppInput";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { usePickerStore } from "@/src/store/pickerStore";
 import { RADIUS, SPACING } from "@/src/theme/layout";
