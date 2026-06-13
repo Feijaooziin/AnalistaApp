@@ -49,12 +49,11 @@ export default function ModalPlayground() {
 
       {/* BottomSheet */}
       <AppBottomSheet visible={sheetOpen} onClose={() => setSheetOpen(false)}>
-        <View style={{ padding: 20 }}>
-          <AppButton
-            title="Fechar BottomSheet"
-            onPress={() => setSheetOpen(false)}
-          />
-        </View>
+        {(close) => (
+          <View style={{ padding: 20 }}>
+            <AppButton title="Fechar BottomSheet" onPress={close} />
+          </View>
+        )}
       </AppBottomSheet>
 
       {/* SelectModal */}

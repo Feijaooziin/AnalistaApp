@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import {
   Animated,
   Dimensions,
@@ -14,8 +14,8 @@ import { RADIUS, SPACING } from "@/src/theme/layout";
 interface Props {
   visible: boolean;
   onClose: () => void;
-  children: ReactNode;
   heightRatio?: number;
+  children: ReactNode | ((close: () => void) => ReactNode);
 }
 
 const { height } = Dimensions.get("window");
@@ -31,23 +31,32 @@ export default function AppBottomSheet({
   const sheetHeight = height * heightRatio;
   const translateY = useRef(new Animated.Value(sheetHeight)).current;
 
+  const [mounted, setMounted] = useState(visible);
+
   useEffect(() => {
     if (visible) {
+      setMounted(true);
+
+      translateY.setValue(sheetHeight);
+
       Animated.timing(translateY, {
         toValue: 0,
         duration: 300,
         useNativeDriver: true,
       }).start();
-    } else {
-      Animated.timing(translateY, {
-        toValue: sheetHeight,
-        duration: 250,
-        useNativeDriver: true,
-      }).start(() => {
-        onClose();
-      });
     }
   }, [visible]);
+
+  function animateClose() {
+    Animated.timing(translateY, {
+      toValue: sheetHeight,
+      duration: 250,
+      useNativeDriver: true,
+    }).start(() => {
+      setMounted(false);
+      onClose();
+    });
+  }
 
   const panResponder = useRef(
     PanResponder.create({
@@ -60,11 +69,11 @@ export default function AppBottomSheet({
       },
       onPanResponderRelease: (_, gesture) => {
         if (gesture.dy > 120) {
-          onClose();
+          animateClose();
         } else {
           Animated.timing(translateY, {
             toValue: 0,
-            duration: 200,
+            duration: 300,
             useNativeDriver: true,
           }).start();
         }
@@ -72,13 +81,13 @@ export default function AppBottomSheet({
     }),
   ).current;
 
-  if (!visible) return null;
+  if (!mounted) return null;
 
   return (
     <Modal animationType="none" visible={visible} transparent>
       {/* BACKDROP */}
       <Pressable
-        onPress={onClose}
+        onPress={animateClose}
         style={{
           flex: 1,
           backgroundColor: "rgba(0,0,0,0.5)",
@@ -121,7 +130,9 @@ export default function AppBottomSheet({
           />
         </Pressable>
 
-        <View style={{ flex: 1 }}>{children}</View>
+        <View style={{ flex: 1 }}>
+          {typeof children === "function" ? children(animateClose) : children}
+        </View>
       </Animated.View>
     </Modal>
   );
