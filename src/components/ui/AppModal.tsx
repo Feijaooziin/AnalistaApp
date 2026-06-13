@@ -27,7 +27,7 @@ export default function AppModal({ visible, onClose, children }: Props) {
         }),
         Animated.timing(scaleAnim, {
           toValue: 1,
-          duration: 180,
+          duration: 500,
           useNativeDriver: true,
         }),
       ]).start();
@@ -40,7 +40,7 @@ export default function AppModal({ visible, onClose, children }: Props) {
   if (!visible) return null;
 
   return (
-    <Modal transparent animationType="none" visible={visible}>
+    <Modal animationType="none" visible={visible} transparent>
       <View
         style={{
           flex: 1,

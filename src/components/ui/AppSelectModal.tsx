@@ -1,19 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  Animated,
-  Dimensions,
-  FlatList,
-  Modal,
-  Pressable,
-  Text,
-  View,
-} from "react-native";
+import { useCallback, useMemo, useState } from "react";
+import { FlatList, Pressable, Text } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
-import AppSearchInput from "./AppSearchInput";
 
-const { height } = Dimensions.get("window");
+import AppBottomSheet from "./AppBottomSheet";
+import AppSearchInput from "./AppSearchInput";
 
 interface SelectOption<T = string> {
   label: string;
@@ -29,41 +21,6 @@ interface Props<T = string> {
   onClose: () => void;
 }
 
-function SelectItem<T>({
-  item,
-  selected,
-  onPress,
-  colors,
-}: {
-  item: SelectOption<T>;
-  selected: boolean;
-  onPress: () => void;
-  colors: any;
-}) {
-  return (
-    <Pressable
-      onPress={onPress}
-      style={{
-        padding: SPACING.md,
-        borderWidth: 1,
-        borderRadius: RADIUS.md,
-        marginBottom: SPACING.sm,
-        borderColor: selected ? colors.primary : colors.border,
-        backgroundColor: selected ? colors.primary + "15" : colors.surface,
-      }}
-    >
-      <Text
-        style={{
-          color: selected ? colors.text : colors.textSecondary,
-          fontWeight: selected ? "700" : "400",
-        }}
-      >
-        {item.label}
-      </Text>
-    </Pressable>
-  );
-}
-
 export default function AppSelectModal<T extends string | number>({
   visible,
   title,
@@ -73,11 +30,9 @@ export default function AppSelectModal<T extends string | number>({
   onClose,
 }: Props<T>) {
   const { colors } = useTheme();
+
   const [search, setSearch] = useState("");
 
-  const translateY = useRef(new Animated.Value(height)).current;
-
-  const sheetHeight = height * 0.5;
   const showSearch = options.length > 3;
 
   const filteredOptions = useMemo(() => {
@@ -88,24 +43,6 @@ export default function AppSelectModal<T extends string | number>({
     return options.filter((item) => item.label.toLowerCase().includes(lower));
   }, [options, search]);
 
-  useEffect(() => {
-    if (visible) {
-      translateY.setValue(height);
-
-      Animated.timing(translateY, {
-        toValue: height - sheetHeight,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(translateY, {
-        toValue: height,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [visible]);
-
   const handleSelect = useCallback(
     (selectedValue: T) => {
       onSelect?.(selectedValue);
@@ -114,116 +51,87 @@ export default function AppSelectModal<T extends string | number>({
     [onSelect, onClose],
   );
 
-  const renderItem = useCallback(
-    ({ item }: { item: SelectOption<T> }) => {
-      const selected = item.value === value;
-
-      return (
-        <SelectItem
-          item={item}
-          selected={selected}
-          colors={colors}
-          onPress={() => handleSelect(item.value)}
-        />
-      );
-    },
-    [value, colors, handleSelect],
-  );
-
   return (
-    <Modal visible={visible} transparent animationType="none">
-      {/* BACKDROP */}
-      <Pressable
-        onPress={onClose}
+    <AppBottomSheet visible={visible} onClose={onClose} heightRatio={0.6}>
+      <Text
         style={{
-          flex: 1,
-          backgroundColor: "rgba(0,0,0,0.5)",
-        }}
-      />
-
-      {/* SHEET */}
-      <Animated.View
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: sheetHeight,
-          backgroundColor: colors.background,
-          borderTopLeftRadius: RADIUS.lg,
-          borderTopRightRadius: RADIUS.lg,
-          padding: SPACING.md,
-          transform: [{ translateY }],
+          fontSize: 18,
+          fontWeight: "700",
+          color: colors.text,
+          marginBottom: SPACING.md,
         }}
       >
-        {/* HANDLE */}
-        <View
-          style={{
-            width: 40,
-            height: 5,
-            backgroundColor: colors.border,
-            borderRadius: 20,
-            alignSelf: "center",
-            marginBottom: SPACING.md,
-          }}
-        />
+        {title ?? "Selecionar opção"}
+      </Text>
 
-        {/* TITLE */}
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "700",
-            color: colors.text,
-            marginBottom: SPACING.sm,
-          }}
-        >
-          {title ?? "Selecionar opção"}
-        </Text>
-
-        {/* SEARCH */}
-        {showSearch && (
+      {showSearch && (
+        <>
           <AppSearchInput
             placeholder="Pesquisar..."
             value={search}
             onChangeText={setSearch}
           />
-        )}
 
-        {/* COUNT */}
-        {showSearch && (
           <Text
             style={{
               color: colors.textSecondary,
               marginTop: -10,
-              marginBottom: 10,
+              marginBottom: SPACING.sm,
             }}
           >
             {filteredOptions.length} opções
           </Text>
-        )}
+        </>
+      )}
 
-        {/* LIST */}
-        <FlatList
-          data={filteredOptions}
-          keyExtractor={(item) => String(item.value)}
-          renderItem={renderItem}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        />
+      <FlatList
+        data={filteredOptions}
+        keyExtractor={(item) => String(item.value)}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => {
+          const selected = item.value === value;
 
-        {/* EMPTY */}
-        {filteredOptions.length === 0 && (
-          <Text
-            style={{
-              textAlign: "center",
-              color: colors.textSecondary,
-              marginTop: SPACING.lg,
-            }}
-          >
-            Nenhum resultado encontrado
-          </Text>
-        )}
-      </Animated.View>
-    </Modal>
+          return (
+            <Pressable
+              onPress={() => handleSelect(item.value)}
+              style={{
+                padding: SPACING.md,
+                borderWidth: 1,
+                borderRadius: RADIUS.md,
+                marginBottom: SPACING.sm,
+                borderColor: selected
+                  ? colors.inputBorderFocused
+                  : colors.border,
+                backgroundColor: selected
+                  ? colors.primary + "15"
+                  : colors.surface,
+              }}
+            >
+              <Text
+                style={{
+                  color: selected ? colors.text : colors.textSecondary,
+                  fontWeight: selected ? "700" : "400",
+                }}
+              >
+                {item.label}
+              </Text>
+            </Pressable>
+          );
+        }}
+      />
+
+      {filteredOptions.length === 0 && (
+        <Text
+          style={{
+            textAlign: "center",
+            color: colors.textSecondary,
+            marginTop: SPACING.lg,
+          }}
+        >
+          Nenhum resultado encontrado
+        </Text>
+      )}
+    </AppBottomSheet>
   );
 }

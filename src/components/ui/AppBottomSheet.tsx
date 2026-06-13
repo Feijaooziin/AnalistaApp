@@ -36,7 +36,7 @@ export default function AppBottomSheet({
     if (visible) {
       Animated.timing(translateY, {
         toValue: height - sheetHeight,
-        duration: 250,
+        duration: 500,
         useNativeDriver: true,
       }).start();
     } else {
