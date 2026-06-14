@@ -13,7 +13,7 @@ interface Props {
 
   header?: {
     title?: string;
-    variant?: "menu" | "back" | "search" | "close";
+    variant?: "menu" | "back" | "search" | "close" | "none";
     showLogo?: boolean;
     toggleTheme?: boolean;
     rightComponent?: ReactNode;
@@ -58,7 +58,7 @@ export default function ScreenContainer({
       {(header || modal) && (
         <Header
           title={header?.title}
-          variant={modal ? "close" : (header?.variant ?? "menu")}
+          variant={modal ? "none" : (header?.variant ?? "menu")}
           showLogo={modal ? false : header?.showLogo}
           toggleTheme={header?.toggleTheme}
           rightComponent={header?.rightComponent}

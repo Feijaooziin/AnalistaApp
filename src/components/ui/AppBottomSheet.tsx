@@ -5,78 +5,132 @@ import {
   Modal,
   PanResponder,
   Pressable,
-  View,
 } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
+import ScreenContainer from "../layout/ScreenContainer";
 
 interface Props {
+  title: String;
   visible: boolean;
   onClose: () => void;
   children: ReactNode | ((close: () => void) => ReactNode);
-  heightRatio?: number;
+  initialSnap?: number;
+  expandedSnap?: number;
 }
 
 const { height } = Dimensions.get("window");
 
 export default function AppBottomSheet({
+  title,
   visible,
   onClose,
   children,
-  heightRatio = 0.35,
+  initialSnap = 0.35,
+  expandedSnap = 0.95,
 }: Props) {
   const { colors } = useTheme();
 
-  const sheetHeight = height * heightRatio;
-  const translateY = useRef(new Animated.Value(sheetHeight)).current;
+  const collapsedHeight = height * initialSnap;
+  const expandedHeight = height * expandedSnap;
 
-  const [mounted, setMounted] = useState(visible);
+  const [mounted, setMounted] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const collapsedPosition = expandedHeight - collapsedHeight;
+  const currentPosition = useRef(collapsedPosition);
+  const currentSnap = useRef<"collapsed" | "expanded">("collapsed");
+  const translateY = useRef(new Animated.Value(expandedHeight)).current;
 
   useEffect(() => {
-    if (visible) {
-      setMounted(true);
+    if (!visible) return;
 
-      translateY.setValue(sheetHeight);
+    setMounted(true);
+    setExpanded(false);
 
-      Animated.timing(translateY, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    }
+    translateY.setValue(expandedHeight);
+
+    Animated.timing(translateY, {
+      toValue: collapsedPosition,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
   }, [visible]);
+
+  function snapToExpanded() {
+    currentPosition.current = 0;
+    currentSnap.current = "expanded";
+    setExpanded(true);
+
+    Animated.spring(translateY, {
+      toValue: 0,
+      useNativeDriver: true,
+    }).start();
+  }
+
+  function snapToCollapsed() {
+    currentPosition.current = collapsedPosition;
+    currentSnap.current = "collapsed";
+    setExpanded(false);
+
+    Animated.spring(translateY, {
+      toValue: collapsedPosition,
+      useNativeDriver: true,
+    }).start();
+  }
 
   function animateClose() {
     Animated.timing(translateY, {
-      toValue: sheetHeight,
+      toValue: expandedHeight,
       duration: 250,
       useNativeDriver: true,
     }).start(() => {
       setMounted(false);
+      setExpanded(false);
       onClose();
     });
   }
 
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: (_, gesture) =>
-        gesture.moveY > height - sheetHeight + 50,
-      onPanResponderMove: (_, gesture) => {
-        if (gesture.dy > 0) {
-          translateY.setValue(gesture.dy);
-        }
+      onStartShouldSetPanResponder: () => true,
+
+      onMoveShouldSetPanResponder: (_, gesture) => {
+        return Math.abs(gesture.dy) > 5;
       },
+
+      onPanResponderMove: (_, gesture) => {
+        const nextPosition = currentPosition.current + gesture.dy;
+
+        translateY.setValue(
+          Math.max(0, Math.min(collapsedPosition, nextPosition)),
+        );
+      },
+
       onPanResponderRelease: (_, gesture) => {
-        if (gesture.dy > 120) {
-          animateClose();
-        } else {
-          Animated.timing(translateY, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          }).start();
+        // ESTAVA EXPANDIDO
+        if (currentSnap.current === "expanded") {
+          if (gesture.dy > 80) {
+            snapToCollapsed();
+          } else {
+            snapToExpanded();
+          }
+
+          return;
         }
+
+        // ESTAVA RECOLHIDO
+        if (gesture.dy < -80) {
+          snapToExpanded();
+          return;
+        }
+
+        if (gesture.dy > 180) {
+          animateClose();
+          return;
+        }
+
+        snapToCollapsed();
       },
     }),
   ).current;
@@ -84,8 +138,7 @@ export default function AppBottomSheet({
   if (!mounted) return null;
 
   return (
-    <Modal animationType="none" visible={visible} transparent>
-      {/* BACKDROP */}
+    <Modal transparent visible={visible} animationType="none">
       <Pressable
         onPress={animateClose}
         style={{
@@ -94,7 +147,6 @@ export default function AppBottomSheet({
         }}
       />
 
-      {/* SHEET */}
       <Animated.View
         {...panResponder.panHandlers}
         style={{
@@ -102,7 +154,7 @@ export default function AppBottomSheet({
           left: 0,
           right: 0,
           bottom: 0,
-          height: sheetHeight,
+          height: expandedHeight,
           backgroundColor: colors.surface,
           borderTopLeftRadius: RADIUS.lg,
           borderTopRightRadius: RADIUS.lg,
@@ -112,27 +164,13 @@ export default function AppBottomSheet({
           transform: [{ translateY }],
         }}
       >
-        {/* HANDLE */}
-        <Pressable
-          style={{
-            height: 40,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+        <ScreenContainer
+          modal
+          scrollable={false}
+          header={{ title: title ? `${title}` : "Opções" }}
         >
-          <View
-            style={{
-              width: 60,
-              height: 5,
-              backgroundColor: colors.border,
-              borderRadius: 20,
-            }}
-          />
-        </Pressable>
-
-        <View style={{ flex: 1 }}>
           {typeof children === "function" ? children(animateClose) : children}
-        </View>
+        </ScreenContainer>
       </Animated.View>
     </Modal>
   );

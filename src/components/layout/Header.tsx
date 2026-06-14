@@ -7,7 +7,7 @@ import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, SPACING } from "@/src/theme/layout";
 import AppIcon from "../icons/AppIcon";
 
-type HeaderVariant = "menu" | "back" | "search" | "close";
+type HeaderVariant = "menu" | "back" | "search" | "close" | "none";
 
 interface HeaderProps {
   title?: string;
