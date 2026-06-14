@@ -51,20 +51,9 @@ export default function AppSelectModal<T extends string | number>({
   );
 
   return (
-    <AppBottomSheet visible={visible} onClose={onClose} heightRatio={0.5}>
+    <AppBottomSheet visible={visible} onClose={onClose} title={title}>
       {(close) => (
         <>
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: "700",
-              color: colors.text,
-              marginBottom: SPACING.md,
-            }}
-          >
-            {title ?? "Selecionar opção"}
-          </Text>
-
           {showSearch && (
             <>
               <AppSearchInput
@@ -83,6 +72,17 @@ export default function AppSelectModal<T extends string | number>({
                 {filteredOptions.length} opções
               </Text>
             </>
+          )}
+          {filteredOptions.length === 0 && (
+            <Text
+              style={{
+                textAlign: "center",
+                color: colors.textSecondary,
+                marginTop: SPACING.lg,
+              }}
+            >
+              Nenhum resultado encontrado
+            </Text>
           )}
 
           <FlatList
@@ -124,18 +124,6 @@ export default function AppSelectModal<T extends string | number>({
               );
             }}
           />
-
-          {filteredOptions.length === 0 && (
-            <Text
-              style={{
-                textAlign: "center",
-                color: colors.textSecondary,
-                marginTop: SPACING.lg,
-              }}
-            >
-              Nenhum resultado encontrado
-            </Text>
-          )}
         </>
       )}
     </AppBottomSheet>

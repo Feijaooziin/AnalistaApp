@@ -5,14 +5,15 @@ import {
   Modal,
   PanResponder,
   Pressable,
+  View,
 } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
-import ScreenContainer from "../layout/ScreenContainer";
+import Header from "../layout/Header";
 
 interface Props {
-  title: String;
+  title?: string;
   visible: boolean;
   onClose: () => void;
   children: ReactNode | ((close: () => void) => ReactNode);
@@ -148,7 +149,6 @@ export default function AppBottomSheet({
       />
 
       <Animated.View
-        {...panResponder.panHandlers}
         style={{
           position: "absolute",
           left: 0,
@@ -164,13 +164,17 @@ export default function AppBottomSheet({
           transform: [{ translateY }],
         }}
       >
-        <ScreenContainer
-          modal
-          scrollable={false}
-          header={{ title: title ? `${title}` : "Opções" }}
-        >
+        <Animated.View {...panResponder.panHandlers}>
+          <Header
+            variant="close"
+            title={title ?? "Selecionar opção"}
+            onClosePress={animateClose}
+            showLogo={false}
+          />
+        </Animated.View>
+        <View style={{ marginTop: 20 }}>
           {typeof children === "function" ? children(animateClose) : children}
-        </ScreenContainer>
+        </View>
       </Animated.View>
     </Modal>
   );

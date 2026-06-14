@@ -51,7 +51,11 @@ export default function ModalPlayground() {
       </AppModal>
 
       {/* BottomSheet */}
-      <AppBottomSheet visible={sheetOpen} onClose={() => setSheetOpen(false)}>
+      <AppBottomSheet
+        title="Teste Modal"
+        visible={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+      >
         {(close) => (
           <View style={{ padding: 20 }}>
             <AppButton title="Fechar BottomSheet" onPress={close} />
@@ -61,7 +65,6 @@ export default function ModalPlayground() {
 
       {/* SelectModal */}
       <AppSelectModal
-        title="Selecionar opção"
         visible={selectOpen}
         onClose={() => setSelectOpen(false)}
         options={[
@@ -70,14 +73,9 @@ export default function ModalPlayground() {
           { label: "Opção 3", value: "3" },
           { label: "Opção 4", value: "4" },
           { label: "Opção 5", value: "5" },
-          { label: "Opção 6", value: "6" },
-          { label: "Opção 7", value: "7" },
-          { label: "Opção 8", value: "8" },
-          { label: "Opção 9", value: "9" },
         ]}
         onSelect={(v) => {
           showInfo(`Selecionado opção ${v}`);
-          setSelectOpen(false);
         }}
       />
     </ScreenContainer>
