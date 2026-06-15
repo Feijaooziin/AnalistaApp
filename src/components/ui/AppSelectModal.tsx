@@ -51,7 +51,12 @@ export default function AppSelectModal<T extends string | number>({
   );
 
   return (
-    <AppBottomSheet visible={visible} onClose={onClose} title={title}>
+    <AppBottomSheet
+      visible={visible}
+      onClose={onClose}
+      title={title}
+      initialSnap={0.6}
+    >
       {(close) => (
         <>
           {showSearch && (

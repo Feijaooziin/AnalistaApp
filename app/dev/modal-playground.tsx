@@ -52,6 +52,7 @@ export default function ModalPlayground() {
 
       {/* BottomSheet */}
       <AppBottomSheet
+        initialSnap={0.5}
         title="Teste Modal"
         visible={sheetOpen}
         onClose={() => setSheetOpen(false)}

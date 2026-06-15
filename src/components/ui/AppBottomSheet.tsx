@@ -35,49 +35,72 @@ export default function AppBottomSheet({
 
   const collapsedHeight = height * initialSnap;
   const expandedHeight = height * expandedSnap;
+  const collapsedPosition = expandedHeight - collapsedHeight;
+  const collapsedPositionRef = useRef(collapsedPosition);
+
+  console.log("RENDER");
+  console.log("initialSnap", initialSnap);
+  console.log("expandedSnap", expandedSnap);
+  console.log("collapsedHeight", collapsedHeight);
+  console.log("expandedHeight", expandedHeight);
+  console.log("collapsedPosition", collapsedPosition);
 
   const [mounted, setMounted] = useState(false);
-  const [expanded, setExpanded] = useState(false);
-  const collapsedPosition = expandedHeight - collapsedHeight;
   const currentPosition = useRef(collapsedPosition);
   const currentSnap = useRef<"collapsed" | "expanded">("collapsed");
   const translateY = useRef(new Animated.Value(expandedHeight)).current;
 
   useEffect(() => {
+    collapsedPositionRef.current = collapsedPosition;
+  }, [collapsedPosition]);
+
+  useEffect(() => {
     if (!visible) return;
 
     setMounted(true);
-    setExpanded(false);
+
+    currentSnap.current = "collapsed";
+    currentPosition.current = collapsedPositionRef.current;
 
     translateY.setValue(expandedHeight);
 
     Animated.timing(translateY, {
-      toValue: collapsedPosition,
+      toValue: collapsedPositionRef.current,
       duration: 300,
       useNativeDriver: true,
     }).start();
-  }, [visible]);
+  }, [visible, collapsedPosition]);
 
   function snapToExpanded() {
+    console.log("EXPANDINDO");
+
     currentPosition.current = 0;
     currentSnap.current = "expanded";
-    setExpanded(true);
 
     Animated.spring(translateY, {
       toValue: 0,
       useNativeDriver: true,
-    }).start();
+    }).start(() => {
+      translateY.stopAnimation((value) => {
+        console.log("translateY final:", value);
+      });
+    });
   }
 
   function snapToCollapsed() {
-    currentPosition.current = collapsedPosition;
+    console.log("RECOLHENDO");
+
+    currentPosition.current = collapsedPositionRef.current;
     currentSnap.current = "collapsed";
-    setExpanded(false);
 
     Animated.spring(translateY, {
-      toValue: collapsedPosition,
+      toValue: collapsedPositionRef.current,
       useNativeDriver: true,
-    }).start();
+    }).start(() => {
+      translateY.stopAnimation((value) => {
+        console.log("translateY final:", value);
+      });
+    });
   }
 
   function animateClose() {
@@ -87,7 +110,7 @@ export default function AppBottomSheet({
       useNativeDriver: true,
     }).start(() => {
       setMounted(false);
-      setExpanded(false);
+      currentSnap.current = "collapsed";
       onClose();
     });
   }
@@ -101,14 +124,26 @@ export default function AppBottomSheet({
       },
 
       onPanResponderMove: (_, gesture) => {
+        console.log(
+          "move",
+          "snap:",
+          currentSnap.current,
+          "dy:",
+          gesture.dy,
+          "base:",
+          currentPosition.current,
+        );
         const nextPosition = currentPosition.current + gesture.dy;
 
         translateY.setValue(
-          Math.max(0, Math.min(collapsedPosition, nextPosition)),
+          Math.max(0, Math.min(collapsedPositionRef.current, nextPosition)),
         );
       },
 
       onPanResponderRelease: (_, gesture) => {
+        console.log("GESTURE DY:", gesture.dy);
+        console.log("SNAP ATUAL:", currentSnap.current);
+        console.log("EXPANDED:", currentSnap.current === "expanded");
         // ESTAVA EXPANDIDO
         if (currentSnap.current === "expanded") {
           if (gesture.dy > 80) {
