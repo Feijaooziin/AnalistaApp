@@ -46,6 +46,8 @@ export default function Home() {
         <AppSectionCard
           title="Pickers"
           subtitle="Seção para testar diferentes aberturas de pickers"
+          collapsible
+          defaultOpen
         >
           <AppPicker
             label="Melhor fruta"
