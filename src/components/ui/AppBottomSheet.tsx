@@ -29,7 +29,7 @@ export default function AppBottomSheet({
   onClose,
   children,
   initialSnap = 0.35,
-  expandedSnap = 0.95,
+  expandedSnap = 1.07,
 }: Props) {
   const { colors } = useTheme();
 

@@ -17,7 +17,7 @@ interface PickerInputProps {
   required?: boolean;
   readonly?: boolean;
   placeholder?: string;
-
+  isOpen?: boolean;
   size?: "sm" | "md" | "lg";
 }
 
@@ -29,6 +29,7 @@ export default function PickerInput({
   required,
   readonly,
   placeholder = "Selecione uma opção",
+  isOpen,
   size = "md",
 }: PickerInputProps) {
   const { colors } = useTheme();
@@ -79,13 +80,10 @@ export default function PickerInput({
           borderColor: colors.border,
           borderRadius: 10,
           backgroundColor: readonly ? colors.background : colors.surface,
-
           padding: currentSize.padding,
-
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-
           opacity: readonly ? 0.8 : 1,
         }}
       >
@@ -101,7 +99,7 @@ export default function PickerInput({
         </Text>
 
         <AppIcon
-          name="chevron-down"
+          name={isOpen ? "chevron-up" : "chevron-down"}
           size={currentSize.icon}
           color={colors.textSecondary}
         />

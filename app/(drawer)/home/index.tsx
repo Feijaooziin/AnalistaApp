@@ -3,11 +3,10 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppBadge from "@/src/components/ui/AppBadge";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
+import AppPicker from "@/src/components/ui/AppPicker";
 import AppSearchInput from "@/src/components/ui/AppSearchInput";
 import AppSectionCard from "@/src/components/ui/AppSectionCard";
 import DateTimeInput from "@/src/components/ui/DateTimeInput";
-import PickerInput from "@/src/components/ui/PickerInput";
-import { openPicker } from "@/src/services/picker/openPicker";
 import { router } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
@@ -20,10 +19,6 @@ export default function Home() {
     { label: "Abacaxi", value: "Abacaxi" },
     { label: "Melancia", value: "Melancia" },
   ];
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const [selectOpen, setSelectOpen] = useState(false);
 
   return (
     <ScreenContainer header={{ title: "ECLA Hub", toggleTheme: true }}>
@@ -41,20 +36,6 @@ export default function Home() {
           <AppBadge label="JBS" variant="primary" />
         </View>
 
-        <PickerInput
-          label="Melhor Fruta"
-          value={fruit}
-          options={fruits}
-          onPress={() =>
-            openPicker({
-              title: "Fruta",
-              value: fruit,
-              options: fruits,
-              onSelect: setFruit,
-            })
-          }
-        />
-
         <AppSectionCard
           title="Dados pessoais"
           subtitle="Dados do doidão"
@@ -64,6 +45,23 @@ export default function Home() {
           <AppInput label="Email" />
           <DateTimeInput label="Data de nascimento" />
         </AppSectionCard>
+
+        <AppBadge label="Modal" variant="primary" />
+        <AppPicker
+          label="Melhor fruta"
+          value={fruit}
+          options={fruits}
+          onValueChange={setFruit}
+        />
+
+        <AppBadge label="BottomSheet" variant="primary" />
+        <AppPicker
+          type="bottomSheet"
+          label="Melhor fruta"
+          value={fruit}
+          options={fruits}
+          onValueChange={setFruit}
+        />
 
         <AppButton
           title="Modais"

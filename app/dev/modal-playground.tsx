@@ -5,7 +5,6 @@ import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 
-// depois vamos usar essas imports reais
 import AppBottomSheet from "@/src/components/ui/AppBottomSheet";
 import AppModal from "@/src/components/ui/AppModal";
 import AppSelectModal from "@/src/components/ui/AppSelectModal";
@@ -15,6 +14,13 @@ export default function ModalPlayground() {
   const [modalOpen, setModalOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [selectOpen, setSelectOpen] = useState(false);
+
+  const [fruit, setFruit] = useState("" as any);
+  const fruits = [
+    { label: "Maçã", value: "Maçã" },
+    { label: "Abacaxi", value: "Abacaxi" },
+    { label: "Melancia", value: "Melancia" },
+  ];
 
   return (
     <ScreenContainer
@@ -43,11 +49,7 @@ export default function ModalPlayground() {
 
       {/* AppModal */}
       <AppModal visible={modalOpen} onClose={() => setModalOpen(false)}>
-        {(close) => (
-          <View style={{ padding: 20 }}>
-            <AppButton title="Fechar Modal" onPress={() => close()} />
-          </View>
-        )}
+        {(close) => <AppButton title="Fechar Modal" onPress={() => close()} />}
       </AppModal>
 
       {/* BottomSheet */}
@@ -57,15 +59,12 @@ export default function ModalPlayground() {
         visible={sheetOpen}
         onClose={() => setSheetOpen(false)}
       >
-        {(close) => (
-          <View style={{ padding: 20 }}>
-            <AppButton title="Fechar BottomSheet" onPress={close} />
-          </View>
-        )}
+        {(close) => <AppButton title="Fechar BottomSheet" onPress={close} />}
       </AppBottomSheet>
 
       {/* SelectModal */}
       <AppSelectModal
+        initialSnap={0.55}
         visible={selectOpen}
         onClose={() => setSelectOpen(false)}
         options={[

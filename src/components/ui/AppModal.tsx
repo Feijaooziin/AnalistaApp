@@ -3,8 +3,10 @@ import { Animated, Dimensions, Modal, Pressable, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
+import Header from "../layout/Header";
 
 interface Props {
+  title?: string;
   visible: boolean;
   onClose: () => void;
   children: ReactNode | ((close: () => void) => ReactNode);
@@ -12,7 +14,7 @@ interface Props {
 
 const { height } = Dimensions.get("window");
 
-export default function AppModal({ visible, onClose, children }: Props) {
+export default function AppModal({ title, visible, onClose, children }: Props) {
   const { colors } = useTheme();
 
   const [mounted, setMounted] = useState(visible);
@@ -113,7 +115,15 @@ export default function AppModal({ visible, onClose, children }: Props) {
             ],
           }}
         >
-          {typeof children === "function" ? children(animateClose) : children}
+          <Header
+            variant="close"
+            title={title ?? "Selecionar opção"}
+            onClosePress={animateClose}
+            showLogo={false}
+          />
+          <View style={{ marginTop: 20 }}>
+            {typeof children === "function" ? children(animateClose) : children}
+          </View>
         </Animated.View>
       </View>
     </Modal>
