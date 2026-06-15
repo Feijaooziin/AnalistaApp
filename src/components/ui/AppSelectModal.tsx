@@ -19,6 +19,8 @@ interface Props<T = string> {
   options: SelectOption<T>[];
   onSelect?: (value: T) => void;
   onClose: () => void;
+  initialSnap?: number;
+  expandedSnap?: number;
 }
 
 export default function AppSelectModal<T extends string | number>({
@@ -28,6 +30,8 @@ export default function AppSelectModal<T extends string | number>({
   options,
   onSelect,
   onClose,
+  initialSnap,
+  expandedSnap,
 }: Props<T>) {
   const { colors } = useTheme();
 
@@ -55,7 +59,8 @@ export default function AppSelectModal<T extends string | number>({
       visible={visible}
       onClose={onClose}
       title={title}
-      initialSnap={0.6}
+      initialSnap={initialSnap}
+      expandedSnap={expandedSnap}
     >
       {(close) => (
         <>

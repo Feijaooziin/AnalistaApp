@@ -38,13 +38,6 @@ export default function AppBottomSheet({
   const collapsedPosition = expandedHeight - collapsedHeight;
   const collapsedPositionRef = useRef(collapsedPosition);
 
-  console.log("RENDER");
-  console.log("initialSnap", initialSnap);
-  console.log("expandedSnap", expandedSnap);
-  console.log("collapsedHeight", collapsedHeight);
-  console.log("expandedHeight", expandedHeight);
-  console.log("collapsedPosition", collapsedPosition);
-
   const [mounted, setMounted] = useState(false);
   const currentPosition = useRef(collapsedPosition);
   const currentSnap = useRef<"collapsed" | "expanded">("collapsed");
@@ -58,10 +51,8 @@ export default function AppBottomSheet({
     if (!visible) return;
 
     setMounted(true);
-
     currentSnap.current = "collapsed";
     currentPosition.current = collapsedPositionRef.current;
-
     translateY.setValue(expandedHeight);
 
     Animated.timing(translateY, {
@@ -72,8 +63,6 @@ export default function AppBottomSheet({
   }, [visible, collapsedPosition]);
 
   function snapToExpanded() {
-    console.log("EXPANDINDO");
-
     currentPosition.current = 0;
     currentSnap.current = "expanded";
 
@@ -88,8 +77,6 @@ export default function AppBottomSheet({
   }
 
   function snapToCollapsed() {
-    console.log("RECOLHENDO");
-
     currentPosition.current = collapsedPositionRef.current;
     currentSnap.current = "collapsed";
 
@@ -124,15 +111,6 @@ export default function AppBottomSheet({
       },
 
       onPanResponderMove: (_, gesture) => {
-        console.log(
-          "move",
-          "snap:",
-          currentSnap.current,
-          "dy:",
-          gesture.dy,
-          "base:",
-          currentPosition.current,
-        );
         const nextPosition = currentPosition.current + gesture.dy;
 
         translateY.setValue(
@@ -141,9 +119,6 @@ export default function AppBottomSheet({
       },
 
       onPanResponderRelease: (_, gesture) => {
-        console.log("GESTURE DY:", gesture.dy);
-        console.log("SNAP ATUAL:", currentSnap.current);
-        console.log("EXPANDED:", currentSnap.current === "expanded");
         // ESTAVA EXPANDIDO
         if (currentSnap.current === "expanded") {
           if (gesture.dy > 80) {
