@@ -20,6 +20,13 @@ export default function Home() {
     { label: "Melancia", value: "Melancia" },
   ];
 
+  const [refri, setRefri] = useState("" as any);
+  const refris = [
+    { label: "Coca-Cola", value: "Coca-Cola" },
+    { label: "Pepsi", value: "Pepsi" },
+    { label: "Nanazinho Gelado", value: "Nanazinho Gelado" },
+  ];
+
   return (
     <ScreenContainer header={{ title: "ECLA Hub", toggleTheme: true }}>
       <PageContext title="Testes" subtitle="Tela temporária para testes" />
@@ -37,6 +44,26 @@ export default function Home() {
         </View>
 
         <AppSectionCard
+          title="Pickers"
+          subtitle="Seção para testar diferentes aberturas de pickers"
+        >
+          <AppPicker
+            label="Melhor fruta"
+            value={fruit}
+            options={fruits}
+            onValueChange={setFruit}
+          />
+
+          <AppPicker
+            type="bottomSheet"
+            label="Melhor refrigerante"
+            value={refri}
+            options={refris}
+            onValueChange={setRefri}
+          />
+        </AppSectionCard>
+
+        <AppSectionCard
           title="Dados pessoais"
           subtitle="Dados do doidão"
           collapsible
@@ -45,23 +72,6 @@ export default function Home() {
           <AppInput label="Email" />
           <DateTimeInput label="Data de nascimento" />
         </AppSectionCard>
-
-        <AppBadge label="Modal" variant="primary" />
-        <AppPicker
-          label="Melhor fruta"
-          value={fruit}
-          options={fruits}
-          onValueChange={setFruit}
-        />
-
-        <AppBadge label="BottomSheet" variant="primary" />
-        <AppPicker
-          type="bottomSheet"
-          label="Melhor fruta"
-          value={fruit}
-          options={fruits}
-          onValueChange={setFruit}
-        />
 
         <AppButton
           title="Modais"
