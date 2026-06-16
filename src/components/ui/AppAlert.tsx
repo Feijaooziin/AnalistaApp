@@ -75,20 +75,20 @@ export default function AppAlert({
           alignItems: "center",
         }}
       >
-        {variant === "simple" ? (
+        {variant === "simple" && (
           <AppIcon
             name={currentAlert.icon}
             size={48}
             color={currentAlert.color}
           />
-        ) : null}
+        )}
 
         <Text
           style={{
             fontSize: 20,
             fontWeight: "700",
             textAlign: "center",
-            marginTop: 12,
+            marginTop: variant === "simple" ? 12 : 0,
             marginBottom: 12,
             color: colors.text,
           }}
