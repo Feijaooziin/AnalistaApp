@@ -79,13 +79,14 @@ export default function Home() {
         </AppSectionCard>
 
         <AppButton
-          title="Abrir Alert"
+          title="Abrir Alerta"
           onPress={() => setAlertOpen(true)}
           style={{ marginBottom: 8 }}
         />
         <AppAlert
           visible={alertOpen}
-          title="Teste Alert"
+          title="Excluir membro"
+          message="Essa ação não poderá ser desfeita."
           onClose={() => setAlertOpen(false)}
         />
 
