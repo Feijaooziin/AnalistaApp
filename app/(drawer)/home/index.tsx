@@ -1,5 +1,6 @@
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
+import AppAlert from "@/src/components/ui/AppAlert";
 import AppBadge from "@/src/components/ui/AppBadge";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
@@ -13,6 +14,8 @@ import { View } from "react-native";
 
 export default function Home() {
   const [search, setSearch] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+
   const [fruit, setFruit] = useState("" as any);
   const fruits = [
     { label: "Maçã", value: "Maçã" },
@@ -74,6 +77,17 @@ export default function Home() {
           <AppInput label="Email" />
           <DateTimeInput label="Data de nascimento" />
         </AppSectionCard>
+
+        <AppButton
+          title="Abrir Alert"
+          onPress={() => setAlertOpen(true)}
+          style={{ marginBottom: 8 }}
+        />
+        <AppAlert
+          visible={alertOpen}
+          title="Teste Alert"
+          onClose={() => setAlertOpen(false)}
+        />
 
         <AppButton
           title="Modais"
