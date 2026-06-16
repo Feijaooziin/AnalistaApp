@@ -34,8 +34,6 @@ export default function AlertsPlayground() {
           subtitle="Validando UI e comportamento antes da integração."
         />
 
-        {/* ALERTAS SIMPLES */}
-
         <AppSectionCard
           title="Alertas simples"
           subtitle="Utilizados apenas para informar o usuário."
