@@ -113,6 +113,12 @@ export const drawerMenu: DrawerMenuItem[] = [
         route: "dev/modal-playground",
         icon: "tv-outline",
       },
+      {
+        label: "Alertas",
+        title: "Alertas",
+        route: "dev/alerts-playground",
+        icon: "alert-circle-outline",
+      },
     ],
   },
 
@@ -120,6 +126,6 @@ export const drawerMenu: DrawerMenuItem[] = [
     label: "Sobre",
     title: "Sobre",
     route: "about",
-    icon: "information-circle-outline",
+    icon: "alert-circle-outline",
   },
 ];

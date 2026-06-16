@@ -33,24 +33,24 @@ export default function AppAlert({
   const { colors } = useTheme();
 
   const alertConfig = {
-    info: {
-      icon: "information-circle",
-      color: colors.info,
-    },
-
     success: {
       icon: "checkmark-circle",
       color: colors.success,
     },
 
-    warning: {
-      icon: "warning",
-      color: colors.warning,
-    },
-
     error: {
       icon: "close-circle",
       color: colors.error,
+    },
+
+    info: {
+      icon: "alert-circle",
+      color: colors.info,
+    },
+
+    warning: {
+      icon: "warning",
+      color: colors.warning,
     },
   };
 
