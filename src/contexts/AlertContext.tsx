@@ -3,6 +3,7 @@ import {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -18,6 +19,10 @@ interface AlertState {
   variant: AlertVariant;
   title: string;
   message?: string;
+  confirmText?: string;
+  cancelText?: string;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
 interface ShowAlertParams {
@@ -25,6 +30,10 @@ interface ShowAlertParams {
   variant?: AlertVariant;
   title: string;
   message?: string;
+  confirmText?: string;
+  cancelText?: string;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
 interface AlertContextData {
@@ -33,6 +42,16 @@ interface AlertContextData {
 }
 
 const AlertContext = createContext({} as AlertContextData);
+
+let alertRef: AlertContextData | null = null;
+
+export function setAlertRef(ref: AlertContextData | null) {
+  alertRef = ref;
+}
+
+export function getAlertRef() {
+  return alertRef;
+}
 
 export function AlertProvider({ children }: { children: ReactNode }) {
   const [alert, setAlert] = useState<AlertState>({
@@ -48,6 +67,10 @@ export function AlertProvider({ children }: { children: ReactNode }) {
       variant = "simple",
       title,
       message,
+      confirmText,
+      cancelText,
+      onConfirm,
+      onCancel,
     }: ShowAlertParams) => {
       setAlert({
         visible: true,
@@ -55,6 +78,10 @@ export function AlertProvider({ children }: { children: ReactNode }) {
         variant,
         title,
         message,
+        confirmText,
+        cancelText,
+        onConfirm,
+        onCancel,
       });
     },
     [],
@@ -66,6 +93,17 @@ export function AlertProvider({ children }: { children: ReactNode }) {
       visible: false,
     }));
   }, []);
+
+  useEffect(() => {
+    setAlertRef({
+      showAlert,
+      closeAlert,
+    });
+
+    return () => {
+      setAlertRef(null);
+    };
+  }, [showAlert, closeAlert]);
 
   return (
     <AlertContext.Provider
@@ -82,6 +120,10 @@ export function AlertProvider({ children }: { children: ReactNode }) {
         variant={alert.variant}
         title={alert.title}
         message={alert.message}
+        confirmText={alert.confirmText}
+        cancelText={alert.cancelText}
+        onConfirm={alert.onConfirm}
+        onCancel={alert.onCancel}
         onClose={closeAlert}
       />
     </AlertContext.Provider>

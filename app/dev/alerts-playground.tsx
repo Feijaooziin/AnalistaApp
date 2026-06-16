@@ -8,6 +8,13 @@ import AppButton from "@/src/components/ui/AppButton";
 import AppSectionCard from "@/src/components/ui/AppSectionCard";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { useAlert } from "@/src/hooks/useAlert";
+import {
+  showConfirmAlert,
+  showErrorAlert,
+  showInfoAlert,
+  showSuccessAlert,
+  showWarningAlert,
+} from "@/src/utils/alert";
 
 export default function AlertsPlayground() {
   const { colors } = useTheme();
@@ -45,11 +52,10 @@ export default function AlertsPlayground() {
           <AppButton
             title="Success"
             onPress={() =>
-              showAlert({
-                type: "success",
-                title: "Salvo com sucesso",
-                message: "As informações foram atualizadas.",
-              })
+              showSuccessAlert(
+                "Salvo com sucesso",
+                "As informações foram atualizadas.",
+              )
             }
             style={{ backgroundColor: colors.success }}
           />
@@ -57,11 +63,7 @@ export default function AlertsPlayground() {
           <AppButton
             title="Error"
             onPress={() =>
-              showAlert({
-                type: "error",
-                title: "Erro ao salvar",
-                message: "Tente novamente mais tarde.",
-              })
+              showErrorAlert("Erro ao salvar", "Tente novamente mais tarde.")
             }
             style={{ backgroundColor: colors.error }}
           />
@@ -69,11 +71,7 @@ export default function AlertsPlayground() {
           <AppButton
             title="Info"
             onPress={() =>
-              showAlert({
-                type: "info",
-                title: "Informação",
-                message: "Esta ação foi concluída.",
-              })
+              showInfoAlert("Informação", "Nova atualização disponível.")
             }
             style={{ backgroundColor: colors.info }}
           />
@@ -81,11 +79,10 @@ export default function AlertsPlayground() {
           <AppButton
             title="Warning"
             onPress={() =>
-              showAlert({
-                type: "warning",
-                title: "Atenção",
-                message: "Confira os dados antes de continuar.",
-              })
+              showWarningAlert(
+                "Atenção",
+                "Verifique os dados antes de continuar.",
+              )
             }
             style={{ backgroundColor: colors.warning }}
           />
@@ -100,7 +97,14 @@ export default function AlertsPlayground() {
           <AppButton
             title="Excluir membro"
             style={{ backgroundColor: colors.error }}
-            onPress={() => setDeleteAlert(true)}
+            onPress={() =>
+              showConfirmAlert({
+                type: "error",
+                title: "Excluir membro",
+                message: "Essa ação não poderá ser desfeita.",
+                confirmText: "Excluir",
+              })
+            }
           />
 
           <AppButton
@@ -117,17 +121,6 @@ export default function AlertsPlayground() {
         </AppSectionCard>
 
         {/* CONFIRM */}
-        <AppAlert
-          visible={deleteAlert}
-          variant="confirm"
-          type="error"
-          title="Excluir membro?"
-          message="Essa ação não poderá ser desfeita."
-          confirmText="Excluir"
-          cancelText="Cancelar"
-          onClose={() => setDeleteAlert(false)}
-        />
-
         <AppAlert
           visible={cancelAlert}
           variant="confirm"
