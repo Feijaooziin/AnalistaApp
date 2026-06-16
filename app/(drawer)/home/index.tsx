@@ -8,6 +8,7 @@ import AppPicker from "@/src/components/ui/AppPicker";
 import AppSearchInput from "@/src/components/ui/AppSearchInput";
 import AppSectionCard from "@/src/components/ui/AppSectionCard";
 import DateTimeInput from "@/src/components/ui/DateTimeInput";
+import { showSuccess } from "@/src/utils/toast";
 import { router } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
@@ -87,6 +88,11 @@ export default function Home() {
           visible={alertOpen}
           title="Excluir membro"
           message="Essa ação não poderá ser desfeita."
+          confirmText="Excluir"
+          cancelText="Cancelar"
+          onConfirm={() => {
+            showSuccess("Sucesso", "Excluído com sucesso!");
+          }}
           onClose={() => setAlertOpen(false)}
         />
 
