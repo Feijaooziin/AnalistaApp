@@ -132,9 +132,6 @@ export default function AlertsPlayground() {
           message="Essa ação não poderá ser desfeita."
           confirmText="Excluir"
           cancelText="Cancelar"
-          onConfirm={() => {
-            console.log("Membro excluído");
-          }}
           onClose={() => setDeleteAlert(false)}
         />
 
@@ -146,9 +143,6 @@ export default function AlertsPlayground() {
           message="Os dados não salvos serão perdidos."
           confirmText="Continuar"
           cancelText="Voltar"
-          onConfirm={() => {
-            console.log("Operação cancelada");
-          }}
           onClose={() => setCancelAlert(false)}
         />
 
@@ -160,9 +154,6 @@ export default function AlertsPlayground() {
           message="Após confirmar, o cadastro ficará disponível para uso."
           confirmText="Finalizar"
           cancelText="Revisar"
-          onConfirm={() => {
-            console.log("Cadastro finalizado");
-          }}
           onClose={() => setFinishAlert(false)}
         />
       </View>

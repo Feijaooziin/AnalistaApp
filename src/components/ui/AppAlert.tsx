@@ -16,6 +16,7 @@ interface AppAlertProps {
   confirmText?: string;
   cancelText?: string;
   confirmButtonVariant?: AlertType;
+  confirmLoading?: boolean;
   onConfirm?: () => void;
   onCancel?: () => void;
   onClose: () => void;
@@ -30,6 +31,7 @@ export default function AppAlert({
   confirmText = "Confirmar",
   cancelText = "Cancelar",
   confirmButtonVariant,
+  confirmLoading = false,
   onConfirm,
   onCancel,
   onClose,
@@ -62,17 +64,19 @@ export default function AppAlert({
   const confirmButtonColor = alertConfig[confirmButtonVariant ?? type].color;
 
   function handleCancel() {
+    if (confirmLoading) return;
+
     onCancel?.();
     onClose();
   }
 
   function handleConfirm() {
+    if (confirmLoading) return;
     onConfirm?.();
-    onClose();
   }
 
   return (
-    <AppModal visible={visible} onClose={onClose}>
+    <AppModal visible={visible} onClose={confirmLoading ? () => {} : onClose}>
       <View
         style={{
           alignItems: "center",
@@ -143,6 +147,7 @@ export default function AppAlert({
             <View style={{ flex: 1 }}>
               <AppButton
                 title={confirmText}
+                loading={confirmLoading}
                 onPress={handleConfirm}
                 style={{ backgroundColor: confirmButtonColor }}
               />
