@@ -5,7 +5,7 @@ import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppAlert from "@/src/components/ui/AppAlert";
 import AppButton from "@/src/components/ui/AppButton";
-import SectionTitle from "@/src/components/ui/SectionTitle";
+import AppSectionCard from "@/src/components/ui/AppSectionCard";
 import { useTheme } from "@/src/contexts/ThemeContext";
 
 export default function AlertsPlayground() {
@@ -36,62 +36,63 @@ export default function AlertsPlayground() {
 
         {/* ALERTAS SIMPLES */}
 
-        <SectionTitle
+        <AppSectionCard
           title="Alertas simples"
           subtitle="Utilizados apenas para informar o usuário."
-        />
+          collapsible
+          defaultOpen
+        >
+          <AppButton
+            title="Success"
+            onPress={() => setSuccess(true)}
+            style={{ backgroundColor: colors.success }}
+          />
 
-        <AppButton
-          title="Success"
-          onPress={() => setSuccess(true)}
-          style={{ backgroundColor: colors.success }}
-        />
+          <AppButton
+            title="Error"
+            onPress={() => setError(true)}
+            style={{ backgroundColor: colors.error }}
+          />
 
-        <AppButton
-          title="Error"
-          onPress={() => setError(true)}
-          style={{ backgroundColor: colors.error }}
-        />
+          <AppButton
+            title="Info"
+            onPress={() => setInfo(true)}
+            style={{ backgroundColor: colors.info }}
+          />
 
-        <AppButton
-          title="Info"
-          onPress={() => setInfo(true)}
-          style={{ backgroundColor: colors.info }}
-        />
+          <AppButton
+            title="Warning"
+            onPress={() => setWarning(true)}
+            style={{ backgroundColor: colors.warning }}
+          />
+        </AppSectionCard>
 
-        <AppButton
-          title="Warning"
-          onPress={() => setWarning(true)}
-          style={{ backgroundColor: colors.warning }}
-        />
-
-        {/* ALERTAS DE CONFIRMAÇÃO */}
-
-        <SectionTitle
+        <AppSectionCard
           title="Alertas com confirmação"
           subtitle="Utilizados antes de executar ações importantes."
-        />
+          collapsible
+          defaultOpen
+        >
+          <AppButton
+            title="Excluir membro"
+            style={{ backgroundColor: colors.error }}
+            onPress={() => setDeleteAlert(true)}
+          />
 
-        <AppButton
-          title="Excluir membro"
-          style={{ backgroundColor: colors.error }}
-          onPress={() => setDeleteAlert(true)}
-        />
+          <AppButton
+            title="Cancelar operação"
+            style={{ backgroundColor: colors.warning }}
+            onPress={() => setCancelAlert(true)}
+          />
 
-        <AppButton
-          title="Cancelar operação"
-          style={{ backgroundColor: colors.warning }}
-          onPress={() => setCancelAlert(true)}
-        />
-
-        <AppButton
-          title="Finalizar cadastro"
-          style={{ backgroundColor: colors.success }}
-          onPress={() => setFinishAlert(true)}
-        />
+          <AppButton
+            title="Finalizar cadastro"
+            style={{ backgroundColor: colors.success }}
+            onPress={() => setFinishAlert(true)}
+          />
+        </AppSectionCard>
 
         {/* SIMPLE */}
-
         <AppAlert
           visible={success}
           type="success"
@@ -125,7 +126,6 @@ export default function AlertsPlayground() {
         />
 
         {/* CONFIRM */}
-
         <AppAlert
           visible={deleteAlert}
           variant="confirm"
