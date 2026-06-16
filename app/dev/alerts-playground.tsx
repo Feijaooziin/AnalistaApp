@@ -35,7 +35,7 @@ export default function AlertsPlayground() {
         <AppAlert
           visible={success}
           type="success"
-          title="Membro salvo"
+          title="Salvo com sucesso"
           message="As informações foram atualizadas."
           onClose={() => setSuccess(false)}
         />
@@ -61,7 +61,7 @@ export default function AlertsPlayground() {
         <AppAlert
           visible={info}
           type="info"
-          title="Informação"
+          title="Informação!"
           message="Essa ação não poderá ser desfeita."
           onClose={() => setInfo(false)}
         />
@@ -74,7 +74,7 @@ export default function AlertsPlayground() {
         <AppAlert
           visible={warning}
           type="warning"
-          title="Excluir membro"
+          title="Cuidado!"
           message="Essa ação não poderá ser desfeita."
           onClose={() => setWarning(false)}
         />

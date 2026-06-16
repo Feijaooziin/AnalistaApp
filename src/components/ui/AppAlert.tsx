@@ -10,6 +10,7 @@ type AlertType = "info" | "success" | "warning" | "error";
 interface AppAlertProps {
   visible: boolean;
   type?: AlertType;
+  variant?: "simple" | "confirm";
   title: string;
   message?: string;
   confirmText?: string;
@@ -22,6 +23,7 @@ interface AppAlertProps {
 export default function AppAlert({
   visible,
   type = "info",
+  variant = "simple",
   title,
   message,
   confirmText = "Confirmar",
@@ -65,6 +67,7 @@ export default function AppAlert({
     onConfirm?.();
     onClose();
   }
+
   return (
     <AppModal visible={visible} onClose={onClose}>
       <View
@@ -72,17 +75,20 @@ export default function AppAlert({
           alignItems: "center",
         }}
       >
-        <AppIcon
-          name={currentAlert.icon}
-          size={48}
-          color={currentAlert.color}
-        />
+        {variant === "simple" ? (
+          <AppIcon
+            name={currentAlert.icon}
+            size={48}
+            color={currentAlert.color}
+          />
+        ) : null}
 
         <Text
           style={{
             fontSize: 20,
             fontWeight: "700",
             textAlign: "center",
+            marginTop: 12,
             marginBottom: 12,
             color: colors.text,
           }}
@@ -101,30 +107,45 @@ export default function AppAlert({
           </Text>
         )}
 
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 12,
-            marginTop: 24,
-            width: "100%",
-          }}
-        >
-          <View style={{ flex: 1 }}>
+        {variant === "simple" ? (
+          <View
+            style={{
+              marginTop: 24,
+              width: "100%",
+            }}
+          >
             <AppButton
-              title={cancelText}
-              variant="outline"
-              onPress={handleCancel}
-            />
-          </View>
-
-          <View style={{ flex: 1 }}>
-            <AppButton
-              title={confirmText}
-              onPress={handleConfirm}
+              title="OK"
+              onPress={onClose}
               style={{ backgroundColor: currentAlert.color }}
             />
           </View>
-        </View>
+        ) : (
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 12,
+              marginTop: 24,
+              width: "100%",
+            }}
+          >
+            <View style={{ flex: 1 }}>
+              <AppButton
+                title={cancelText}
+                variant="outline"
+                onPress={handleCancel}
+              />
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <AppButton
+                title={confirmText}
+                onPress={handleConfirm}
+                style={{ backgroundColor: currentAlert.color }}
+              />
+            </View>
+          </View>
+        )}
       </View>
     </AppModal>
   );
