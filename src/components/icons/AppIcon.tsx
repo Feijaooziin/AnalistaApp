@@ -16,7 +16,8 @@ export type CompanyIcon =
   | "ecla-pin-circle"
   | "logo-ecla"
   | "logo-jbs"
-  | "logo-seara";
+  | "logo-seara"
+  | any;
 
 interface Props {
   name: CompanyIcon | React.ComponentProps<typeof Ionicons>["name"];

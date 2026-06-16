@@ -41,11 +41,7 @@ export default function AppButton({
   const isDanger = variant === "danger";
   const isOutline = variant === "outline";
 
-  const textColor = isDanger
-    ? "#FFFFFF"
-    : isOutline
-      ? colors.secondary
-      : "#FFFFFF";
+  const textColor = isDanger ? "#FFFFFF" : isOutline ? colors.text : "#FFFFFF";
 
   const backgroundColor = isOutline
     ? "transparent"
@@ -53,7 +49,11 @@ export default function AppButton({
       ? colors.danger
       : colors.secondary;
 
-  const borderColor = isDanger ? colors.danger : colors.secondary;
+  const borderColor = isOutline
+    ? colors.text
+    : isDanger
+      ? colors.danger
+      : "transparent";
 
   const sizes = {
     sm: {

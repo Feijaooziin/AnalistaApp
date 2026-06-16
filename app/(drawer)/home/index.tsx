@@ -1,6 +1,5 @@
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
-import AppAlert from "@/src/components/ui/AppAlert";
 import AppBadge from "@/src/components/ui/AppBadge";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
@@ -8,14 +7,13 @@ import AppPicker from "@/src/components/ui/AppPicker";
 import AppSearchInput from "@/src/components/ui/AppSearchInput";
 import AppSectionCard from "@/src/components/ui/AppSectionCard";
 import DateTimeInput from "@/src/components/ui/DateTimeInput";
-import { showSuccess } from "@/src/utils/toast";
 import { router } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 
 export default function Home() {
   const [search, setSearch] = useState("");
-  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(true);
 
   const [fruit, setFruit] = useState("" as any);
   const fruits = [
@@ -80,25 +78,13 @@ export default function Home() {
         </AppSectionCard>
 
         <AppButton
-          title="Abrir Alerta"
-          onPress={() => setAlertOpen(true)}
-          style={{ marginBottom: 8 }}
-        />
-        <AppAlert
-          visible={alertOpen}
-          title="Excluir membro"
-          message="Essa ação não poderá ser desfeita."
-          confirmText="Excluir"
-          cancelText="Cancelar"
-          onConfirm={() => {
-            showSuccess("Sucesso", "Excluído com sucesso!");
-          }}
-          onClose={() => setAlertOpen(false)}
+          title="Modais"
+          onPress={() => router.push("/dev/modal-playground")}
         />
 
         <AppButton
-          title="Modais"
-          onPress={() => router.push("/dev/modal-playground")}
+          title="Alerts"
+          onPress={() => router.push("/dev/alerts-playground")}
         />
       </View>
     </ScreenContainer>

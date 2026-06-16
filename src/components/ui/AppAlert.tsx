@@ -1,11 +1,15 @@
 import { Text, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
+import AppIcon from "../icons/AppIcon";
 import AppButton from "./AppButton";
 import AppModal from "./AppModal";
 
+type AlertType = "info" | "success" | "warning" | "error";
+
 interface AppAlertProps {
   visible: boolean;
+  type?: AlertType;
   title: string;
   message?: string;
   confirmText?: string;
@@ -17,6 +21,7 @@ interface AppAlertProps {
 
 export default function AppAlert({
   visible,
+  type = "info",
   title,
   message,
   confirmText = "Confirmar",
@@ -26,6 +31,30 @@ export default function AppAlert({
   onClose,
 }: AppAlertProps) {
   const { colors } = useTheme();
+
+  const alertConfig = {
+    info: {
+      icon: "information-circle",
+      color: colors.info,
+    },
+
+    success: {
+      icon: "checkmark-circle",
+      color: colors.success,
+    },
+
+    warning: {
+      icon: "warning",
+      color: colors.warning,
+    },
+
+    error: {
+      icon: "close-circle",
+      color: colors.error,
+    },
+  };
+
+  const currentAlert = alertConfig[type];
 
   function handleCancel() {
     onCancel?.();
@@ -43,14 +72,11 @@ export default function AppAlert({
           alignItems: "center",
         }}
       >
-        <Text
-          style={{
-            fontSize: 40,
-            marginBottom: 16,
-          }}
-        >
-          ⚠️
-        </Text>
+        <AppIcon
+          name={currentAlert.icon}
+          size={48}
+          color={currentAlert.color}
+        />
 
         <Text
           style={{
@@ -92,7 +118,11 @@ export default function AppAlert({
           </View>
 
           <View style={{ flex: 1 }}>
-            <AppButton title={confirmText} onPress={handleConfirm} />
+            <AppButton
+              title={confirmText}
+              onPress={handleConfirm}
+              style={{ backgroundColor: currentAlert.color }}
+            />
           </View>
         </View>
       </View>
