@@ -139,6 +139,7 @@ export default function Advertencia() {
         <AppButton
           title="Limpar Formulário"
           variant="danger"
+          size="sm"
           onPress={confirmarLimpeza}
           style={{
             marginTop: SPACING.xl,
