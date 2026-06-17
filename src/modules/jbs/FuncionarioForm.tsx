@@ -3,8 +3,8 @@ import { View } from "react-native";
 
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
-import { PickerInput } from "@/src/components/ui/PickerInput";
 
+import AppPicker from "@/src/components/ui/AppPicker";
 import { JBS_CARGOS, JBS_ESCALAS } from "@/src/modules/jbs/constants/jbs";
 import { FuncionarioFormData } from "@/src/modules/jbs/types/funcionarioForm";
 import { SPACING } from "@/src/theme/layout";
@@ -62,14 +62,16 @@ export default function FuncionarioForm({
         onChangeText={(v) => updateField("matricula", v)}
       />
 
-      <PickerInput
+      <AppPicker
+        modalTitle
         label="Cargo"
         value={form.cargo}
         options={JBS_CARGOS}
         onValueChange={(v) => updateField("cargo", v)}
       />
 
-      <PickerInput
+      <AppPicker
+        modalTitle
         label="Escala"
         value={form.escala}
         options={JBS_ESCALAS}

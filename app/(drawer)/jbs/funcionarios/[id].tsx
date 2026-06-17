@@ -1,6 +1,6 @@
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { Alert, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
 import { User } from "@/src/types/user";
@@ -13,6 +13,7 @@ import AppCard from "@/src/components/ui/AppCard";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { triggerRefresh } from "@/src/hooks/useRefresh";
 import { SPACING } from "@/src/theme/layout";
+import { showConfirmAlert } from "@/src/utils/alert";
 import { showError, showSuccess } from "@/src/utils/toast";
 
 export default function FuncionarioDetalhe() {
@@ -34,44 +35,33 @@ export default function FuncionarioDetalhe() {
   }
 
   function handleDelete() {
-    Alert.alert(
-      "Excluir funcionário",
-      `Deseja realmente excluir ${user?.nome}?`,
-      [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
-        {
-          text: "Excluir",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              if (!user?.id) return;
+    showConfirmAlert({
+      type: "error",
+      title: "Excluir funcionário?",
+      message: `Deseja realmente excluir ${user?.nome}?`,
+      confirmText: "Ecluir",
+      onConfirm: async () => {
+        try {
+          if (!user?.id) return;
 
-              await usersJbsRepository.remove(user.id);
+          await usersJbsRepository.remove(user.id);
 
-              showSuccess(
-                "Funcionário removido",
-                "Cadastro excluído com sucesso.",
-              );
+          showSuccess("Funcionário removido", "Cadastro excluído com sucesso.");
 
-              setTimeout(() => {
-                triggerRefresh("usersJbs");
-                router.back();
-              }, 300);
-            } catch (error) {
-              console.log(error);
+          setTimeout(() => {
+            triggerRefresh("usersJbs");
+            router.back();
+          }, 300);
+        } catch (error) {
+          console.log(error);
 
-              showError(
-                "Erro ao excluir",
-                "Não foi possível remover o funcionário.",
-              );
-            }
-          },
-        },
-      ],
-    );
+          showError(
+            "Erro ao excluir",
+            "Não foi possível remover o funcionário.",
+          );
+        }
+      },
+    });
   }
 
   useFocusEffect(
@@ -117,18 +107,27 @@ export default function FuncionarioDetalhe() {
         <AppCard title="Endereço" value={user.endereco ?? "-"} />
       </View>
 
-      <View style={{ marginTop: SPACING.xxl, gap: SPACING.sm }}>
+      <View
+        style={{
+          marginTop: SPACING.xxl,
+          gap: SPACING.sm,
+          flexDirection: "row",
+        }}
+      >
         <AppButton
           title="Editar"
           leftIcon="create-outline"
           onPress={() => router.push(`/jbs/funcionarios/edit/${user.id}`)}
+          style={{ flex: 3 }}
         />
 
         <AppButton
+          size="sm"
           title="Excluir"
           leftIcon="person-remove-outline"
           variant="danger"
           onPress={handleDelete}
+          style={{ flex: 1 }}
         />
       </View>
     </ScreenContainer>
