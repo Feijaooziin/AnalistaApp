@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { useState } from "react";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 import { usersJbsRepository } from "@/src/database/repositories/usersJbsRepository";
@@ -13,12 +13,17 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
 import AppPicker from "@/src/components/ui/AppPicker";
+import AppSelectModal from "@/src/components/ui/AppSelectModal";
 import { useRefresh } from "@/src/hooks/useRefresh";
 import FuncionarioCard from "@/src/modules/jbs/components/FuncionarioCard";
 import { JBS_CARGOS_FILTER } from "@/src/modules/jbs/constants/jbs";
+import { exportDatabase } from "@/src/services/backup/exportDatabase";
+import { importDatabase } from "@/src/services/backup/importDatabase";
 
 export default function Funcionarios() {
   const { colors } = useTheme();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [cargoFilter, setCargoFilter] = useState("Todos");
@@ -34,6 +39,12 @@ export default function Funcionarios() {
 
     return matchesSearch && matchesCargo;
   });
+
+  useFocusEffect(
+    useCallback(() => {
+      loadUsers();
+    }, []),
+  );
 
   async function loadUsers() {
     setLoading(true);
@@ -52,57 +63,77 @@ export default function Funcionarios() {
     router.push(`/jbs/funcionarios/${id}` as any);
   }
 
+  async function handleImport() {
+    try {
+      setModalOpen(false);
+      await importDatabase();
+      await loadUsers();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleExport() {
+    await exportDatabase();
+    await loadUsers();
+  }
+
   return (
     <ScreenContainer
       scrollable={false}
       header={{ title: "Funcionários", toggleTheme: true }}
     >
-      <View style={{ flex: 1, justifyContent: "space-between" }}>
-        <View style={{ flex: 1, marginTop: SPACING.lg }}>
-          <AppInput
-            placeholder="Pesquisar funcionário..."
-            value={search}
-            onChangeText={setSearch}
-          />
+      <View style={{ flex: 1, marginTop: SPACING.lg }}>
+        <AppInput
+          placeholder="Pesquisar funcionário..."
+          value={search}
+          onChangeText={setSearch}
+        />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: SPACING.xs,
+            gap: SPACING.sm,
+          }}
+        >
           <AppPicker
-            style={{ marginBottom: SPACING.sm }}
+            style={{ flex: 1 }}
             label="Cargo"
             value={cargoFilter}
             onValueChange={setCargoFilter}
             options={JBS_CARGOS_FILTER}
           />
-          <Text
-            style={{
-              color: colors.textSecondary,
-              marginBottom: SPACING.md,
-            }}
-          >
-            {filteredUsers.length} funcionário(s)
-          </Text>
 
-          <FlatList
-            data={filteredUsers}
-            keyExtractor={(item) => String(item.id)}
-            contentContainerStyle={{
-              paddingBottom: 120,
-              gap: SPACING.sm,
-            }}
-            renderItem={({ item }) => (
-              <FuncionarioCard
-                user={item}
-                onPress={() => goToDetails(item.id)}
-              />
-            )}
-          />
-        </View>
-
-        <View style={{ gap: SPACING.sm }}>
           <AppButton
+            style={{ alignSelf: "flex-end" }}
             title="Opções"
             leftIcon="toggle-outline"
-            onPress={() => router.push("/jbs/funcionarios/options")}
+            onPress={() => setModalOpen(true)}
+            size="sm"
           />
         </View>
+
+        <Text
+          style={{
+            color: colors.textSecondary,
+            marginBottom: SPACING.md,
+          }}
+        >
+          {filteredUsers.length} funcionário(s)
+        </Text>
+
+        <FlatList
+          data={filteredUsers}
+          keyExtractor={(item) => String(item.id)}
+          contentContainerStyle={{
+            paddingBottom: 120,
+            gap: SPACING.sm,
+          }}
+          renderItem={({ item }) => (
+            <FuncionarioCard user={item} onPress={() => goToDetails(item.id)} />
+          )}
+        />
       </View>
 
       {/* FAB */}
@@ -122,6 +153,27 @@ export default function Funcionarios() {
       >
         <Ionicons name="person-add-outline" size={28} color="#fff" />
       </TouchableOpacity>
+
+      <AppSelectModal
+        visible={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Selecionar opção"
+      >
+        {(close) => (
+          <View style={{ gap: SPACING.sm }}>
+            <AppButton
+              title="Exportar Backup"
+              leftIcon="cloud-upload-outline"
+              onPress={handleExport}
+            />
+            <AppButton
+              title="Importar Backup"
+              leftIcon="cloud-download-outline"
+              onPress={handleImport}
+            />
+          </View>
+        )}
+      </AppSelectModal>
     </ScreenContainer>
   );
 }
