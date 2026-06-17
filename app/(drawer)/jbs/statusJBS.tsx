@@ -1,11 +1,12 @@
 import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
-import { Alert } from "react-native";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
 import DateTimeInput from "@/src/components/ui/DateTimeInput";
+import { SPACING } from "@/src/theme/layout";
+import { showConfirmAlert } from "@/src/utils/alert";
 import { showInfo, showSuccess } from "@/src/utils/toast";
 
 export default function statusJBS() {
@@ -44,31 +45,29 @@ export default function statusJBS() {
     const msg = gerarMensagem();
     Clipboard.setStringAsync(msg);
 
-    showSuccess("Copiado!", "Texto copiado para a área de transferência.");
+    showSuccess(
+      "Copiado!",
+      `Status de expedição ${formatDate(data)} copiado para a área de transferência.`,
+    );
   };
 
   const reset = async () => {
-    Alert.alert(
-      "Limpar campos",
-      "Tem certeza que deseja limpar todos os campos?",
-      [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "Limpar",
-          style: "destructive",
-          onPress: async () => {
-            setData(null);
-            setCarros("");
-            setSeparacao(null);
-            setConferencia(null);
-            setCarregamento(null);
-            setPesoBruto("");
-            setVolumes("");
-            showInfo("Limpar", "Todos os campos foram resetados.");
-          },
-        },
-      ],
-    );
+    showConfirmAlert({
+      type: "error",
+      title: "Limpar campos?",
+      message: "Isso apagará todas as informações preenchidas.",
+      confirmText: "Limpar",
+      onConfirm() {
+        setData(null);
+        setCarros("");
+        setSeparacao(null);
+        setConferencia(null);
+        setCarregamento(null);
+        setPesoBruto("");
+        setVolumes("");
+        showInfo("Limpar", "Todos os campos foram resetados.");
+      },
+    });
   };
 
   return (
@@ -129,17 +128,19 @@ export default function statusJBS() {
 
       <AppButton
         title="Limpar campos"
-        leftIcon="trash-bin-outline"
         variant="danger"
+        size="sm"
+        leftIcon="trash-bin-outline"
         onPress={reset}
-        style={{ marginTop: 16 }}
+        style={{ marginTop: SPACING.lg }}
       />
 
       <AppButton
         title="Copiar"
+        disabled={formatDate(data) === ""}
         leftIcon="copy-outline"
         onPress={copiar}
-        style={{ marginTop: 16 }}
+        style={{ marginTop: SPACING.lg }}
       />
     </ScreenContainer>
   );
