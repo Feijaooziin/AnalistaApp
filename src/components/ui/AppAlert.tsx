@@ -73,6 +73,7 @@ export default function AppAlert({
   function handleConfirm() {
     if (confirmLoading) return;
     onConfirm?.();
+    onClose();
   }
 
   return (

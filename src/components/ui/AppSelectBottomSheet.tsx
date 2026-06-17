@@ -1,0 +1,141 @@
+import { useCallback, useMemo, useState } from "react";
+import { FlatList, Pressable, Text } from "react-native";
+
+import { useTheme } from "@/src/contexts/ThemeContext";
+import { RADIUS, SPACING } from "@/src/theme/layout";
+
+import AppBottomSheet from "./AppBottomSheet";
+import AppSearchInput from "./AppSearchInput";
+
+interface SelectOption<T = string> {
+  label: string;
+  value: T;
+}
+
+interface Props<T = string> {
+  visible: boolean;
+  title?: string;
+  value?: T | null;
+  options: SelectOption<T>[];
+  onSelect?: (value: T) => void;
+  onClose: () => void;
+  initialSnap?: number;
+  expandedSnap?: number;
+}
+
+export default function AppSelectBottomSheet<T extends string | number>({
+  visible,
+  title,
+  value,
+  options,
+  onSelect,
+  onClose,
+  initialSnap,
+  expandedSnap,
+}: Props<T>) {
+  const { colors } = useTheme();
+
+  const [search, setSearch] = useState("");
+
+  const showSearch = options.length > 3;
+
+  const filteredOptions = useMemo(() => {
+    if (!search.trim()) return options;
+
+    const lower = search.toLowerCase();
+
+    return options.filter((item) => item.label.toLowerCase().includes(lower));
+  }, [options, search]);
+
+  const handleSelect = useCallback(
+    (selectedValue: T) => {
+      onSelect?.(selectedValue);
+    },
+    [onSelect],
+  );
+
+  return (
+    <AppBottomSheet
+      visible={visible}
+      onClose={onClose}
+      title={title}
+      initialSnap={initialSnap}
+      expandedSnap={expandedSnap}
+    >
+      {(close) => (
+        <>
+          {showSearch && (
+            <>
+              <AppSearchInput
+                placeholder="Pesquisar..."
+                value={search}
+                onChangeText={setSearch}
+              />
+
+              <Text
+                style={{
+                  color: colors.textSecondary,
+                  marginTop: -10,
+                  marginBottom: SPACING.sm,
+                }}
+              >
+                {filteredOptions.length} opções
+              </Text>
+            </>
+          )}
+          {filteredOptions.length === 0 && (
+            <Text
+              style={{
+                textAlign: "center",
+                color: colors.textSecondary,
+                marginTop: SPACING.lg,
+              }}
+            >
+              Nenhum resultado encontrado
+            </Text>
+          )}
+
+          <FlatList
+            data={filteredOptions}
+            keyExtractor={(item) => String(item.value)}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => {
+              const selected = item.value === value;
+
+              return (
+                <Pressable
+                  onPress={() => {
+                    handleSelect(item.value);
+                    close();
+                  }}
+                  style={{
+                    padding: SPACING.md,
+                    borderWidth: 1,
+                    borderRadius: RADIUS.md,
+                    marginBottom: SPACING.sm,
+                    borderColor: selected
+                      ? colors.inputBorderFocused
+                      : colors.border,
+                    backgroundColor: selected
+                      ? colors.primary + "15"
+                      : colors.surface,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: selected ? colors.text : colors.textSecondary,
+                      fontWeight: selected ? "700" : "400",
+                    }}
+                  >
+                    {item.label}
+                  </Text>
+                </Pressable>
+              );
+            }}
+          />
+        </>
+      )}
+    </AppBottomSheet>
+  );
+}

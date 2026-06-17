@@ -12,11 +12,9 @@ interface Props {
   label: string;
   value?: Date | null;
   onChange?: (date: Date | null) => void;
-
   variant?: Variant;
   readonly?: boolean;
   format?: string;
-
   required?: boolean;
   error?: string;
   clearable?: boolean;
@@ -188,12 +186,12 @@ export default function DateTimeInput({
   }
 
   return (
-    <View style={{ marginBottom: 16 }}>
+    <View style={{ flex: 1, marginBottom: SPACING.md }}>
       <Text
         style={{
           fontSize: 14,
           fontWeight: "600",
-          color: colors.textSecondary,
+          color: error ? colors.danger : colors.textSecondary,
           marginBottom: 6,
         }}
       >
@@ -209,13 +207,10 @@ export default function DateTimeInput({
           borderColor: error ? colors.error : colors.border,
           borderRadius: 10,
           backgroundColor: readonly ? colors.background : colors.surface,
-
           padding: currentSize.padding,
-
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-
           opacity: readonly ? 0.8 : 1,
         }}
       >
@@ -223,12 +218,18 @@ export default function DateTimeInput({
           <AppIcon
             name={getIcon()}
             size={currentSize.icon}
-            color={value ? colors.text : colors.placeholder}
+            color={
+              error ? colors.danger : value ? colors.text : colors.placeholder
+            }
           />
 
           <Text
             style={{
-              color: value ? colors.text : colors.placeholder,
+              color: error
+                ? colors.danger
+                : value
+                  ? colors.text
+                  : colors.placeholder,
               fontSize: currentSize.fontSize,
               fontWeight: value ? "900" : "400",
             }}

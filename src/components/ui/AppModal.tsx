@@ -3,7 +3,6 @@ import { Animated, Dimensions, Modal, Pressable, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
-import Header from "../layout/Header";
 
 interface Props {
   title?: string;
@@ -115,12 +114,6 @@ export default function AppModal({ title, visible, onClose, children }: Props) {
             ],
           }}
         >
-          <Header
-            variant="close"
-            title={title ?? "Selecionar opção"}
-            onClosePress={animateClose}
-            showLogo={false}
-          />
           <View style={{ marginTop: 20 }}>
             {typeof children === "function" ? children(animateClose) : children}
           </View>

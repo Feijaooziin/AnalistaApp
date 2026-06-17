@@ -6,14 +6,14 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
-import { useTheme } from "@/src/contexts/ThemeContext";
 import { AdvertenciaForm } from "@/src/modules/advertencia/components/AdvertenciaForm";
 import { gerarPDF } from "@/src/modules/advertencia/services/pdfService";
 import { AdvertenciaData } from "@/src/modules/advertencia/types/advertencia";
+import { SPACING } from "@/src/theme/layout";
+import { showConfirmAlert } from "@/src/utils/alert";
 import { showError, showInfo } from "@/src/utils/toast";
 
 export default function Advertencia() {
-  const { colors } = useTheme();
   const scrollRef = useRef<KeyboardAwareScrollView>(null);
 
   const initialData: AdvertenciaData = {
@@ -23,8 +23,8 @@ export default function Advertencia() {
     tipoDocumento: "ADVERTENCIA",
     motivos: [],
     observacoes: "",
-    dataOcorrido: new Date(),
-    dataAssinatura: new Date(),
+    dataOcorrido: undefined,
+    dataAssinatura: undefined,
     cidade: "",
   };
 
@@ -50,6 +50,14 @@ export default function Advertencia() {
 
     if (data.motivos.length === 0) {
       novosErros.motivos = "Selecione pelo menos um motivo";
+    }
+
+    if (!data.dataOcorrido) {
+      novosErros.dataOcorrido = "Selecione a data do ocorrido";
+    }
+
+    if (!data.dataAssinatura) {
+      novosErros.dataAssinatura = "Selecione a data da assinatura";
     }
 
     setErrors(novosErros);
@@ -84,31 +92,33 @@ export default function Advertencia() {
     }
   };
 
+  function teste() {
+    setData(initialData);
+    setErrors({});
+    showInfo("Limpar", "Todos os campos foram resetados.");
+    scrollRef.current?.scrollToPosition?.(0, 0, true);
+  }
+
   const confirmarLimpeza = () => {
-    Alert.alert(
-      "Limpar formulário",
-      "Deseja realmente limpar todos os campos?",
-      [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
-        {
-          text: "Limpar",
-          style: "destructive",
-          onPress: () => {
-            setData(initialData);
-            setErrors({});
-            showInfo("Limpar", "Todos os campos foram resetados.");
-            scrollRef.current?.scrollToPosition?.(0, 0, true);
-          },
-        },
-      ],
-    );
+    showConfirmAlert({
+      type: "error",
+      title: "Limpar campos?",
+      message: "Isso apagará todas as informações preenchidas.",
+      confirmText: "Limpar",
+      onConfirm() {
+        setData(initialData);
+        setErrors({});
+        showInfo("Limpar", "Todos os campos foram resetados.");
+        scrollRef.current?.scrollToPosition?.(0, 0, true);
+      },
+    });
   };
 
   return (
-    <ScreenContainer header={{ title: "Advertencias", toggleTheme: true }}>
+    <ScreenContainer
+      header={{ title: "Advertencias", toggleTheme: true }}
+      scrollable={false}
+    >
       <KeyboardAwareScrollView
         ref={scrollRef}
         enableOnAndroid
@@ -131,8 +141,7 @@ export default function Advertencia() {
           variant="danger"
           onPress={confirmarLimpeza}
           style={{
-            marginHorizontal: 16,
-            marginTop: 20,
+            marginTop: SPACING.xl,
           }}
           leftIcon="trash-bin-outline"
         />
@@ -145,9 +154,8 @@ export default function Advertencia() {
           }
           onPress={handleGerarDocumento}
           style={{
-            marginHorizontal: 16,
-            marginTop: 12,
-            marginBottom: 32,
+            marginTop: SPACING.md,
+            marginBottom: SPACING.xxl,
           }}
           leftIcon="document-text"
         />

@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 
 import { motivosAdvertencia } from "../data/motivos";
 import { AdvertenciaData } from "../types/advertencia";
 
+import AppPicker from "@/src/components/ui/AppPicker";
 import DateTimeInput from "@/src/components/ui/DateTimeInput";
-import { PickerInput } from "@/src/components/ui/PickerInput";
 import { Input } from "./Input";
 import { MotivosSelector } from "./MotivosSelector";
 
@@ -47,41 +47,50 @@ export function AdvertenciaForm({ data, setData, errors, clearError }: Props) {
         onChange={(date) => updateField("admissao", date)}
       />
 
-      <PickerInput
-        label="Tipo de Documento"
-        value={data.tipoDocumento}
-        options={[
-          {
-            label: "Advertência",
-            value: "ADVERTENCIA",
-          },
-          {
-            label: "Suspensão",
-            value: "SUSPENSAO",
-          },
-        ]}
-        onValueChange={(value) => updateField("tipoDocumento", value)}
-      />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          gap: 16,
+        }}
+      >
+        <AppPicker
+          type="modal"
+          label="Documentro"
+          value={data.tipoDocumento}
+          options={[
+            {
+              label: "Advertência",
+              value: "ADVERTENCIA",
+            },
+            {
+              label: "Suspensão",
+              value: "SUSPENSAO",
+            },
+          ]}
+          onValueChange={(value) => updateField("tipoDocumento", value)}
+        />
 
-      <PickerInput
-        label="Número"
-        value={data.numeroAdvertencia}
-        options={[
-          {
-            label: "1ª Advertência",
-            value: 1,
-          },
-          {
-            label: "2ª Advertência",
-            value: 2,
-          },
-          {
-            label: "3ª Advertência",
-            value: 3,
-          },
-        ]}
-        onValueChange={(value) => updateField("numeroAdvertencia", value)}
-      />
+        <AppPicker
+          label="Número"
+          value={data.numeroAdvertencia}
+          options={[
+            {
+              label: "1ª Advertência",
+              value: 1,
+            },
+            {
+              label: "2ª Advertência",
+              value: 2,
+            },
+            {
+              label: "3ª Advertência",
+              value: 3,
+            },
+          ]}
+          onValueChange={(value) => updateField("numeroAdvertencia", value)}
+        />
+      </View>
 
       <MotivosSelector
         required
@@ -94,17 +103,29 @@ export function AdvertenciaForm({ data, setData, errors, clearError }: Props) {
         }}
       />
 
-      <DateTimeInput
-        label="Data do Ocorrido"
-        value={data.dataOcorrido}
-        onChange={(date) => updateField("dataOcorrido", date)}
-      />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          gap: 16,
+        }}
+      >
+        <DateTimeInput
+          label="Data do Ocorrido"
+          value={data.dataOcorrido}
+          onChange={(date) => updateField("dataOcorrido", date)}
+          error={errors.dataOcorrido}
+          required
+        />
 
-      <DateTimeInput
-        label="Data da Assinatura"
-        value={data.dataAssinatura}
-        onChange={(date) => updateField("dataAssinatura", date)}
-      />
+        <DateTimeInput
+          label="Data da Assinatura"
+          value={data.dataAssinatura}
+          onChange={(date) => updateField("dataAssinatura", date)}
+          error={errors.dataAssinatura}
+          required
+        />
+      </View>
 
       <Input
         label="Observações"

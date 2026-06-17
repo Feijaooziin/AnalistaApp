@@ -7,7 +7,7 @@ import AppButton from "@/src/components/ui/AppButton";
 
 import AppBottomSheet from "@/src/components/ui/AppBottomSheet";
 import AppModal from "@/src/components/ui/AppModal";
-import AppSelectModal from "@/src/components/ui/AppSelectModal";
+import AppSelectModal from "@/src/components/ui/AppSelectBottomSheet";
 import { showInfo } from "@/src/utils/toast";
 
 export default function ModalPlayground() {

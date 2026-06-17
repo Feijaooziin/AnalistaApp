@@ -5,7 +5,7 @@ import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
 
 import AppIcon from "../icons/AppIcon";
-import AppModal from "./AppModal";
+import AppSelectBottomSheet from "./AppSelectBottomSheet";
 import AppSelectModal from "./AppSelectModal";
 
 interface PickerOption<T = string> {
@@ -15,6 +15,7 @@ interface PickerOption<T = string> {
 
 interface Props<T extends string | number = string> {
   label: string;
+  modalTitle?: string;
   value?: T | null;
   options: PickerOption<T>[];
   onValueChange?: (value: T) => void;
@@ -29,6 +30,7 @@ interface Props<T extends string | number = string> {
 
 export default function AppPicker<T extends string | number>({
   label,
+  modalTitle,
   value,
   options,
   onValueChange,
@@ -78,7 +80,7 @@ export default function AppPicker<T extends string | number>({
 
   return (
     <>
-      <View style={{ marginBottom: SPACING.md }}>
+      <View style={{ flex: 1, marginBottom: SPACING.md }}>
         <Text
           style={{
             fontSize: currentSize.fontSize,
@@ -125,9 +127,9 @@ export default function AppPicker<T extends string | number>({
       </View>
 
       {type === "bottomSheet" ? (
-        <AppSelectModal
+        <AppSelectBottomSheet
           visible={open}
-          title={label}
+          title={modalTitle}
           value={value}
           options={options}
           onClose={() => setOpen(false)}
@@ -136,7 +138,11 @@ export default function AppPicker<T extends string | number>({
           expandedSnap={expandedSnap}
         />
       ) : (
-        <AppModal visible={open} title={label} onClose={() => setOpen(false)}>
+        <AppSelectModal
+          visible={open}
+          title={modalTitle ? "Selecionar Opção" : `Selecionar ${label}`}
+          onClose={() => setOpen(false)}
+        >
           {(close) => (
             <FlatList
               data={options}
@@ -176,7 +182,7 @@ export default function AppPicker<T extends string | number>({
               }}
             />
           )}
-        </AppModal>
+        </AppSelectModal>
       )}
     </>
   );

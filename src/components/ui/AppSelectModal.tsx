@@ -1,141 +1,136 @@
-import { useCallback, useMemo, useState } from "react";
-import { FlatList, Pressable, Text } from "react-native";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import { Animated, Dimensions, Modal, Pressable, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
+import Header from "../layout/Header";
 
-import AppBottomSheet from "./AppBottomSheet";
-import AppSearchInput from "./AppSearchInput";
-
-interface SelectOption<T = string> {
-  label: string;
-  value: T;
-}
-
-interface Props<T = string> {
-  visible: boolean;
+interface Props {
   title?: string;
-  value?: T | null;
-  options: SelectOption<T>[];
-  onSelect?: (value: T) => void;
+  visible: boolean;
   onClose: () => void;
-  initialSnap?: number;
-  expandedSnap?: number;
+  children: ReactNode | ((close: () => void) => ReactNode);
 }
 
-export default function AppSelectModal<T extends string | number>({
-  visible,
+const { height } = Dimensions.get("window");
+
+export default function AppSelectModal({
   title,
-  value,
-  options,
-  onSelect,
+  visible,
   onClose,
-  initialSnap,
-  expandedSnap,
-}: Props<T>) {
+  children,
+}: Props) {
   const { colors } = useTheme();
 
-  const [search, setSearch] = useState("");
+  const [mounted, setMounted] = useState(visible);
 
-  const showSearch = options.length > 3;
+  const backdropOpacity = useRef(new Animated.Value(0)).current;
+  const scaleAnim = useRef(new Animated.Value(0.95)).current;
 
-  const filteredOptions = useMemo(() => {
-    if (!search.trim()) return options;
+  useEffect(() => {
+    if (visible) {
+      setMounted(true);
 
-    const lower = search.toLowerCase();
+      backdropOpacity.setValue(0);
+      scaleAnim.setValue(0);
 
-    return options.filter((item) => item.label.toLowerCase().includes(lower));
-  }, [options, search]);
+      Animated.parallel([
+        Animated.timing(backdropOpacity, {
+          toValue: 1,
+          duration: 100,
+          useNativeDriver: true,
+        }),
 
-  const handleSelect = useCallback(
-    (selectedValue: T) => {
-      onSelect?.(selectedValue);
-    },
-    [onSelect],
-  );
+        Animated.timing(scaleAnim, {
+          toValue: 1,
+          duration: 400,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [visible]);
+
+  function animateClose() {
+    Animated.parallel([
+      Animated.timing(backdropOpacity, {
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+
+      Animated.timing(scaleAnim, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      setMounted(false);
+      onClose();
+    });
+  }
+
+  if (!mounted) return null;
 
   return (
-    <AppBottomSheet
-      visible={visible}
-      onClose={onClose}
-      title={title}
-      initialSnap={initialSnap}
-      expandedSnap={expandedSnap}
-    >
-      {(close) => (
-        <>
-          {showSearch && (
-            <>
-              <AppSearchInput
-                placeholder="Pesquisar..."
-                value={search}
-                onChangeText={setSearch}
-              />
-
-              <Text
-                style={{
-                  color: colors.textSecondary,
-                  marginTop: -10,
-                  marginBottom: SPACING.sm,
-                }}
-              >
-                {filteredOptions.length} opções
-              </Text>
-            </>
-          )}
-          {filteredOptions.length === 0 && (
-            <Text
-              style={{
-                textAlign: "center",
-                color: colors.textSecondary,
-                marginTop: SPACING.lg,
-              }}
-            >
-              Nenhum resultado encontrado
-            </Text>
-          )}
-
-          <FlatList
-            data={filteredOptions}
-            keyExtractor={(item) => String(item.value)}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => {
-              const selected = item.value === value;
-
-              return (
-                <Pressable
-                  onPress={() => {
-                    handleSelect(item.value);
-                    close();
-                  }}
-                  style={{
-                    padding: SPACING.md,
-                    borderWidth: 1,
-                    borderRadius: RADIUS.md,
-                    marginBottom: SPACING.sm,
-                    borderColor: selected
-                      ? colors.inputBorderFocused
-                      : colors.border,
-                    backgroundColor: selected
-                      ? colors.primary + "15"
-                      : colors.surface,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: selected ? colors.text : colors.textSecondary,
-                      fontWeight: selected ? "700" : "400",
-                    }}
-                  >
-                    {item.label}
-                  </Text>
-                </Pressable>
-              );
+    <Modal animationType="none" visible={visible} transparent>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {/* BACKDROP */}
+        <Animated.View
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#000",
+            opacity: backdropOpacity.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.5],
+            }),
+          }}
+        >
+          <Pressable
+            onPress={animateClose}
+            style={{
+              flex: 1,
             }}
           />
-        </>
-      )}
-    </AppBottomSheet>
+        </Animated.View>
+
+        {/* CONTENT */}
+        <Animated.View
+          style={{
+            width: "90%",
+            maxHeight: height * 0.8,
+            backgroundColor: colors.surface,
+            borderRadius: RADIUS.lg,
+            padding: SPACING.md,
+            transform: [
+              { scale: scaleAnim },
+              {
+                translateY: scaleAnim.interpolate({
+                  inputRange: [0.95, 1],
+                  outputRange: [15, 0],
+                }),
+              },
+            ],
+          }}
+        >
+          <Header
+            variant="close"
+            title={title}
+            onClosePress={animateClose}
+            showLogo={false}
+          />
+          <View style={{ marginTop: 20 }}>
+            {typeof children === "function" ? children(animateClose) : children}
+          </View>
+        </Animated.View>
+      </View>
+    </Modal>
   );
 }
