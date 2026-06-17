@@ -1,5 +1,12 @@
 import { useMemo, useState } from "react";
-import { FlatList, Pressable, Text, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  StyleProp,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
@@ -15,10 +22,10 @@ interface PickerOption<T = string> {
 
 interface Props<T extends string | number = string> {
   label: string;
-  modalTitle?: string;
   value?: T | null;
   options: PickerOption<T>[];
   onValueChange?: (value: T) => void;
+  modalTitle?: boolean;
   required?: boolean;
   readonly?: boolean;
   placeholder?: string;
@@ -26,14 +33,15 @@ interface Props<T extends string | number = string> {
   type?: "modal" | "bottomSheet";
   initialSnap?: number;
   expandedSnap?: number;
+  style?: StyleProp<ViewStyle>;
 }
 
 export default function AppPicker<T extends string | number>({
   label,
-  modalTitle,
   value,
   options,
   onValueChange,
+  modalTitle = false,
   required,
   readonly,
   placeholder = "Selecione uma opção",
@@ -41,6 +49,7 @@ export default function AppPicker<T extends string | number>({
   type = "modal",
   initialSnap,
   expandedSnap,
+  style,
 }: Props<T>) {
   const { colors } = useTheme();
 
@@ -80,13 +89,13 @@ export default function AppPicker<T extends string | number>({
 
   return (
     <>
-      <View style={{ flex: 1, marginBottom: SPACING.md }}>
+      <View style={style}>
         <Text
           style={{
             fontSize: currentSize.fontSize,
             fontWeight: "600",
             color: colors.textSecondary,
-            marginBottom: 6,
+            marginBottom: SPACING.sm,
           }}
         >
           {label}
@@ -129,7 +138,7 @@ export default function AppPicker<T extends string | number>({
       {type === "bottomSheet" ? (
         <AppSelectBottomSheet
           visible={open}
-          title={modalTitle}
+          title={modalTitle ? `Selecionar ${label}` : undefined}
           value={value}
           options={options}
           onClose={() => setOpen(false)}
@@ -140,7 +149,7 @@ export default function AppPicker<T extends string | number>({
       ) : (
         <AppSelectModal
           visible={open}
-          title={modalTitle ? "Selecionar Opção" : `Selecionar ${label}`}
+          title={modalTitle ? `Selecionar ${label}` : undefined}
           onClose={() => setOpen(false)}
         >
           {(close) => (

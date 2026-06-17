@@ -6,6 +6,7 @@ import { AdvertenciaData } from "../types/advertencia";
 
 import AppPicker from "@/src/components/ui/AppPicker";
 import DateTimeInput from "@/src/components/ui/DateTimeInput";
+import { SPACING } from "@/src/theme/layout";
 import { Input } from "./Input";
 import { MotivosSelector } from "./MotivosSelector";
 
@@ -52,9 +53,11 @@ export function AdvertenciaForm({ data, setData, errors, clearError }: Props) {
           flexDirection: "row",
           justifyContent: "space-between",
           gap: 16,
+          marginBottom: SPACING.md,
         }}
       >
         <AppPicker
+          style={{ flex: 1 }}
           type="modal"
           label="Documentro"
           value={data.tipoDocumento}
@@ -72,6 +75,7 @@ export function AdvertenciaForm({ data, setData, errors, clearError }: Props) {
         />
 
         <AppPicker
+          style={{ flex: 1 }}
           label="Número"
           value={data.numeroAdvertencia}
           options={[

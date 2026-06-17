@@ -12,7 +12,7 @@ import { SPACING } from "@/src/theme/layout";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
-import { PickerInput } from "@/src/components/ui/PickerInput";
+import AppPicker from "@/src/components/ui/AppPicker";
 import { useRefresh } from "@/src/hooks/useRefresh";
 import FuncionarioCard from "@/src/modules/jbs/components/FuncionarioCard";
 import { JBS_CARGOS_FILTER } from "@/src/modules/jbs/constants/jbs";
@@ -64,7 +64,8 @@ export default function Funcionarios() {
             value={search}
             onChangeText={setSearch}
           />
-          <PickerInput
+          <AppPicker
+            style={{ marginBottom: SPACING.sm }}
             label="Cargo"
             value={cargoFilter}
             onValueChange={setCargoFilter}
@@ -73,7 +74,7 @@ export default function Funcionarios() {
           <Text
             style={{
               color: colors.textSecondary,
-              marginBottom: SPACING.xxl,
+              marginBottom: SPACING.md,
             }}
           >
             {filteredUsers.length} funcionário(s)

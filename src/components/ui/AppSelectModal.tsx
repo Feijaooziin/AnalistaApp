@@ -120,12 +120,14 @@ export default function AppSelectModal({
             ],
           }}
         >
-          <Header
-            variant="close"
-            title={title}
-            onClosePress={animateClose}
-            showLogo={false}
-          />
+          {title && (
+            <Header
+              variant="close"
+              title={title}
+              onClosePress={animateClose}
+              showLogo={false}
+            />
+          )}
           <View style={{ marginTop: 20 }}>
             {typeof children === "function" ? children(animateClose) : children}
           </View>
