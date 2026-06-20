@@ -14,23 +14,7 @@ function AppContent() {
   return (
     <>
       <StatusBar style="dark" />
-
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="(drawer)" />
-
-        <Stack.Screen
-          name="(modals)/picker"
-          options={{
-            presentation: "formSheet",
-            sheetAllowedDetents: [0.65, 1],
-            sheetGrabberVisible: true,
-            sheetExpandsWhenScrolledToEdge: true,
-            sheetCornerRadius: 24,
-          }}
-        />
-      </Stack>
-
+      <Stack screenOptions={{ headerShown: false }} />
       <Toast config={toastConfig} visibilityTime={2500} topOffset={110} />
     </>
   );

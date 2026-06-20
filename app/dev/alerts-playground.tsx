@@ -7,7 +7,6 @@ import AppAlert from "@/src/components/ui/AppAlert";
 import AppButton from "@/src/components/ui/AppButton";
 import AppSectionCard from "@/src/components/ui/AppSectionCard";
 import { useTheme } from "@/src/contexts/ThemeContext";
-import { useAlert } from "@/src/hooks/useAlert";
 import {
   showConfirmAlert,
   showErrorAlert,
@@ -18,14 +17,7 @@ import {
 
 export default function AlertsPlayground() {
   const { colors } = useTheme();
-  const { showAlert } = useAlert();
 
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
-  const [info, setInfo] = useState(false);
-  const [warning, setWarning] = useState(false);
-
-  const [deleteAlert, setDeleteAlert] = useState(false);
   const [cancelAlert, setCancelAlert] = useState(false);
   const [finishAlert, setFinishAlert] = useState(false);
 

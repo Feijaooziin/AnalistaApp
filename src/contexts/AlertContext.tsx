@@ -32,7 +32,7 @@ interface ShowAlertParams {
   message?: string;
   confirmText?: string;
   cancelText?: string;
-  onConfirm?: () => void;
+  onConfirm?: () => void | Promise<void>;
   onCancel?: () => void;
 }
 
