@@ -3,19 +3,23 @@ import { Text, TextInput, TextInputProps, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { FONT_SIZE, ICON_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
+import AppIcon from "../icons/AppIcon";
 
 interface Props extends TextInputProps {
   label?: string;
-
+  onChangeText?: (text: string) => void;
   required?: boolean;
   error?: string;
+  clearable?: boolean;
   size?: "sm" | "md" | "lg";
 }
 
 export default function AppInput({
   label,
+  onChangeText,
   required,
   error,
+  clearable = false,
   size,
   ...rest
 }: Props) {
@@ -44,6 +48,10 @@ export default function AppInput({
 
   const currentSize = sizes[size ?? "md"];
 
+  function clear() {
+    onChangeText?.("");
+  }
+
   return (
     <View
       style={{
@@ -69,11 +77,10 @@ export default function AppInput({
         style={{
           flexDirection: "row",
           alignItems: "center",
-
+          borderWidth: 1,
           backgroundColor: colors.surface,
           borderRadius: RADIUS.sm,
-          borderWidth: 1,
-
+          paddingHorizontal: currentSize.padding,
           borderColor: error
             ? colors.error
             : focused
@@ -88,11 +95,20 @@ export default function AppInput({
           onBlur={() => setFocused(false)}
           style={{
             flex: 1,
-            padding: currentSize.padding,
             color: colors.text,
             fontSize: currentSize.fontSize,
+            paddingVertical: currentSize.padding,
           }}
         />
+
+        {clearable && (
+          <AppIcon
+            name="close-circle-outline"
+            size={currentSize.icon}
+            color={colors.textSecondary}
+            onPress={clear}
+          />
+        )}
       </View>
       {!!error && (
         <Text
