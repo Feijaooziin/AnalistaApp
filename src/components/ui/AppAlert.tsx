@@ -159,6 +159,7 @@ export default function AppAlert({
               <AppButton
                 title={confirmText}
                 loading={loading}
+                loadingText={`${confirmText}...`}
                 onPress={handleConfirm}
                 style={{ backgroundColor: confirmButtonColor }}
               />

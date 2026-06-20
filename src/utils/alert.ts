@@ -38,6 +38,7 @@ export function showConfirmAlert({
   message,
   confirmText,
   cancelText,
+  confirmButtonVariant,
   onConfirm,
   onCancel,
 }: {
@@ -46,7 +47,8 @@ export function showConfirmAlert({
   message?: string;
   confirmText?: string;
   cancelText?: string;
-  onConfirm?: () => void;
+  confirmButtonVariant?: "success" | "error" | "warning" | "info";
+  onConfirm?: () => void | Promise<void>;
   onCancel?: () => void;
 }) {
   getAlertRef()?.showAlert({
@@ -56,6 +58,7 @@ export function showConfirmAlert({
     message,
     confirmText,
     cancelText,
+    confirmButtonVariant,
     onConfirm,
     onCancel,
   });
