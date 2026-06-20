@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Text, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
@@ -16,8 +17,7 @@ interface AppAlertProps {
   confirmText?: string;
   cancelText?: string;
   confirmButtonVariant?: AlertType;
-  confirmLoading?: boolean;
-  onConfirm?: () => void;
+  onConfirm?: () => void | Promise<void>;
   onCancel?: () => void;
   onClose: () => void;
 }
@@ -31,12 +31,12 @@ export default function AppAlert({
   confirmText = "Confirmar",
   cancelText = "Cancelar",
   confirmButtonVariant,
-  confirmLoading = false,
   onConfirm,
   onCancel,
   onClose,
 }: AppAlertProps) {
   const { colors } = useTheme();
+  const [loading, setLoading] = useState(false);
 
   const alertConfig = {
     success: {
@@ -64,20 +64,29 @@ export default function AppAlert({
   const confirmButtonColor = alertConfig[confirmButtonVariant ?? type].color;
 
   function handleCancel() {
-    if (confirmLoading) return;
+    if (loading) return;
 
     onCancel?.();
     onClose();
   }
 
-  function handleConfirm() {
-    if (confirmLoading) return;
-    onConfirm?.();
-    onClose();
+  async function handleConfirm() {
+    if (!onConfirm) {
+      onClose();
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await onConfirm();
+      onClose();
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <AppModal visible={visible} onClose={confirmLoading ? () => {} : onClose}>
+    <AppModal visible={visible} onClose={loading ? () => {} : onClose}>
       <View
         style={{
           alignItems: "center",
@@ -142,13 +151,14 @@ export default function AppAlert({
                 title={cancelText}
                 variant="outline"
                 onPress={handleCancel}
+                disabled={loading}
               />
             </View>
 
             <View style={{ flex: 1 }}>
               <AppButton
                 title={confirmText}
-                loading={confirmLoading}
+                loading={loading}
                 onPress={handleConfirm}
                 style={{ backgroundColor: confirmButtonColor }}
               />

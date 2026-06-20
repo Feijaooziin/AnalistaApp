@@ -6,10 +6,10 @@ export const light = {
 
   card: "#FFFFFF",
 
-  primary: "#1c2543",
-  primaryDark: "#223262",
+  primary: "#1C2543",
+  primaryDark: "#0F4C81",
 
-  secondary: "#223262",
+  secondary: "#0F4C81",
 
   success: "#12964e",
   warning: "#f59e0b",
@@ -29,7 +29,7 @@ export const light = {
 
   input: "#FFFFFF",
   inputBorder: "#CBD5E1",
-  inputBorderFocused: "#223262",
+  inputBorderFocused: "#0F4C81",
 
   placeholder: "#94A3B8",
 
@@ -39,7 +39,7 @@ export const light = {
   disabled: "#E2E8F0",
   disabledText: "#94A3B8",
 
-  drawerText: "#1c2543",
+  drawerText: "#1C2543",
   drawerTextFocused: "#FFFFFF",
 
   overlay: "rgba(0,0,0,0.5)",
@@ -66,7 +66,7 @@ export const dark = {
 
   input: "#111827",
   inputBorder: "#374151",
-  inputBorderFocused: "#223262",
+  inputBorderFocused: "#0F4C81",
 
   placeholder: "#94A3B8",
 
