@@ -39,7 +39,7 @@ export default function FuncionarioDetalhe() {
       type: "error",
       title: "Excluir funcionário?",
       message: `Deseja realmente excluir ${user?.nome}?`,
-      confirmText: "Ecluir",
+      confirmText: "Excluir",
       onConfirm: async () => {
         try {
           if (!user?.id) return;

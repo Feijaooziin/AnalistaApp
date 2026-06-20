@@ -19,11 +19,12 @@ import FuncionarioCard from "@/src/modules/jbs/components/FuncionarioCard";
 import { JBS_CARGOS_FILTER } from "@/src/modules/jbs/constants/jbs";
 import { exportDatabase } from "@/src/services/backup/exportDatabase";
 import { importDatabase } from "@/src/services/backup/importDatabase";
+import { showConfirmAlert } from "@/src/utils/alert";
+import { showSuccess } from "@/src/utils/toast";
 
 export default function Funcionarios() {
   const { colors } = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [cargoFilter, setCargoFilter] = useState("Todos");
@@ -74,8 +75,41 @@ export default function Funcionarios() {
   }
 
   async function handleExport() {
+    setModalOpen(false);
     await exportDatabase();
     await loadUsers();
+  }
+
+  async function handleClear() {
+    setModalOpen(false);
+    showConfirmAlert({
+      type: "warning",
+      title: "Excluir funcionários",
+      message: "Deseja realmente excluir todos os registros?",
+      confirmText: "Excluir",
+      onConfirm: () => {
+        setTimeout(() => {
+          showConfirmAlert({
+            type: "error",
+            title: "Atenção máxima!",
+            message:
+              "Todos os funcionários cadastrados serão removidos permanentemente. Deseja continuar?",
+            onConfirm: async () => {
+              const totalUsers = users.length;
+
+              await usersJbsRepository.clear();
+              await loadUsers();
+              showSuccess(
+                "Dados apagados",
+                `${totalUsers} funcionário(s) excluído(s) com sucesso.`,
+              );
+            },
+            onCancel: () => setModalOpen(true),
+          });
+        }, 100);
+      },
+      onCancel: () => setModalOpen(true),
+    });
   }
 
   return (
@@ -170,6 +204,12 @@ export default function Funcionarios() {
               title="Importar Backup"
               leftIcon="cloud-download-outline"
               onPress={handleImport}
+            />
+            <AppButton
+              title="Limpar lista"
+              leftIcon="trash-outline"
+              onPress={handleClear}
+              variant="danger"
             />
           </View>
         )}
