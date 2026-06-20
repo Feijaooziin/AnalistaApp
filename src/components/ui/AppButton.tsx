@@ -18,6 +18,7 @@ interface ButtonProps extends TouchableOpacityProps {
   leftIcon?: IconName;
   rightIcon?: IconName;
   loading?: boolean;
+  loadingText?: string;
   disabled?: boolean;
   size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
@@ -30,6 +31,7 @@ export default function AppButton({
   leftIcon,
   rightIcon,
   loading = false,
+  loadingText,
   disabled = false,
   fullWidth = false,
   size,
@@ -121,7 +123,7 @@ export default function AppButton({
           fontWeight: "600",
         }}
       >
-        {title}
+        {loading && loadingText ? loadingText : title}
       </Text>
 
       {/* RIGHT ICON */}

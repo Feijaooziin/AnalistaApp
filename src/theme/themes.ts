@@ -11,9 +11,9 @@ export const light = {
 
   secondary: "#0F4C81",
 
-  success: "#12964e",
-  warning: "#f59e0b",
-  danger: "#92223e",
+  success: "#12964E",
+  warning: "#f59E0B",
+  danger: "#92223E",
 
   info: "#1E88E5",
 
@@ -33,7 +33,7 @@ export const light = {
 
   placeholder: "#94A3B8",
 
-  error: "#92223e",
+  error: "#92223E",
   errorBackground: "#FDF2F8",
 
   disabled: "#E2E8F0",
@@ -70,7 +70,7 @@ export const dark = {
 
   placeholder: "#94A3B8",
 
-  error: "#92223e",
+  error: "#92223E",
   errorBackground: "#FDF2F8",
 
   drawerText: "#FFFFFF",
