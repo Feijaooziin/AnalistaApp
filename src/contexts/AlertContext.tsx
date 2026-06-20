@@ -24,6 +24,7 @@ interface AlertState {
   confirmButtonVariant?: AlertType;
   onConfirm?: () => void | Promise<void>;
   onCancel?: () => void;
+  resolve?: (value: boolean) => void;
 }
 
 interface ShowAlertParams {
@@ -36,6 +37,7 @@ interface ShowAlertParams {
   confirmButtonVariant?: AlertType;
   onConfirm?: () => void | Promise<void>;
   onCancel?: () => void;
+  resolve?: (value: boolean) => void;
 }
 
 interface AlertContextData {
@@ -74,6 +76,7 @@ export function AlertProvider({ children }: { children: ReactNode }) {
       confirmButtonVariant,
       onConfirm,
       onCancel,
+      resolve,
     }: ShowAlertParams) => {
       setAlert({
         visible: true,
@@ -86,6 +89,7 @@ export function AlertProvider({ children }: { children: ReactNode }) {
         confirmButtonVariant,
         onConfirm,
         onCancel,
+        resolve,
       });
     },
     [],
@@ -130,6 +134,7 @@ export function AlertProvider({ children }: { children: ReactNode }) {
         onConfirm={alert.onConfirm}
         onCancel={alert.onCancel}
         onClose={closeAlert}
+        resolve={alert.resolve}
       />
     </AlertContext.Provider>
   );

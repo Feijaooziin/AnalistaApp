@@ -20,6 +20,7 @@ interface AppAlertProps {
   onConfirm?: () => void | Promise<void>;
   onCancel?: () => void;
   onClose: () => void;
+  resolve?: (value: boolean) => void;
 }
 
 export default function AppAlert({
@@ -34,6 +35,7 @@ export default function AppAlert({
   onConfirm,
   onCancel,
   onClose,
+  resolve,
 }: AppAlertProps) {
   const { colors } = useTheme();
   const [loading, setLoading] = useState(false);
@@ -66,12 +68,14 @@ export default function AppAlert({
   function handleCancel() {
     if (loading) return;
 
+    resolve?.(false);
     onCancel?.();
     onClose();
   }
 
   async function handleConfirm() {
     if (!onConfirm) {
+      resolve?.(true);
       onClose();
       return;
     }
@@ -79,6 +83,7 @@ export default function AppAlert({
     try {
       setLoading(true);
       await onConfirm();
+      resolve?.(true);
       onClose();
     } finally {
       setLoading(false);
@@ -159,7 +164,7 @@ export default function AppAlert({
               <AppButton
                 title={confirmText}
                 loading={loading}
-                loadingText={`${confirmText}...`}
+                loadingText={confirmText}
                 onPress={handleConfirm}
                 style={{ backgroundColor: confirmButtonColor }}
               />
