@@ -63,3 +63,45 @@ export function showConfirmAlert({
     onCancel,
   });
 }
+
+function confirmAsync(params: {
+  type?: "success" | "error" | "warning" | "info";
+  title: string;
+  message?: string;
+  confirmText?: string;
+  cancelText?: string;
+  confirmButtonVariant?: "success" | "error" | "warning" | "info";
+}) {
+  return new Promise<boolean>((resolve) => {
+    getAlertRef()?.showAlert({
+      variant: "confirm",
+      ...params,
+      resolve,
+    });
+  });
+}
+
+export async function confirmAlert({
+  type,
+  title,
+  message,
+  confirmText,
+  cancelText,
+  confirmButtonVariant,
+}: {
+  type?: "success" | "error" | "warning" | "info";
+  title: string;
+  message?: string;
+  confirmText?: string;
+  cancelText?: string;
+  confirmButtonVariant?: "success" | "error" | "warning" | "info";
+}) {
+  return confirmAsync({
+    type,
+    title,
+    message,
+    confirmText,
+    cancelText,
+    confirmButtonVariant,
+  });
+}

@@ -19,7 +19,7 @@ import FuncionarioCard from "@/src/modules/jbs/components/FuncionarioCard";
 import { JBS_CARGOS_FILTER } from "@/src/modules/jbs/constants/jbs";
 import { exportDatabase } from "@/src/services/backup/exportDatabase";
 import { importDatabase } from "@/src/services/backup/importDatabase";
-import { showConfirmAlert } from "@/src/utils/alert";
+import { confirmAlert } from "@/src/utils/alert";
 import { showSuccess } from "@/src/utils/toast";
 
 export default function Funcionarios() {
@@ -82,34 +82,38 @@ export default function Funcionarios() {
 
   async function handleClear() {
     setModalOpen(false);
-    showConfirmAlert({
+
+    const firstConfirm = await confirmAlert({
       type: "warning",
       title: "Excluir funcionários",
       message: "Deseja realmente excluir todos os registros?",
       confirmText: "Excluir",
-      onConfirm: () => {
-        setTimeout(() => {
-          showConfirmAlert({
-            type: "error",
-            title: "Atenção máxima!",
-            message:
-              "Todos os funcionários cadastrados serão removidos permanentemente. Deseja continuar?",
-            onConfirm: async () => {
-              const totalUsers = users.length;
-
-              await usersJbsRepository.clear();
-              await loadUsers();
-              showSuccess(
-                "Dados apagados",
-                `${totalUsers} funcionário(s) excluído(s) com sucesso.`,
-              );
-            },
-            onCancel: () => setModalOpen(true),
-          });
-        }, 100);
-      },
-      onCancel: () => setModalOpen(true),
     });
+
+    if (!firstConfirm) {
+      setModalOpen(true);
+      return;
+    }
+
+    const secondConfirm = await confirmAlert({
+      type: "error",
+      title: "Atenção máxima!",
+      message:
+        "Todos os funcionários cadastrados serão removidos permanentemente. Deseja continuar?",
+    });
+
+    if (!secondConfirm) {
+      setModalOpen(true);
+      return;
+    }
+
+    await usersJbsRepository.clear();
+    await loadUsers();
+
+    showSuccess(
+      "Dados apagados",
+      `${users.length} funcionários excluídos com sucesso.`,
+    );
   }
 
   return (
