@@ -7,8 +7,8 @@ import { pickAndSaveFile } from "@/src/modules/storage/services/filePickerServic
 
 import FileActionsBottomSheet from "@/src/modules/storage/components/FileActionsBottomSheet";
 import FileCard from "@/src/modules/storage/components/FileCard";
-import FilePreviewModal from "@/src/modules/storage/components/FilePreviewModal";
 
+import FilePreview from "@/src/modules/storage/components/preview/FilePreview";
 import { openFile, shareFile } from "@/src/modules/storage/services/fileOpener";
 import { useState } from "react";
 
@@ -73,7 +73,7 @@ export default function StorageScreen() {
         )}
       />
 
-      <FilePreviewModal
+      <FilePreview
         visible={previewOpen}
         file={selectedFile}
         onClose={() => setPreviewOpen(false)}
