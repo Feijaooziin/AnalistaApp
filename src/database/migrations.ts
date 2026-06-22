@@ -1,6 +1,6 @@
 import { db } from "./db";
 
-export async function initDB() {
+export async function createUserJbsTable() {
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS usersJbs (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,4 +14,25 @@ export async function initDB() {
       created_at TEXT
     );
   `);
+}
+
+export async function createStorageTable() {
+  await db.execAsync(`
+    CREATE TABLE IF NOT EXISTS storage_files (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      original_name TEXT NOT NULL,
+      extension TEXT NOT NULL,
+      mime_type TEXT NOT NULL,
+      file_type TEXT NOT NULL,
+      size INTEGER NOT NULL,
+      local_uri TEXT NOT NULL,
+      created_at TEXT DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+}
+
+export async function runMigrations() {
+  await createUserJbsTable();
+  await createStorageTable();
 }
