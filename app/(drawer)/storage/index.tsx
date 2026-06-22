@@ -2,7 +2,7 @@ import AppButton from "@/src/components/ui/AppButton";
 
 import * as DocumentPicker from "expo-document-picker";
 import { useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
@@ -13,6 +13,7 @@ import FileActionsBottomSheet from "@/src/modules/storage/components/FileActions
 import FileCard from "@/src/modules/storage/components/FileCard.tsx";
 import FilePreviewModal from "@/src/modules/storage/components/FilePreviewModal";
 
+import AppIcon from "@/src/components/icons/AppIcon";
 import {
   openFile,
   shareFile,
@@ -25,39 +26,56 @@ export default function StorageScreen() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [actionsOpen, setActionsOpen] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const [uploading, setUploading] = useState(false);
+
   useEffect(() => {
     loadFiles();
   }, []);
 
   async function loadFiles() {
-    const data = await storageRepository.list();
-    setFiles(data);
+    setLoading(true);
+
+    try {
+      const data = await storageRepository.list();
+      setFiles(data);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function pickFile() {
-    const result = await DocumentPicker.getDocumentAsync({
-      type: "*/*",
-      multiple: false,
-      copyToCacheDirectory: true,
-    });
+    try {
+      setUploading(true);
 
-    if (result.canceled) return;
+      const result = await DocumentPicker.getDocumentAsync({
+        type: "*/*",
+        multiple: false,
+        copyToCacheDirectory: true,
+      });
 
-    const file = result.assets[0];
+      if (result.canceled) return;
 
-    const fileType = getFileType(file.mimeType || "", file.name);
+      const file = result.assets[0];
 
-    await storageRepository.create({
-      name: file.name.split(".")[0],
-      originalName: file.name,
-      extension: file.name.split(".").pop() || "",
-      mimeType: file.mimeType || "",
-      fileType,
-      size: file.size || 0,
-      localUri: file.uri,
-    });
+      const fileType = getFileType(file.mimeType || "", file.name);
 
-    loadFiles();
+      await storageRepository.create({
+        name: file.name.split(".")[0],
+        originalName: file.name,
+        extension: file.name.split(".").pop() || "",
+        mimeType: file.mimeType || "",
+        fileType,
+        size: file.size || 0,
+        localUri: file.uri,
+      });
+
+      await loadFiles();
+    } finally {
+      setUploading(false);
+    }
   }
 
   function openActions(file: any) {
@@ -68,6 +86,14 @@ export default function StorageScreen() {
   function openPreview(file: any) {
     setSelectedFile(file);
     setPreviewOpen(true);
+  }
+
+  async function handleRefresh() {
+    setRefreshing(true);
+
+    await loadFiles();
+
+    setRefreshing(false);
   }
 
   async function handleDelete() {
@@ -97,13 +123,33 @@ export default function StorageScreen() {
       scrollable={false}
     >
       <View style={{ marginBottom: 12 }}>
-        <AppButton title="Adicionar arquivo" onPress={pickFile} />
+        <AppButton
+          title="Adicionar arquivo"
+          onPress={pickFile}
+          loading={uploading}
+        />
       </View>
 
       <FlatList
         data={files}
         keyExtractor={(item) => String(item.id)}
-        contentContainerStyle={{ gap: 12, paddingBottom: 120 }}
+        contentContainerStyle={{
+          gap: 12,
+          paddingBottom: 120,
+          flexGrow: 1,
+        }}
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        ListEmptyComponent={() =>
+          !loading ? (
+            <View style={{ alignItems: "center", marginTop: 40 }}>
+              <AppIcon name="cloud-offline-outline" size={40} color="#999" />
+              <Text style={{ marginTop: 10, color: "#999" }}>
+                Nenhum arquivo encontrado
+              </Text>
+            </View>
+          ) : null
+        }
         renderItem={({ item }) => (
           <FileCard
             file={item}
