@@ -91,6 +91,13 @@ export const drawerMenu: DrawerMenuItem[] = [
   },
 
   {
+    label: "Arquivos",
+    title: "Arquivos",
+    route: "storage",
+    icon: "document-attach-outline",
+  },
+
+  {
     label: "Ferramentas",
     icon: "hammer-outline",
     children: [
