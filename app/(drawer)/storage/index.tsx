@@ -1,46 +1,86 @@
-import { useEffect } from "react";
-import { View } from "react-native";
+import * as DocumentPicker from "expo-document-picker";
+import { useEffect, useState } from "react";
+import { FlatList, View } from "react-native";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 
 import { storageRepository } from "@/src/modules/storage/repositories/storageRepository";
+import { getFileType } from "@/src/modules/storage/utils/getFileType";
+
+import FileCard from "@/src/modules/storage/components/FileCard.tsx";
 
 export default function StorageScreen() {
+  const [files, setFiles] = useState<any[]>([]);
+
   useEffect(() => {
-    load();
+    loadFiles();
   }, []);
 
-  async function load() {
+  async function loadFiles() {
     const data = await storageRepository.list();
-
-    console.log(data);
+    setFiles(data);
   }
 
-  async function createTest() {
-    await storageRepository.create({
-      name: "teste",
-      originalName: "teste.pdf",
-      extension: "pdf",
-      mimeType: "application/pdf",
-      fileType: "pdf",
-      size: 1000,
-      localUri: "/teste.pdf",
+  async function handlePickFile() {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: "*/*",
+      multiple: false,
+      copyToCacheDirectory: true,
     });
 
-    load();
+    if (result.canceled) return;
+
+    const file = result.assets[0];
+    const fileType = getFileType(file.mimeType || "", file.name);
+
+    await storageRepository.create({
+      name: file.name.split(".")[0],
+      originalName: file.name,
+      extension: file.name.split(".").pop() || "",
+      mimeType: file.mimeType || "",
+      fileType,
+      size: file.size || 0,
+      localUri: file.uri,
+    });
+
+    loadFiles();
   }
 
   return (
     <ScreenContainer
       header={{
-        title: "Arquivos",
+        title: "Storage",
         toggleTheme: true,
       }}
+      scrollable={false}
     >
-      <View>
-        <AppButton title="Criar registro teste" onPress={createTest} />
+      <View style={{ gap: 12, marginBottom: 12 }}>
+        <AppButton
+          title="Adicionar arquivo"
+          leftIcon="add"
+          onPress={handlePickFile}
+        />
+
+        <AppButton title="Recarregar" variant="outline" onPress={loadFiles} />
       </View>
+
+      <FlatList
+        data={files}
+        keyExtractor={(item) => String(item.id)}
+        contentContainerStyle={{
+          gap: 12,
+          paddingBottom: 120,
+        }}
+        renderItem={({ item }) => (
+          <FileCard
+            name={item.name}
+            originalName={item.originalName}
+            fileType={item.fileType}
+            size={item.size}
+          />
+        )}
+      />
     </ScreenContainer>
   );
 }
