@@ -2,30 +2,59 @@ import AppButton from "@/src/components/ui/AppButton";
 import { View } from "react-native";
 
 interface Props {
+  visible: boolean;
+  onClose: () => void;
+
   onOpen: () => void;
   onShare: () => void;
   onDelete: () => void;
 }
 
 export default function FileActionsBottomSheet({
+  visible,
+  onClose,
   onOpen,
   onShare,
   onDelete,
 }: Props) {
+  if (!visible) return null;
+
   return (
-    <View style={{ gap: 12 }}>
-      <AppButton title="Abrir" onPress={onOpen} leftIcon="eye-outline" />
-      <AppButton
-        title="Compartilhar"
-        onPress={onShare}
-        leftIcon="share-outline"
-      />
-      <AppButton
-        title="Excluir"
-        onPress={onDelete}
-        leftIcon="trash-outline"
-        variant="danger"
-      />
+    <View
+      style={{
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        padding: 16,
+        backgroundColor: "#000000aa",
+      }}
+    >
+      <View
+        style={{
+          backgroundColor: "#fff",
+          borderRadius: 16,
+          padding: 16,
+          gap: 12,
+        }}
+      >
+        <AppButton title="Abrir" leftIcon="eye-outline" onPress={onOpen} />
+
+        <AppButton
+          title="Compartilhar"
+          leftIcon="share-outline"
+          onPress={onShare}
+        />
+
+        <AppButton
+          title="Excluir"
+          leftIcon="trash-outline"
+          variant="danger"
+          onPress={onDelete}
+        />
+
+        <AppButton title="Cancelar" variant="outline" onPress={onClose} />
+      </View>
     </View>
   );
 }

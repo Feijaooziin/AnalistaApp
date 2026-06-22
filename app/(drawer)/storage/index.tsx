@@ -1,3 +1,5 @@
+import AppButton from "@/src/components/ui/AppButton";
+
 import * as DocumentPicker from "expo-document-picker";
 import { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
@@ -7,16 +9,21 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import { storageRepository } from "@/src/modules/storage/repositories/storageRepository";
 import { getFileType } from "@/src/modules/storage/utils/getFileType";
 
+import FileActionsBottomSheet from "@/src/modules/storage/components/FileActionsBottomSheet";
 import FileCard from "@/src/modules/storage/components/FileCard.tsx";
 import FilePreviewModal from "@/src/modules/storage/components/FilePreviewModal";
 
-import AppButton from "@/src/components/ui/AppButton";
-import { deleteFile } from "@/src/modules/storage/services/fileOpener.ts";
+import {
+  openFile,
+  shareFile,
+} from "@/src/modules/storage/services/fileOpener.ts";
 
 export default function StorageScreen() {
   const [files, setFiles] = useState<any[]>([]);
   const [selectedFile, setSelectedFile] = useState<any>(null);
+
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [actionsOpen, setActionsOpen] = useState(false);
 
   useEffect(() => {
     loadFiles();
@@ -53,15 +60,35 @@ export default function StorageScreen() {
     loadFiles();
   }
 
+  function openActions(file: any) {
+    setSelectedFile(file);
+    setActionsOpen(true);
+  }
+
   function openPreview(file: any) {
     setSelectedFile(file);
     setPreviewOpen(true);
   }
 
-  async function handleDelete(file: any) {
-    await deleteFile(file.localUri);
-    await storageRepository.delete(file.id);
-    loadFiles();
+  async function handleDelete() {
+    if (!selectedFile) return;
+
+    await storageRepository.delete(selectedFile.id);
+    await loadFiles();
+
+    setActionsOpen(false);
+  }
+
+  async function handleShare() {
+    if (!selectedFile) return;
+
+    await shareFile(selectedFile.localUri);
+  }
+
+  async function handleOpen() {
+    if (!selectedFile) return;
+
+    await openFile(selectedFile.localUri);
   }
 
   return (
@@ -81,19 +108,26 @@ export default function StorageScreen() {
           <FileCard
             file={item}
             onPress={() => openPreview(item)}
-            onLongPress={() => openPreview(item)}
+            onLongPress={() => openActions(item)}
           />
         )}
       />
 
-      {/* PREVIEW (Google Drive style) */}
+      {/* PREVIEW */}
       <FilePreviewModal
         visible={previewOpen}
         file={selectedFile}
         onClose={() => setPreviewOpen(false)}
       />
 
-      {/* FUTURO: ACTIONS (aqui entra bottomsheet depois) */}
+      {/* ACTIONS SHEET */}
+      <FileActionsBottomSheet
+        visible={actionsOpen}
+        onClose={() => setActionsOpen(false)}
+        onOpen={handleOpen}
+        onShare={handleShare}
+        onDelete={handleDelete}
+      />
     </ScreenContainer>
   );
 }
