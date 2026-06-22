@@ -1,20 +1,18 @@
-export function getFileType(mime: string, name: string) {
-  const ext = name.split(".").pop()?.toLowerCase();
+export type FileType = "pdf" | "image" | "video" | "excel" | "word" | "other";
 
-  if (mime.includes("pdf") || ext === "pdf") return "pdf";
+export function getFileType(mimeType: string, fileName: string): FileType {
+  const ext = fileName.split(".").pop()?.toLowerCase();
 
-  if (
-    mime.includes("image") ||
-    ["png", "jpg", "jpeg", "webp"].includes(ext || "")
-  )
-    return "image";
+  if (mimeType.includes("pdf") || ext === "pdf") return "pdf";
 
-  if (mime.includes("video")) return "video";
+  if (mimeType.startsWith("image/")) return "image";
 
-  if (mime.includes("sheet") || ["xls", "xlsx", "csv"].includes(ext || ""))
+  if (mimeType.startsWith("video/")) return "video";
+
+  if (mimeType.includes("spreadsheet") || ext === "xlsx" || ext === "xls")
     return "excel";
 
-  if (mime.includes("word") || ["doc", "docx"].includes(ext || ""))
+  if (mimeType.includes("word") || ext === "docx" || ext === "doc")
     return "word";
 
   return "other";
