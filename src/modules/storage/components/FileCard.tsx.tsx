@@ -3,29 +3,21 @@ import { Pressable, Text, View } from "react-native";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
 
-import { formatFileSize } from "../utils/formatFileSize";
 import FileIcon from "./FileIcon";
 
 interface Props {
-  name: string;
-  originalName: string;
-  fileType: string;
-  size: number;
-  onPress?: () => void;
+  file: any;
+  onPress: () => void;
+  onLongPress: () => void;
 }
 
-export default function FileCard({
-  name,
-  originalName,
-  fileType,
-  size,
-  onPress,
-}: Props) {
+export default function FileCard({ file, onPress, onLongPress }: Props) {
   const { colors } = useTheme();
 
   return (
     <Pressable
       onPress={onPress}
+      onLongPress={onLongPress}
       style={{
         flexDirection: "row",
         alignItems: "center",
@@ -37,27 +29,21 @@ export default function FileCard({
         borderColor: colors.border,
       }}
     >
-      <FileIcon type={fileType} color={colors.primary} />
+      <FileIcon type={file.fileType} color={colors.primary} />
 
       <View style={{ flex: 1 }}>
         <Text
           numberOfLines={1}
-          style={{
-            fontWeight: "600",
-            color: colors.text,
-          }}
+          style={{ fontWeight: "600", color: colors.text }}
         >
-          {name}
+          {file.name}
         </Text>
 
         <Text
           numberOfLines={1}
-          style={{
-            fontSize: 12,
-            color: colors.textSecondary,
-          }}
+          style={{ color: colors.textSecondary, fontSize: 12 }}
         >
-          {originalName} • {formatFileSize(size)}
+          {file.originalName}
         </Text>
       </View>
     </Pressable>
