@@ -23,6 +23,7 @@ export default function StorageScreen() {
       originalName: "teste.pdf",
       extension: "pdf",
       mimeType: "application/pdf",
+      fileType: "pdf",
       size: 1000,
       localUri: "/teste.pdf",
     });

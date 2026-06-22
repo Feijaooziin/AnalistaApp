@@ -10,16 +10,18 @@ export const storageRepository = {
         original_name,
         extension,
         mime_type,
+        file_type,
         size,
         local_uri
       )
-      VALUES (?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
       `,
       [
         file.name,
         file.originalName,
         file.extension,
         file.mimeType,
+        file.fileType,
         file.size,
         file.localUri,
       ],
@@ -34,6 +36,7 @@ export const storageRepository = {
         original_name as originalName,
         extension,
         mime_type as mimeType,
+        file_type as fileType,
         size,
         local_uri as localUri,
         created_at as createdAt

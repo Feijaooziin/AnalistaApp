@@ -4,7 +4,7 @@ export interface StorageFile {
   originalName: string;
   extension: string;
   mimeType: string;
-  fileType: string;
+  fileType: "pdf" | "image" | "video" | "excel" | "word" | "other";
   size: number;
   localUri: string;
   createdAt?: string;
