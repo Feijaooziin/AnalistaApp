@@ -5,6 +5,7 @@ import AppIcon from "@/src/components/icons/AppIcon";
 import AppButton from "@/src/components/ui/AppButton";
 import AppModal from "@/src/components/ui/AppModal";
 
+import AppChip from "@/src/components/ui/AppChip";
 import { SAVED_EMAILS } from "@/src/constants/emails/savedEmails";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
@@ -56,6 +57,12 @@ export default function EmailPickerModal({
     );
   }, [search]);
 
+  function getLabel(email: string) {
+    const found = SAVED_EMAILS.find((item) => item.email === email);
+
+    return found?.name ?? email;
+  }
+
   function handleConfirm() {
     onConfirm(selected);
     setSelected([]);
@@ -71,6 +78,25 @@ export default function EmailPickerModal({
         onChangeText={setSearch}
         placeholder="Buscar ou digitar email..."
       />
+
+      {selected.length > 0 && (
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: SPACING.sm,
+            marginBottom: SPACING.md,
+          }}
+        >
+          {selected.map((email) => (
+            <AppChip
+              key={email}
+              label={getLabel(email)}
+              onRemove={() => toggle(email)}
+            />
+          ))}
+        </View>
+      )}
 
       {/* ADD MANUAL EMAIL */}
       {search.includes("@") && (

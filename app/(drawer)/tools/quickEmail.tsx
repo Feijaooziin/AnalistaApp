@@ -6,8 +6,10 @@ import ScreenContainer from "@/src/components/layout/ScreenContainer";
 
 import EmailPickerModal from "@/src/components/EmailPicker";
 import AppButton from "@/src/components/ui/AppButton";
+import AppChip from "@/src/components/ui/AppChip";
 import AppInput from "@/src/components/ui/AppInput";
 
+import AppSearchInput from "@/src/components/ui/AppSearchInput";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
 import { showWarning } from "@/src/utils/toast";
@@ -49,13 +51,28 @@ export default function QuickEmail() {
       <PageContext title="Enviar E-mail" />
 
       <View style={{ gap: 16 }}>
-        <AppInput
+        <AppSearchInput
           label="Destinatários"
           placeholder="email@empresa.com"
           value={to}
           onChangeText={setTo}
           clearable
         />
+
+        {to.length > 0 && (
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: SPACING.sm,
+              marginBottom: SPACING.md,
+            }}
+          >
+            {to.split(",").map((email) => (
+              <AppChip key={email} label={email} />
+            ))}
+          </View>
+        )}
 
         <AppButton
           title="Selecionar contatos"
