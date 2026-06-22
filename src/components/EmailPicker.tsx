@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 
 import AppIcon from "@/src/components/icons/AppIcon";
@@ -8,6 +8,7 @@ import AppModal from "@/src/components/ui/AppModal";
 import { SAVED_EMAILS } from "@/src/constants/emails/savedEmails";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { SPACING } from "@/src/theme/layout";
+import AppSearchInput from "./ui/AppSearchInput";
 
 interface Props {
   visible: boolean;
@@ -21,7 +22,9 @@ export default function EmailPickerModal({
   onConfirm,
 }: Props) {
   const { colors } = useTheme();
+
   const [selected, setSelected] = useState<string[]>([]);
+  const [search, setSearch] = useState("");
 
   function toggle(email: string) {
     setSelected((prev) =>
@@ -29,20 +32,66 @@ export default function EmailPickerModal({
     );
   }
 
+  function addManualEmail() {
+    const email = search.trim().toLowerCase();
+
+    const isValid = email.includes("@") && email.includes(".");
+
+    if (!isValid) return;
+
+    if (!selected.includes(email)) {
+      setSelected((prev) => [...prev, email]);
+    }
+
+    setSearch("");
+  }
+
+  const filtered = useMemo(() => {
+    const term = search.toLowerCase();
+
+    return SAVED_EMAILS.filter(
+      (item) =>
+        item.name.toLowerCase().includes(term) ||
+        item.email.toLowerCase().includes(term),
+    );
+  }, [search]);
+
   function handleConfirm() {
     onConfirm(selected);
     setSelected([]);
+    setSearch("");
     onClose();
   }
 
   return (
-    <AppModal
-      visible={visible}
-      onClose={onClose}
-      title="Selecionar destinatários"
-    >
+    <AppModal visible={visible} onClose={onClose} title="Destinatários">
+      {/* SEARCH INPUT */}
+      <AppSearchInput
+        value={search}
+        onChangeText={setSearch}
+        placeholder="Buscar ou digitar email..."
+      />
+
+      {/* ADD MANUAL EMAIL */}
+      {search.includes("@") && (
+        <Pressable
+          onPress={addManualEmail}
+          style={{
+            padding: SPACING.sm,
+            marginBottom: SPACING.sm,
+            backgroundColor: colors.primary + "20",
+            borderRadius: 10,
+          }}
+        >
+          <Text style={{ color: colors.primary, fontWeight: "600" }}>
+            + Adicionar "{search}"
+          </Text>
+        </Pressable>
+      )}
+
+      {/* LIST */}
       <FlatList
-        data={SAVED_EMAILS}
+        data={filtered}
         keyExtractor={(item) => item.email}
         contentContainerStyle={{ gap: SPACING.sm }}
         renderItem={({ item }) => {
@@ -76,13 +125,14 @@ export default function EmailPickerModal({
               <AppIcon
                 name={isSelected ? "checkbox" : "square-outline"}
                 size={22}
-                color={isSelected ? colors.primary : colors.textSecondary}
+                color={isSelected ? colors.text : colors.textMuted}
               />
             </Pressable>
           );
         }}
       />
 
+      {/* ACTIONS */}
       <View style={{ flexDirection: "row", gap: 12, marginTop: SPACING.md }}>
         <View style={{ flex: 1 }}>
           <AppButton title="Cancelar" variant="outline" onPress={onClose} />
