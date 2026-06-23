@@ -4,7 +4,7 @@ import { Modal, View } from "react-native";
 import ImagePreview from "./ImagePreview";
 import PdfPreview from "./PdfPreview";
 import UnknownPreview from "./UnknownPreview";
-import VideoPreview from "./VideoPreview";
+// import VideoPreview from "./VideoPreview";
 
 interface Props {
   visible: boolean;
@@ -23,8 +23,8 @@ export default function FilePreview({ visible, file, onClose }: Props) {
       case "pdf":
         return <PdfPreview file={file} />;
 
-      case "video":
-        return <VideoPreview file={file} />;
+      // case "video":
+      //   return <VideoPreview file={file} />;
 
       default:
         return <UnknownPreview file={file} />;
