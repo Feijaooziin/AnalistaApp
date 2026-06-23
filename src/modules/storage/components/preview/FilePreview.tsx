@@ -1,31 +1,23 @@
-import { StorageFile } from "@/src/modules/storage/types/StorageFile";
 import { Modal, View } from "react-native";
 
-import ImagePreview from "./ImagePreview";
-import PdfPreview from "./PdfPreview";
-import UnknownPreview from "./UnknownPreview";
-import VideoPreview from "./VideoPreview";
+import FilePreviewHeader from "@/src/modules/storage/components/FilePreviewHeader";
 
-interface Props {
-  visible: boolean;
-  file: StorageFile | null;
-  onClose: () => void;
-  thumbnail?: string;
-}
+import ImagePreview from "@/src/modules/storage/components/preview/ImagePreview";
+import PdfPreview from "@/src/modules/storage/components/preview/PdfPreview";
+import UnknownPreview from "@/src/modules/storage/components/preview/UnknownPreview";
 
-export default function FilePreview({ visible, file, onClose }: Props) {
+import { openFile, shareFile } from "@/src/modules/storage/services/fileOpener";
+
+export default function FilePreview({ visible, file, onClose }: any) {
   if (!file) return null;
 
   function renderPreview() {
-    switch (file?.fileType) {
+    switch (file.fileType) {
       case "image":
         return <ImagePreview file={file} />;
 
       case "pdf":
         return <PdfPreview file={file} />;
-
-      case "video":
-        return <VideoPreview file={file} />;
 
       default:
         return <UnknownPreview file={file} />;
@@ -34,7 +26,14 @@ export default function FilePreview({ visible, file, onClose }: Props) {
 
   return (
     <Modal visible={visible} animationType="slide">
-      <View style={{ flex: 1, backgroundColor: "#000" }}>
+      <View style={{ flex: 1 }}>
+        <FilePreviewHeader
+          title={file.originalName}
+          onClose={onClose}
+          onOpen={() => openFile(file.localUri)}
+          onShare={() => shareFile(file.localUri)}
+        />
+
         {renderPreview()}
       </View>
     </Modal>
