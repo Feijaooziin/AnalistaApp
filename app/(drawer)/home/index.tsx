@@ -1,3 +1,7 @@
+import { router } from "expo-router";
+import { useState } from "react";
+import { View } from "react-native";
+
 import PageContext from "@/src/components/layout/PageContext";
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppBadge from "@/src/components/ui/AppBadge";
@@ -7,9 +11,6 @@ import AppPicker from "@/src/components/ui/AppPicker";
 import AppSearchInput from "@/src/components/ui/AppSearchInput";
 import AppSectionCard from "@/src/components/ui/AppSectionCard";
 import DateTimeInput from "@/src/components/ui/DateTimeInput";
-import { router } from "expo-router";
-import { useState } from "react";
-import { View } from "react-native";
 
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -38,6 +39,30 @@ export default function Home() {
           value={search}
           onChangeText={setSearch}
         />
+
+        <AppSectionCard
+          title="Atalhos"
+          subtitle="Selecionar telas de teste"
+          collapsible
+        >
+          <AppButton
+            title="Arquivos"
+            leftIcon="folder-outline"
+            onPress={() => router.push("/storage")}
+          />
+
+          <AppButton
+            title="Modais"
+            leftIcon="tv-outline"
+            onPress={() => router.push("/dev/modal-playground")}
+          />
+
+          <AppButton
+            title="Alerts"
+            leftIcon="alert-circle-outline"
+            onPress={() => router.push("/dev/alerts-playground")}
+          />
+        </AppSectionCard>
 
         <View style={{ flexDirection: "row", gap: 6, marginBottom: 6 }}>
           <AppBadge label="Ativo" variant="success" />
@@ -76,16 +101,6 @@ export default function Home() {
           <AppInput label="Email" />
           <DateTimeInput label="Data de nascimento" />
         </AppSectionCard>
-
-        <AppButton
-          title="Modais"
-          onPress={() => router.push("/dev/modal-playground")}
-        />
-
-        <AppButton
-          title="Alerts"
-          onPress={() => router.push("/dev/alerts-playground")}
-        />
       </View>
     </ScreenContainer>
   );

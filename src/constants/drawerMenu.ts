@@ -94,7 +94,7 @@ export const drawerMenu: DrawerMenuItem[] = [
     label: "Arquivos",
     title: "Arquivos",
     route: "storage",
-    icon: "document-attach-outline",
+    icon: "folder-outline",
   },
 
   {

@@ -1,3 +1,4 @@
+import AppIcon from "@/src/components/icons/AppIcon";
 import { Text, View } from "react-native";
 
 export default function UnknownPreview({ file }: any) {
@@ -9,8 +10,8 @@ export default function UnknownPreview({ file }: any) {
         alignItems: "center",
       }}
     >
+      <AppIcon name="document-outline" size={80} />
       <Text style={{ color: "#fff" }}>Preview não suportado</Text>
-
       <Text style={{ color: "#aaa", marginTop: 8 }}>{file.originalName}</Text>
     </View>
   );
