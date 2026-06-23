@@ -29,7 +29,7 @@ export default function FileCard({ file, onPress, onLongPress }: Props) {
         borderColor: colors.border,
       }}
     >
-      <FileIcon type={file.fileType} color={colors.primary} />
+      <FileIcon type={file.fileType} color={colors.text} />
 
       <View style={{ flex: 1 }}>
         <Text

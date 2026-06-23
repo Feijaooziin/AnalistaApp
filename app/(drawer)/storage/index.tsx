@@ -5,9 +5,9 @@ import { FlatList, View } from "react-native";
 import { useStorageFiles } from "@/src/modules/storage/hooks/useStorageFiles";
 import { pickAndSaveFile } from "@/src/modules/storage/services/filePickerService";
 
-import FileActionsBottomSheet from "@/src/modules/storage/components/FileActionsBottomSheet";
 import FileCard from "@/src/modules/storage/components/FileCard";
 
+import FileInfoBottomSheet from "@/src/modules/storage/components/FileInfoBottomSheet";
 import FilePreview from "@/src/modules/storage/components/preview/FilePreview";
 import { openFile, shareFile } from "@/src/modules/storage/services/fileOpener";
 import { useState } from "react";
@@ -18,6 +18,7 @@ export default function StorageScreen() {
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [actionsOpen, setActionsOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
 
   async function handlePick() {
     await pickAndSaveFile();
@@ -77,15 +78,22 @@ export default function StorageScreen() {
         visible={previewOpen}
         file={selectedFile}
         onClose={() => setPreviewOpen(false)}
+        onInfo={() => setInfoOpen(true)}
       />
 
-      <FileActionsBottomSheet
+      <FileInfoBottomSheet
+        visible={infoOpen}
+        file={selectedFile}
+        onClose={() => setInfoOpen(false)}
+      />
+
+      {/* <FileActionsBottomSheet
         visible={actionsOpen}
         onClose={() => setActionsOpen(false)}
         onOpen={handleOpen}
         onShare={handleShare}
         onDelete={handleDelete}
-      />
+      /> */}
     </ScreenContainer>
   );
 }
