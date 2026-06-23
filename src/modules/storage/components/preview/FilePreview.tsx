@@ -8,6 +8,7 @@ import AppButton from "@/src/components/ui/AppButton";
 import ImagePreview from "@/src/modules/storage/components/preview/ImagePreview";
 import PdfPreview from "@/src/modules/storage/components/preview/PdfPreview";
 import UnknownPreview from "@/src/modules/storage/components/preview/UnknownPreview";
+import VideoPreview from "@/src/modules/storage/components/preview/VideoPreview";
 import { StorageFile } from "@/src/modules/storage/types/StorageFile";
 import FilePreviewHeader from "../FilePreviewHeader";
 
@@ -27,6 +28,9 @@ export default function FilePreview({ visible, file, onClose }: any) {
     switch (file.fileType) {
       case "image":
         return <ImagePreview file={file} />;
+
+      case "video":
+        return <VideoPreview file={file} />;
 
       case "pdf":
         return <PdfPreview file={file} />;
@@ -69,6 +73,7 @@ export default function FilePreview({ visible, file, onClose }: any) {
             flexDirection: "row",
             gap: 8,
             padding: 16,
+            paddingBottom: 24,
             borderTopWidth: 1,
             borderTopColor: colors.border,
             backgroundColor: colors.surface,
