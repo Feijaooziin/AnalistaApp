@@ -7,7 +7,7 @@ import { usersJbsRepository } from "@/src/database/repositories/usersJbsReposito
 import { User } from "@/src/types/user";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
-import { SPACING } from "@/src/theme/layout";
+import { ICON_SIZE, RADIUS, SPACING } from "@/src/theme/layout";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
@@ -179,17 +179,17 @@ export default function Funcionarios() {
         onPress={() => router.push("/jbs/funcionarios/novo")}
         style={{
           position: "absolute",
-          bottom: 80,
+          bottom: 48,
           right: 16,
-          backgroundColor: colors.primary,
-          width: 56,
-          height: 56,
-          borderRadius: 28,
+          backgroundColor: colors.secondary,
+          width: 60,
+          height: 60,
+          borderRadius: RADIUS.full,
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Ionicons name="person-add-outline" size={28} color="#fff" />
+        <Ionicons name="person-add-outline" size={ICON_SIZE.xxl} color="#fff" />
       </TouchableOpacity>
 
       <AppSelectModal
@@ -197,7 +197,7 @@ export default function Funcionarios() {
         onClose={() => setModalOpen(false)}
         title="Selecionar opção"
       >
-        {(close) => (
+        {() => (
           <View style={{ gap: SPACING.sm }}>
             <AppButton
               title="Exportar Backup"
