@@ -90,6 +90,7 @@ export default function AppInput({
       >
         <TextInput
           {...rest}
+          onChangeText={onChangeText}
           placeholderTextColor={colors.placeholder}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
