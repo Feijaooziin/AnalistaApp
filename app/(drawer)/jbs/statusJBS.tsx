@@ -1,16 +1,17 @@
 import * as Clipboard from "expo-clipboard";
-import { useRef, useState } from "react";
-import { TextInput } from "react-native";
+import { useState } from "react";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
 import DateTimeInput from "@/src/components/ui/DateTimeInput";
+import { useInputNavigation } from "@/src/hooks/useInputNavigation";
 import { SPACING } from "@/src/theme/layout";
 import { showConfirmAlert } from "@/src/utils/alert";
 import { showInfo, showSuccess } from "@/src/utils/toast";
 
 export default function statusJBS() {
+  const { refs } = useInputNavigation(3);
   const [data, setData] = useState<Date | null>(null);
   const [carros, setCarros] = useState("");
   const [separacao, setSeparacao] = useState<Date | null>(null);
@@ -18,9 +19,6 @@ export default function statusJBS() {
   const [carregamento, setCarregamento] = useState<Date | null>(null);
   const [pesoBruto, setPesoBruto] = useState("");
   const [volumes, setVolumes] = useState("");
-  const carrosRef = useRef<TextInput>(null);
-  const pesoRef = useRef<TextInput>(null);
-  const volumesRef = useRef<TextInput>(null);
 
   const formatTime = (d: Date | null) =>
     d ? d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "";
@@ -86,35 +84,30 @@ export default function statusJBS() {
       />
 
       <AppInput
-        ref={carrosRef}
+        ref={refs[0]}
+        nextRef={refs[1]}
         label="Veículos"
         placeholder="Quantidade de Veículos"
         keyboardType="numeric"
-        returnKeyType="next"
-        blurOnSubmit={false}
-        onSubmitEditing={() => pesoRef.current?.focus()}
         value={carros}
         onChangeText={setCarros}
       />
 
       <AppInput
-        ref={pesoRef}
+        ref={refs[1]}
+        nextRef={refs[2]}
         label="Peso Bruto"
         placeholder="Peso Expedido"
         keyboardType="numeric"
-        returnKeyType="next"
-        blurOnSubmit={false}
-        onSubmitEditing={() => volumesRef.current?.focus()}
         value={pesoBruto}
         onChangeText={(text) => setPesoBruto(formatNumber(text))}
       />
 
       <AppInput
-        ref={volumesRef}
+        ref={refs[2]}
         label="Volumes"
         placeholder="Volumes Expedidos"
         keyboardType="numeric"
-        returnKeyType="done"
         value={volumes}
         onChangeText={(text) => setVolumes(formatNumber(text))}
       />
