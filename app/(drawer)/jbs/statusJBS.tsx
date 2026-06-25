@@ -1,5 +1,6 @@
 import * as Clipboard from "expo-clipboard";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { TextInput } from "react-native";
 
 import ScreenContainer from "@/src/components/layout/ScreenContainer";
 import AppButton from "@/src/components/ui/AppButton";
@@ -17,6 +18,9 @@ export default function statusJBS() {
   const [carregamento, setCarregamento] = useState<Date | null>(null);
   const [pesoBruto, setPesoBruto] = useState("");
   const [volumes, setVolumes] = useState("");
+  const carrosRef = useRef<TextInput>(null);
+  const pesoRef = useRef<TextInput>(null);
+  const volumesRef = useRef<TextInput>(null);
 
   const formatTime = (d: Date | null) =>
     d ? d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "";
@@ -82,25 +86,35 @@ export default function statusJBS() {
       />
 
       <AppInput
+        ref={carrosRef}
         label="Veículos"
         placeholder="Quantidade de Veículos"
         keyboardType="numeric"
+        returnKeyType="next"
+        blurOnSubmit={false}
+        onSubmitEditing={() => pesoRef.current?.focus()}
         value={carros}
         onChangeText={setCarros}
       />
 
       <AppInput
+        ref={pesoRef}
         label="Peso Bruto"
         placeholder="Peso Expedido"
         keyboardType="numeric"
+        returnKeyType="next"
+        blurOnSubmit={false}
+        onSubmitEditing={() => volumesRef.current?.focus()}
         value={pesoBruto}
         onChangeText={(text) => setPesoBruto(formatNumber(text))}
       />
 
       <AppInput
+        ref={volumesRef}
         label="Volumes"
         placeholder="Volumes Expedidos"
         keyboardType="numeric"
+        returnKeyType="done"
         value={volumes}
         onChangeText={(text) => setVolumes(formatNumber(text))}
       />
