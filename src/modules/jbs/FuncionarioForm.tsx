@@ -5,6 +5,7 @@ import AppButton from "@/src/components/ui/AppButton";
 import AppInput from "@/src/components/ui/AppInput";
 
 import AppPicker from "@/src/components/ui/AppPicker";
+import { useInputNavigation } from "@/src/hooks/useInputNavigation";
 import { JBS_CARGOS, JBS_ESCALAS } from "@/src/modules/jbs/constants/jbs";
 import { FuncionarioFormData } from "@/src/modules/jbs/types/funcionarioForm";
 import { SPACING } from "@/src/theme/layout";
@@ -25,6 +26,7 @@ export default function FuncionarioForm({
   loading = false,
   onSubmit,
 }: Props) {
+  const { refs } = useInputNavigation(5);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState<FuncionarioFormData>(initialValues);
 
@@ -49,6 +51,8 @@ export default function FuncionarioForm({
   return (
     <View style={{ gap: SPACING.sm }}>
       <AppInput
+        ref={refs[0]}
+        nextRef={refs[1]}
         label="Nome"
         value={form.nome}
         onChangeText={(v) => updateField("nome", v)}
@@ -57,6 +61,7 @@ export default function FuncionarioForm({
       />
 
       <AppInput
+        ref={refs[1]}
         label="Matrícula"
         value={form.matricula || undefined}
         onChangeText={(v) => updateField("matricula", v)}
@@ -79,23 +84,27 @@ export default function FuncionarioForm({
       />
 
       <AppInput
+        ref={refs[2]}
+        nextRef={refs[3]}
         label="Endereço"
         value={form.endereco}
         onChangeText={(v) => updateField("endereco", v)}
       />
 
       <AppInput
+        ref={refs[3]}
+        nextRef={refs[4]}
         label="E-mail"
         value={form.email}
         onChangeText={(v) => updateField("email", v)}
-        keyboardType="email-address"
       />
 
       <AppInput
+        ref={refs[4]}
         label="Telefone"
         value={form.telefone}
-        onChangeText={(v) => updateField("telefone", v)}
         keyboardType="phone-pad"
+        onChangeText={(v) => updateField("telefone", v)}
       />
 
       <AppButton title={buttonTitle} loading={loading} onPress={handleSubmit} />

@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, RefObject, useState } from "react";
 import { Text, TextInput, TextInputProps, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
@@ -12,11 +12,21 @@ interface Props extends TextInputProps {
   error?: string;
   clearable?: boolean;
   size?: "sm" | "md" | "lg";
+  nextRef?: RefObject<TextInput | null>;
 }
 
 const AppInput = forwardRef<TextInput, Props>(
   (
-    { label, onChangeText, required, error, clearable = false, size, ...rest },
+    {
+      label,
+      onChangeText,
+      required,
+      error,
+      clearable = false,
+      size,
+      nextRef,
+      ...rest
+    },
     ref,
   ) => {
     const { colors } = useTheme();
@@ -43,6 +53,16 @@ const AppInput = forwardRef<TextInput, Props>(
     };
 
     const currentSize = sizes[size ?? "md"];
+
+    function handleSubmitEditing() {
+      nextRef?.current?.focus();
+
+      rest.onSubmitEditing?.({
+        nativeEvent: {
+          text: String(rest.value ?? ""),
+        },
+      } as any);
+    }
 
     function clear() {
       onChangeText?.("");
@@ -85,8 +105,11 @@ const AppInput = forwardRef<TextInput, Props>(
           }}
         >
           <TextInput
-            {...rest}
             ref={ref}
+            {...rest}
+            returnKeyType={nextRef ? "next" : rest.returnKeyType}
+            blurOnSubmit={!nextRef}
+            onSubmitEditing={handleSubmitEditing}
             onChangeText={onChangeText}
             placeholderTextColor={colors.placeholder}
             onFocus={() => setFocused(true)}
