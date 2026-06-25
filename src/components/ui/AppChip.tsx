@@ -20,12 +20,12 @@ export default function AppChip({ label, onRemove }: AppChipProps) {
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 999,
-        backgroundColor: colors.primary + "20",
+        backgroundColor: colors.text + "20",
       }}
     >
       <Text
         style={{
-          color: colors.primary,
+          color: colors.text,
           fontWeight: "600",
         }}
       >
@@ -34,7 +34,7 @@ export default function AppChip({ label, onRemove }: AppChipProps) {
 
       {onRemove && (
         <Pressable onPress={onRemove}>
-          <AppIcon name="close" size={16} color={colors.primary} />
+          <AppIcon name="close" size={16} color={colors.text} />
         </Pressable>
       )}
     </View>
