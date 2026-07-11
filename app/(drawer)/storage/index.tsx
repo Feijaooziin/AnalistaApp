@@ -7,6 +7,8 @@ import { pickAndSaveFile } from "@/src/modules/storage/services/filePickerServic
 
 import FileCard from "@/src/modules/storage/components/FileCard";
 
+import AppSearchInput from "@/src/components/ui/AppSearchInput";
+import FileActionsBottomSheet from "@/src/modules/storage/components/FileActionsBottomSheet";
 import FileInfoBottomSheet from "@/src/modules/storage/components/FileInfoBottomSheet";
 import FilePreview from "@/src/modules/storage/components/preview/FilePreview";
 import { openFile, shareFile } from "@/src/modules/storage/services/fileOpener";
@@ -19,6 +21,12 @@ export default function StorageScreen() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [actionsOpen, setActionsOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
+
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+  const [search, setSearch] = useState("");
+  const filteredFiles = files.filter((item) =>
+    item.originalName.toLowerCase().includes(search.toLowerCase()),
+  );
 
   async function handlePick() {
     await pickAndSaveFile();
@@ -57,16 +65,56 @@ export default function StorageScreen() {
       header={{ title: "Storage Drive", toggleTheme: true }}
       scrollable={false}
     >
-      <View style={{ marginBottom: 12 }}>
-        <AppButton title="Adicionar arquivo" onPress={handlePick} />
+      <AppSearchInput
+        placeholder="Pesquisar arquivos..."
+        value={search}
+        onChangeText={setSearch}
+      />
+      <View
+        style={{
+          flexDirection: "row",
+          gap: 12,
+          marginBottom: 12,
+        }}
+      >
+        <View style={{ flex: 1 }}>
+          <AppButton
+            title="Adicionar arquivo"
+            leftIcon="add-outline"
+            onPress={handlePick}
+          />
+        </View>
+
+        <AppButton
+          title=""
+          variant="outline"
+          size="sm"
+          rightIcon={viewMode === "list" ? "grid-outline" : "list-outline"}
+          onPress={() =>
+            setViewMode((prev) => (prev === "list" ? "grid" : "list"))
+          }
+        />
       </View>
 
       <FlatList
-        data={files}
+        data={filteredFiles}
+        key={viewMode}
+        numColumns={viewMode === "grid" ? 2 : 1}
         keyExtractor={(item) => String(item.id)}
-        contentContainerStyle={{ gap: 12, paddingBottom: 120 }}
+        contentContainerStyle={{
+          gap: 12,
+          paddingBottom: 120,
+        }}
+        columnWrapperStyle={
+          viewMode === "grid"
+            ? {
+                gap: 12,
+              }
+            : undefined
+        }
         renderItem={({ item }) => (
           <FileCard
+            compact={viewMode === "grid"}
             file={item}
             onPress={() => openPreview(item)}
             onLongPress={() => openActions(item)}
@@ -87,13 +135,13 @@ export default function StorageScreen() {
         onClose={() => setInfoOpen(false)}
       />
 
-      {/* <FileActionsBottomSheet
+      <FileActionsBottomSheet
         visible={actionsOpen}
         onClose={() => setActionsOpen(false)}
         onOpen={handleOpen}
         onShare={handleShare}
         onDelete={handleDelete}
-      /> */}
+      />
     </ScreenContainer>
   );
 }
