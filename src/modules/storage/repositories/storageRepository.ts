@@ -12,9 +12,10 @@ export const storageRepository = {
         mime_type,
         file_type,
         size,
-        local_uri
+        local_uri,
+        thumbnail_uri
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       `,
       [
         file.name,
@@ -24,6 +25,7 @@ export const storageRepository = {
         file.fileType,
         file.size,
         file.localUri,
+        file.thumbnailUri ?? null,
       ],
     );
   },
@@ -39,6 +41,7 @@ export const storageRepository = {
         file_type as fileType,
         size,
         local_uri as localUri,
+        thumbnail_uri as thumbnailUri,
         created_at as createdAt
       FROM storage_files
       ORDER BY id DESC

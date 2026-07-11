@@ -37,7 +37,7 @@ export default function FileThumbnail({ file, size = 42 }: Props) {
         alignItems: "center",
       }}
     >
-      <FileIcon type={file.fileType} color={colors.text} size={size} />
+      <FileIcon type={file.fileType} color={colors.text} size={size - 4} />
     </View>
   );
 }

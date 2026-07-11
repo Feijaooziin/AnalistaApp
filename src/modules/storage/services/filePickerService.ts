@@ -1,6 +1,8 @@
+import * as DocumentPicker from "expo-document-picker";
+
 import { storageRepository } from "@/src/modules/storage/repositories/storageRepository";
 import { getFileType } from "@/src/modules/storage/utils/getFileType";
-import * as DocumentPicker from "expo-document-picker";
+import { generateVideoThumbnail } from "./videoThumbnailService";
 
 export async function pickAndSaveFile() {
   const result = await DocumentPicker.getDocumentAsync({
@@ -15,14 +17,21 @@ export async function pickAndSaveFile() {
 
   const fileType = getFileType(file.mimeType || "", file.name);
 
+  let thumbnailUri: string | any | undefined;
+
+  if (fileType === "video") {
+    thumbnailUri = await generateVideoThumbnail(file.uri);
+  }
+
   const newFile = {
     name: file.name.split(".")[0],
     originalName: file.name,
     extension: file.name.split(".").pop() || "",
     mimeType: file.mimeType || "",
-    fileType, // ✅ agora tipado corretamente
+    fileType,
     size: file.size || 0,
     localUri: file.uri,
+    thumbnailUri,
   };
 
   await storageRepository.create(newFile);

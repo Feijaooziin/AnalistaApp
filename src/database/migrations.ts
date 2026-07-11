@@ -27,6 +27,7 @@ export async function createStorageTable() {
       file_type TEXT NOT NULL,
       size INTEGER NOT NULL,
       local_uri TEXT NOT NULL,
+      thumbnail_uri TEXT,
       created_at TEXT DEFAULT CURRENT_TIMESTAMP
     );
   `);

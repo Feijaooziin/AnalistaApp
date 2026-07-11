@@ -9,5 +9,6 @@ export interface StorageFile {
   fileType: FileType;
   size: number;
   localUri: string;
+  thumbnailUri?: string;
   createdAt?: string;
 }
