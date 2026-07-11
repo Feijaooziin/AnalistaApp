@@ -2,8 +2,7 @@ import { Pressable, Text, View } from "react-native";
 
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { RADIUS, SPACING } from "@/src/theme/layout";
-
-import FileIcon from "./FileIcon";
+import FileThumbnail from "./FileThumbnail";
 
 interface Props {
   file: any;
@@ -34,7 +33,6 @@ export default function FileCard({
 
   function formatDate(date: string) {
     if (!date) return "";
-
     return new Date(date).toLocaleDateString("pt-BR");
   }
 
@@ -46,24 +44,15 @@ export default function FileCard({
         flexDirection: compact ? "column" : "row",
         alignItems: "center",
         width: compact ? "48%" : "100%",
-
         gap: SPACING.sm,
-
         padding: SPACING.md,
-
         borderRadius: RADIUS.md,
-
         backgroundColor: colors.surface,
-
         borderWidth: 1,
         borderColor: colors.border,
       }}
     >
-      <FileIcon
-        type={file.fileType}
-        color={colors.text}
-        size={compact ? 30 : 26}
-      />
+      <FileThumbnail file={file} size={compact ? 52 : 36} />
 
       <View
         style={{
