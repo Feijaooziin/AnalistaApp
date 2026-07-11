@@ -108,6 +108,7 @@ export default function StorageScreen() {
         columnWrapperStyle={
           viewMode === "grid"
             ? {
+                justifyContent: "flex-start",
                 gap: 12,
               }
             : undefined
