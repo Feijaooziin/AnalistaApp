@@ -13,6 +13,7 @@ interface Props {
 export default function FileThumbnail({ file, size = 40 }: Props) {
   const { colors } = useTheme();
 
+  // Imagem
   if (file.fileType === "image") {
     return (
       <Image
@@ -27,6 +28,7 @@ export default function FileThumbnail({ file, size = 40 }: Props) {
     );
   }
 
+  // Vídeo
   if (file.fileType === "video" && file.thumbnailUri) {
     return (
       <View>
@@ -43,7 +45,10 @@ export default function FileThumbnail({ file, size = 40 }: Props) {
         <View
           style={{
             position: "absolute",
-            inset: 0,
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -54,6 +59,7 @@ export default function FileThumbnail({ file, size = 40 }: Props) {
     );
   }
 
+  // Demais arquivos
   return (
     <View
       style={{
@@ -63,7 +69,7 @@ export default function FileThumbnail({ file, size = 40 }: Props) {
         alignItems: "center",
       }}
     >
-      <FileIcon type={file.fileType} color={colors.text} size={size - 10} />
+      <FileIcon type={file.fileType} color={colors.text} size={size - 8} />
     </View>
   );
 }
