@@ -17,10 +17,14 @@ export async function pickAndSaveFile() {
 
   const fileType = getFileType(file.mimeType || "", file.name);
 
-  let thumbnailUri: string | any | undefined;
+  let thumbnailUri: string | undefined;
 
   if (fileType === "video") {
-    thumbnailUri = await generateVideoThumbnail(file.uri);
+    try {
+      thumbnailUri = await generateVideoThumbnail(file.uri);
+    } catch {
+      thumbnailUri = undefined;
+    }
   }
 
   const newFile = {
