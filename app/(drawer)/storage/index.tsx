@@ -8,7 +8,7 @@ import AppSearchInput from "@/src/components/ui/AppSearchInput";
 import { useStorageFiles } from "@/src/modules/storage/hooks/useStorageFiles";
 import { pickAndSaveFile } from "@/src/modules/storage/services/filePickerService";
 
-import FileActionsBottomSheet from "@/src/modules/storage/components/FileActionsBottomSheet";
+import AppSelectModal from "@/src/components/ui/AppSelectModal";
 import FileCard from "@/src/modules/storage/components/FileCard";
 import FileInfoBottomSheet from "@/src/modules/storage/components/FileInfoBottomSheet";
 import FilePreview from "@/src/modules/storage/components/preview/FilePreview";
@@ -138,13 +138,53 @@ export default function StorageScreen() {
         onClose={() => setInfoOpen(false)}
       />
 
-      <FileActionsBottomSheet
+      <AppSelectModal
         visible={actionsOpen}
         onClose={() => setActionsOpen(false)}
-        onOpen={handleOpen}
-        onShare={handleShare}
-        onDelete={handleDelete}
-      />
+        title={selectedFile?.originalName ?? "Arquivo"}
+      >
+        {(close) => (
+          <View style={{ gap: 12 }}>
+            <AppButton
+              title="Visualizar"
+              leftIcon="eye-outline"
+              onPress={() => {
+                close();
+                openPreview(selectedFile);
+              }}
+            />
+
+            <AppButton
+              title="Compartilhar"
+              leftIcon="share-outline"
+              onPress={() => {
+                close();
+                handleShare();
+              }}
+            />
+
+            <AppButton
+              title="Informações"
+              leftIcon="information-circle-outline"
+              variant="outline"
+              onPress={() => {
+                close();
+                setInfoOpen(true);
+              }}
+            />
+
+            <AppButton
+              title="Excluir"
+              leftIcon="trash-outline"
+              variant="danger"
+              onPress={() => {
+                close();
+                handleDelete();
+              }}
+            />
+          </View>
+        )}
+      </AppSelectModal>
     </ScreenContainer>
   );
 }
