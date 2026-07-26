@@ -52,7 +52,7 @@ export default function FileCard({
         borderColor: colors.border,
       }}
     >
-      <FileThumbnail file={file} size={compact ? 72 : 48} />
+      <FileThumbnail file={file} size={compact ? 84 : 60} />
 
       <View
         style={{
