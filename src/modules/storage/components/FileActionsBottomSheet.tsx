@@ -1,5 +1,5 @@
 import AppButton from "@/src/components/ui/AppButton";
-import { View } from "react-native";
+import { Modal, Pressable } from "react-native";
 
 interface Props {
   visible: boolean;
@@ -17,44 +17,44 @@ export default function FileActionsBottomSheet({
   onShare,
   onDelete,
 }: Props) {
-  if (!visible) return null;
-
   return (
-    <View
-      style={{
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        padding: 16,
-        backgroundColor: "#000000aa",
-      }}
-    >
-      <View
+    <Modal visible={visible} transparent animationType="fade">
+      <Pressable
         style={{
-          backgroundColor: "#fff",
-          borderRadius: 16,
-          padding: 16,
-          gap: 12,
+          flex: 1,
+          justifyContent: "flex-end",
+          backgroundColor: "#00000066",
         }}
+        onPress={onClose}
       >
-        <AppButton title="Abrir" leftIcon="eye-outline" onPress={onOpen} />
+        <Pressable
+          onPress={() => {}}
+          style={{
+            backgroundColor: "#fff",
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            padding: 16,
+            gap: 12,
+          }}
+        >
+          <AppButton title="Abrir" leftIcon="eye-outline" onPress={onOpen} />
 
-        <AppButton
-          title="Compartilhar"
-          leftIcon="share-outline"
-          onPress={onShare}
-        />
+          <AppButton
+            title="Compartilhar"
+            leftIcon="share-outline"
+            onPress={onShare}
+          />
 
-        <AppButton
-          title="Excluir"
-          leftIcon="trash-outline"
-          variant="danger"
-          onPress={onDelete}
-        />
+          <AppButton
+            title="Excluir"
+            leftIcon="trash-outline"
+            variant="danger"
+            onPress={onDelete}
+          />
 
-        <AppButton title="Cancelar" variant="outline" onPress={onClose} />
-      </View>
-    </View>
+          <AppButton title="Cancelar" variant="outline" onPress={onClose} />
+        </Pressable>
+      </Pressable>
+    </Modal>
   );
 }

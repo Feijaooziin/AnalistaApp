@@ -45,18 +45,20 @@ export default function StorageScreen() {
 
   async function handleDelete() {
     if (!selectedFile) return;
-
     await removeFile(selectedFile.id);
     setActionsOpen(false);
+    setSelectedFile(null);
   }
 
   async function handleShare() {
     if (!selectedFile) return;
+    setActionsOpen(false);
     await shareFile(selectedFile.localUri);
   }
 
   async function handleOpen() {
     if (!selectedFile) return;
+    setActionsOpen(false);
     await openFile(selectedFile.localUri);
   }
 
