@@ -130,6 +130,13 @@ export const drawerMenu: DrawerMenuItem[] = [
   },
 
   {
+    label: "Configurações",
+    title: "Configurações",
+    route: "settings",
+    icon: "settings-outline",
+  },
+
+  {
     label: "Sobre",
     title: "Sobre",
     route: "about",
