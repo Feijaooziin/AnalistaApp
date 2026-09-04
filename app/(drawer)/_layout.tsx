@@ -14,6 +14,7 @@ export default function DrawerLayout() {
       <Drawer.Screen name="ecla" />
       <Drawer.Screen name="jbs" />
       <Drawer.Screen name="seara" />
+      <Drawer.Screen name="settings" />
     </Drawer>
   );
 }
